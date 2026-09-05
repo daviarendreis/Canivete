@@ -19,7 +19,7 @@ export default function useTodos ( ) {
         localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
     
-    function handleSubmit  (e: React.FormEvent<HTMLFormElement>)  {
+    function addTodo  (e: React.FormEvent<HTMLFormElement>)  {
             e.preventDefault()
     
             const formData = new FormData(e.currentTarget)
@@ -52,7 +52,7 @@ export default function useTodos ( ) {
         
     }
 
-    function handleEdit (e: React.FormEvent<HTMLFormElement>, id:number )  {
+    function editTodo (e: React.FormEvent<HTMLFormElement>, id:number )  {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
@@ -68,5 +68,5 @@ export default function useTodos ( ) {
         setEditingTodoId(null)
     }
 
-    return [todos, handleSubmit, removeTodo, handleEdit, editingTodoId, setEditingTodoId, setTodos] as const
+    return { todos, addTodo, removeTodo, editTodo, editingTodoId, setEditingTodoId, setTodos } as const
 }
