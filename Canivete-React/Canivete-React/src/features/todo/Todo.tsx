@@ -7,17 +7,10 @@ import type { priority } from "./types/priority";
 import useTodos from "./hooks/useTodo";
 
 export default function Todo () {
+
     const [editingTodoId, setEditingTodoId] = useState<number | null>(null)
     const [isOpen, setIsOpen] = useState(false)
-    const [todos, setTodos, handleSubmit] = useTodos()
-
-    
-
-    const removeTodo = (id:number) => {
-        const todosFiltred = todos.filter((t) => t.id !== id)
-        setTodos(todosFiltred)
-        
-    }
+    const [todos, setTodos, handleSubmit, removeTodo] = useTodos()
 
     const handleEditSubmit = (id:number): FormEventHandler<HTMLFormElement> => (e) => {
         e.preventDefault()
@@ -104,7 +97,7 @@ export default function Todo () {
                             <Dialog.Close>
                                 <Button variant="soft" color="gray">Cancelar</Button>
                             </Dialog.Close>
-                            <Button type="submit">Adicionar Tarefa</Button>
+                            <Button type="submit" >Adicionar Tarefa</Button>
                         </Flex>
                         </form>
                     </Dialog.Content>

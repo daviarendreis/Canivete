@@ -44,7 +44,13 @@ export default function useTodos ( ) {
     
             setTodos((state) => [...state, newTodo])
             e.currentTarget.reset()
-        }
+    }
 
-    return [todos, setTodos, handleSubmit] as const
+    const removeTodo = (id:number) => {
+        const todosFiltred = todos.filter((t) => t.id !== id)
+        setTodos(todosFiltred)
+        
+    }
+
+    return [todos, setTodos, handleSubmit, removeTodo] as const
 }
