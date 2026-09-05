@@ -13,7 +13,7 @@ export default function useTodos ( ) {
         }
     
     const [todos, setTodos] = useState<Todo[]>(() => getLocalStorage())
-    
+    const [editingTodoId, setEditingTodoId] = useState<number | null>(null)
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
@@ -46,11 +46,27 @@ export default function useTodos ( ) {
             e.currentTarget.reset()
     }
 
-    const removeTodo = (id:number) => {
+    function removeTodo  (id:number)  {
         const todosFiltred = todos.filter((t) => t.id !== id)
         setTodos(todosFiltred)
         
     }
 
-    return [todos, setTodos, handleSubmit, removeTodo] as const
+    function handleEdit (e: React.FormEvent<HTMLFormElement>, id:number )  {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+        const name = formData.get("name")?.toString() || "To-do"
+        const time = formData.get("time")?.toString() || "12:00"
+        const description = formData.get("description")?.toString() || "Realizar essa tarefa"
+        const priorityRaw = formData.get("priority")?.toString()
+        const priority = (priorityRaw === 'low' ||
+                         priorityRaw === 'medium' ||
+                         priorityRaw === 'high') ? priorityRaw as priority : 'low'
+
+        setTodos((state) => state.map((todo) => todo.id === id ? { ...todo, name, time, description, priority } : todo))
+        setEditingTodoId(null)
+    }
+
+    return [todos, handleSubmit, removeTodo, handleEdit, editingTodoId, setEditingTodoId, setTodos] as const
 }

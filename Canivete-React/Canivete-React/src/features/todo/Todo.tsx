@@ -1,33 +1,12 @@
 import { Badge, Box, Button, Card, Dialog, DropdownMenu, Flex, Heading, RadioGroup, Strong, Text, TextField } from "@radix-ui/themes";
 import { DotsVerticalIcon } from '@radix-ui/react-icons'
 import { useState } from "react";
-import type { FormEventHandler } from "react"
 import type { Todo } from "./types/todo";
-import type { priority } from "./types/priority";
 import useTodos from "./hooks/useTodo";
 
 export default function Todo () {
-
-    const [editingTodoId, setEditingTodoId] = useState<number | null>(null)
     const [isOpen, setIsOpen] = useState(false)
-    const [todos, setTodos, handleSubmit, removeTodo] = useTodos()
-
-    const handleEditSubmit = (id:number): FormEventHandler<HTMLFormElement> => (e) => {
-        e.preventDefault()
-
-        const formData = new FormData(e.currentTarget)
-        const name = formData.get("name")?.toString() || "To-do"
-        const time = formData.get("time")?.toString() || "12:00"
-        const description = formData.get("description")?.toString() || "Realizar essa tarefa"
-        const priorityRaw = formData.get("priority")?.toString()
-        const priority = (priorityRaw === 'low' ||
-                         priorityRaw === 'medium' ||
-                         priorityRaw === 'high') ? priorityRaw as priority : 'low'
-
-        setTodos((state) => state.map((todo) => todo.id === id ? { ...todo, name, time, description, priority } : todo))
-        setEditingTodoId(null)
-        
-    }
+    const [todos, handleSubmit, removeTodo, handleEdit, editingTodoId, setEditingTodoId] = useTodos()
 
     return(
         <Box>
@@ -137,7 +116,7 @@ export default function Todo () {
                                     <Dialog.Content maxWidth={'20rem'}>
                                         <Dialog.Title>Editando a Tarefa: {todo.name}</Dialog.Title>
 
-                                        <form onSubmit={handleEditSubmit(todo.id)}>
+                                        <form onSubmit={(e) => handleEdit(e, todo.id)}>
                                             <Flex direction={'column'} gap={'4'}>
                                                 <label htmlFor={`edit-name-${todo.id}`}>
                                                     <Text as="div" size={'2'} m={'1'} weight={'bold'}>Tarefa</Text>
