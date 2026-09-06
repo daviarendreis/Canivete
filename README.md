@@ -2,7 +2,7 @@
 
 My personal hub of daily use web apps, a Swiss Army knife for the small tools I use every day.
 
-🔗 **[Live version](https://daviarendreis.github.io/Canivete/)** *(the original vanilla JS version — the React rebuild isn't deployed yet)*
+- **[Live version](https://daviarendreis.github.io/Canivete/)** *(the original vanilla JS version — the React rebuild isn't deployed yet)*
 
 ## Why I built it
 
@@ -21,7 +21,7 @@ Originally built in **vanilla JavaScript**, Canivete is currently being **rebuil
 
 ## Status
 
-🚧 Under reconstruction — **Hub** and **Todo** done, **Tracker** and **Finance** on the way.
+- Under reconstruction — **Hub** and **Todo** done, **Tracker** and **Finance** on the way.
 
 ---
 
