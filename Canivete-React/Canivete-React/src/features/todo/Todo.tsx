@@ -1,7 +1,6 @@
 import { Box, Button, Dialog, Flex, Heading } from "@radix-ui/themes";
 import { useState } from "react";
-import type { Todo } from "./types/todo";
-import useTodos from "./hooks/useTodo";
+import useTodos from "./hooks/useTodos";
 import TodoCard from "./components/TodoCard";
 import TodoForm from "./components/TodoForm";
 
@@ -24,7 +23,7 @@ export default function Todo () {
                         <Dialog.Title>Adicionar Tarefa</Dialog.Title>
                         
                         <form onSubmit={addTodo}>
-                        <TodoForm mode={'add'} />
+                        <TodoForm />
 
                         <Flex gap="3" mt="4" justify="end">
                             <Dialog.Close>

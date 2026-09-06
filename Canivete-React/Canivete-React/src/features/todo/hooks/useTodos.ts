@@ -19,7 +19,7 @@ export default function useTodos ( ) {
         localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
 
-    function verifyForm (e: React.FormEvent<HTMLFormElement>) {
+    function getFormData (e: React.FormEvent<HTMLFormElement>) {
         const formData = new FormData(e.currentTarget)
         const name = formData.get("name")?.toString() || "To-do"
         const time = formData.get("time")?.toString() || "12:00"
@@ -35,9 +35,7 @@ export default function useTodos ( ) {
     function addTodo  (e: React.FormEvent<HTMLFormElement>)  {
             e.preventDefault()
     
-            const {name, time, description, priority} = verifyForm(e)
-    
-            e.currentTarget.reset()
+            const {name, time, description, priority} = getFormData(e)
     
             const newTodo: Todo = {
                 id: Math.round(Math.random() * 100000),
@@ -60,11 +58,11 @@ export default function useTodos ( ) {
     function editTodo (e: React.FormEvent<HTMLFormElement>, id:number )  {
         e.preventDefault()
 
-        const {name, time, description, priority} = verifyForm(e)
+        const {name, time, description, priority} = getFormData(e)
 
         setTodos((state) => state.map((todo) => todo.id === id ? { ...todo, name, time, description, priority } : todo))
         setEditingTodoId(null)
     }
 
-    return { todos, addTodo, removeTodo, editTodo, editingTodoId, setEditingTodoId, setTodos } as const
+    return { todos, addTodo, removeTodo, editTodo, editingTodoId, setEditingTodoId } as const
 }

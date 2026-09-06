@@ -41,7 +41,7 @@ export default function TodoCard ({todo, editTodo, setEditingTodoId, editingTodo
                                         <Dialog.Title>Editando a Tarefa: {todo.name}</Dialog.Title>
 
                                         <form onSubmit={(e) => editTodo(e, todo.id)}>
-                                            <TodoForm mode="edit" todo={todo} />
+                                            <TodoForm todo={todo} />
                                                 
 
                                             <Flex gap="3" mt="4" justify="end">
