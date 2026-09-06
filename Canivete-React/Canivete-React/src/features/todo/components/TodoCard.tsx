@@ -1,6 +1,7 @@
-import { Badge, Button, Card, Dialog, DropdownMenu, Flex, Heading, RadioGroup, Strong, Text, TextField } from "@radix-ui/themes"
+import { Badge, Button, Card, Dialog, DropdownMenu, Flex, Heading, Strong, Text } from "@radix-ui/themes"
 import type { Todo } from "../types/todo"
 import { DotsVerticalIcon } from "@radix-ui/react-icons"
+import TodoForm from "./TodoForm"
 
 interface TodoCardProps {
     todo: Todo
@@ -40,45 +41,8 @@ export default function TodoCard ({todo, editTodo, setEditingTodoId, editingTodo
                                         <Dialog.Title>Editando a Tarefa: {todo.name}</Dialog.Title>
 
                                         <form onSubmit={(e) => editTodo(e, todo.id)}>
-                                            <Flex direction={'column'} gap={'4'}>
-                                                <label htmlFor={`edit-name-${todo.id}`}>
-                                                    <Text as="div" size={'2'} m={'1'} weight={'bold'}>Tarefa</Text>
-                                                    <TextField.Root
-                                                        placeholder="Enter your to-do"
-                                                        name="name" id={`edit-name-${todo.id}`}
-                                                        defaultValue={todo.name}
-                                                        required
-                                                    />
-                                                </label>
-
-                                                <label htmlFor={`edit-time-${todo.id}`}>
-                                                    <Text as="div" size={'2'} m={'1'} weight={'bold'}>Horario</Text>
-                                                    <TextField.Root
-                                                        type="time"
-                                                        name="time" id={`edit-time-${todo.id}`}
-                                                        defaultValue={todo.time}
-                                                    />
-                                                </label>
-
-                                                <label htmlFor={`edit-description-${todo.id}`}>
-                                                    <Text as="div" size={'2'} m={'1'} weight={'bold'}>Descrição</Text>
-                                                    <TextField.Root
-                                                        placeholder="Enter your description"
-                                                        name="description" id={`edit-description-${todo.id}`}
-                                                        defaultValue={todo.description}
-                                                        required
-                                                    />
-                                                </label>
-
-                                                <label htmlFor={`edit-priority-${todo.id}`}>
-                                                    <Text as="div" size={'2'} m={'1'} weight={'bold'}>Prioridade</Text>
-                                                    <RadioGroup.Root defaultValue={todo.priority} name="priority" variant="soft" color="gray">
-                                                        <RadioGroup.Item value="low">Baixa</RadioGroup.Item>
-                                                        <RadioGroup.Item value="medium">Media</RadioGroup.Item>
-                                                        <RadioGroup.Item value="high">Alta</RadioGroup.Item>
-                                                    </RadioGroup.Root>
-                                                </label>
-                                            </Flex>
+                                            <TodoForm mode="edit" todo={todo} />
+                                                
 
                                             <Flex gap="3" mt="4" justify="end">
                                                 <Dialog.Close>
