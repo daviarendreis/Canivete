@@ -1,9 +1,9 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
-import { Box, Button, Card, Flex, Heading } from "@radix-ui/themes";
+import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
 
 type RadixColors = 'tomato' | 'red' | 'ruby' | 'crimson' | 'pink' | 'plum' | 'purple' | 'violet' |
                         'iris' | 'indigo' | 'blue' | 'cyan' | 'teal' | 'jade' | 'green' | 'grass' |
-                        'lime' | 'mint' | 'sky' | 'amber' | 'amber' | 'orange' | 'brown' | 'gold' | 'bronze';
+                        'lime' | 'mint' | 'sky' | 'amber' | 'orange' | 'brown' | 'gold' | 'bronze'
 
 
 interface Habit {
@@ -13,6 +13,10 @@ interface Habit {
 }
 
 export default function Tracker () {
+    const colors: RadixColors[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
+                        'iris' , 'indigo' , 'blue' , 'cyan' , 'teal' , 'jade' , 'green' , 'grass' ,
+                        'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze']
+
     const habits: Habit[] = [
         {
             name: 'Learning',
@@ -53,6 +57,50 @@ export default function Tracker () {
                         </Card>
                     ))}
                 </Flex>
+                    <Dialog.Root>
+                        
+                        <Dialog.Trigger> 
+                            <Button color="gray" variant="soft" size={'3'}>Criar Habito</Button>
+                        </Dialog.Trigger>
+
+                        <Dialog.Content maxWidth={'20rem'}>
+                            <Dialog.Title>
+                                Adicionar Habito
+                            </Dialog.Title>
+                            <form>
+                                <Flex gap={'4'} direction={'column'}>
+                                    <label htmlFor="name">
+                                        <Text as="span" size={'2'} m={'1'} weight={'bold'}>Nome: </Text>
+                                        <TextField.Root 
+                                            type="text"
+                                            placeholder="Enter your Habit"
+                                            name="name"
+                                            required/>
+                                    </label>
+
+                                    <Select.Root defaultValue="blue">
+                                        <Select.Trigger />
+                                        <Select.Content>
+                                            <Select.Group>
+                                                <Select.Label>Colors</Select.Label>
+                                                
+                                                {colors.map((color) => (
+                                                    <Select.Item  value={color}>{color}</Select.Item>
+                                                ))}
+                                                
+                                            </Select.Group>
+                                        </Select.Content>
+                                    </Select.Root>
+                                    <Flex justify={'end'} gap={'2'}>
+                                        <Dialog.Close >
+                                            <Button color="red" variant="surface">Close</Button>
+                                        </Dialog.Close>
+                                        <Button type="submit" color="gray" variant="soft">Adicionar</Button>
+                                    </Flex>
+                                </Flex>
+                            </form>
+                        </Dialog.Content>
+                    </Dialog.Root>
             </Flex>
         </Box>
     )
