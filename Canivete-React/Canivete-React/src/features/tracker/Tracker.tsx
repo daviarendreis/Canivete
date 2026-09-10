@@ -1,10 +1,6 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
-
-type RadixColors = 'tomato' | 'red' | 'ruby' | 'crimson' | 'pink' | 'plum' | 'purple' | 'violet' |
-                        'iris' | 'indigo' | 'blue' | 'cyan' | 'teal' | 'jade' | 'green' | 'grass' |
-                        'lime' | 'mint' | 'sky' | 'amber' | 'orange' | 'brown' | 'gold' | 'bronze'
-
+import type { RadixColors } from "../../utils/colors";
 
 interface Habit {
     name: string,

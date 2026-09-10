@@ -1,13 +1,13 @@
 import { ActivityLogIcon, BackpackIcon, RulerSquareIcon } from '@radix-ui/react-icons';
 import type { ComponentType} from 'react';
+import type { RadixColors } from '../../../utils/colors';
 
-type Colors = "green" | "purple" | "tomato"
 type Links = "/todo" | "/tracker" | "/finance"
 
 export interface App {
     icon: ComponentType,
     name: string,
-    color: Colors,
+    color: RadixColors,
     description: string,
     to: Links
 }
