@@ -1,32 +1,41 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import type { RadixColors } from "../../utils/colors";
+import { useState } from "react";
 
 interface Habit {
+    id: number
     name: string,
     streak: number,
     color: RadixColors
 }
 
 export default function Tracker () {
+    const [habits, setHabits] = useState<Habit[]>([])
+
     const colors: RadixColors[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
                         'iris' , 'indigo' , 'blue' , 'cyan' , 'teal' , 'jade' , 'green' , 'grass' ,
-                        'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze']
+                        'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze'
+                    ]
 
-    const habits: Habit[] = [
-        {
-            name: 'Learning',
-            streak: 4,
-            color: 'gold'
-        }, {
-            name: 'English',
-            streak: 4,
-            color: 'purple'
+    function addHabit (e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+        const name = formData.get("name")?.toString() || 'Habit'
+        const colorRaw = formData.get("color")?.toString()
+        const color: RadixColors = typeof colorRaw === "string" && colors.includes(colorRaw as RadixColors) ? colorRaw as RadixColors  : colors[0] 
+
+        const newHabit: Habit = {
+            id: Math.round(Math.random() * 100000),
+            name,
+            streak: 0,
+            color
         }
-    ]
 
-
-
+        setHabits((state) => [...state, newHabit])
+    }
+    
     return (
         <Box>
             <Flex direction={'column'} align={'center'} gap={'4'}>
@@ -63,7 +72,7 @@ export default function Tracker () {
                             <Dialog.Title>
                                 Adicionar Habito
                             </Dialog.Title>
-                            <form>
+                            <form onSubmit={addHabit}>
                                 <Flex gap={'4'} direction={'column'}>
                                     <label htmlFor="name">
                                         <Text as="span" size={'2'} m={'1'} weight={'bold'}>Nome: </Text>
@@ -74,7 +83,7 @@ export default function Tracker () {
                                             required/>
                                     </label>
 
-                                    <Select.Root defaultValue="blue">
+                                    <Select.Root defaultValue="blue" name="color">
                                         <Select.Trigger />
                                         <Select.Content>
                                             <Select.Group>
