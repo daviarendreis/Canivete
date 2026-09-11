@@ -35,6 +35,10 @@ export default function Tracker () {
 
         setHabits((state) => [...state, newHabit])
     }
+
+    function concludeToday (id:number) {
+        setHabits((state) => state.map((habit) => habit.id === id ? {...habit, streak: habit.streak =+ 1} : habit))
+    }
     
     return (
         <Box>
@@ -44,13 +48,13 @@ export default function Tracker () {
 
                 <Flex direction={'column'} gap={'4'}>
                     {habits.map((habit) => (
-                        <Card >
+                        <Card key={habit.id}>
                             <Flex direction={'row'} width={'35rem'} height={'6rem'} align={'center'} p={'3'} gap={'3'}>
                                 <Box minWidth={'6rem'}>
                                     <Flex direction={'column'} gap={'3'}>
                                         <Heading color='gray' >{habit.name}</Heading>
                                         <Flex direction={'row'} gap={'4'}>
-                                            <Button color={habit.color}>Concluir Hoje</Button>
+                                            <Button color={habit.color} onClick={() => concludeToday(habit.id)}>Concluir Hoje</Button>
                                             <Button color={habit.color} variant="outline">Desmarcar Hoje</Button>
                                             <Button color="gray" variant="outline">Excluir</Button>
                                             <Button color="gray" variant="outline"><Pencil1Icon/></Button>
