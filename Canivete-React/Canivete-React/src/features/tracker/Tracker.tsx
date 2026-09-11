@@ -1,7 +1,7 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import type { RadixColors } from "../../utils/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Habit {
     id: number
@@ -11,7 +11,20 @@ interface Habit {
 }
 
 export default function Tracker () {
-    const [habits, setHabits] = useState<Habit[]>([])
+    function getLocalStorage () {
+        const raw = localStorage.getItem('habits')
+        
+        if (!raw) return []
+        
+        const data = JSON.parse(raw) as Habit[]
+        return data
+    }
+
+    const [habits, setHabits] = useState<Habit[]>(() => getLocalStorage())
+
+    useEffect(() => {
+            localStorage.setItem('habits', JSON.stringify(habits))
+        }, [habits])
 
     const colors: RadixColors[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
                         'iris' , 'indigo' , 'blue' , 'cyan' , 'teal' , 'jade' , 'green' , 'grass' ,
@@ -94,7 +107,7 @@ export default function Tracker () {
                                                 <Select.Label>Colors</Select.Label>
                                                 
                                                 {colors.map((color) => (
-                                                    <Select.Item  value={color}>{color}</Select.Item>
+                                                    <Select.Item key={color} value={color}>{color}</Select.Item>
                                                 ))}
                                                 
                                             </Select.Group>
