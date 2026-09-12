@@ -7,21 +7,7 @@ import useHabits from "./hooks/useHabits";
 
 export default function Tracker () {
 
-    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit} = useHabits()
-
-    function concludeToday (habit: Habit) {
-        const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
-
-        if (!isCompletedToday) {
-            const today = getToday()
-            const newDates = [...habit.completedDates, today]
-
-            const newHabit: Habit = {...habit, completedDates: newDates}
-
-            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
-        }
-
-    }
+    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit, concludeToday} = useHabits()
 
     function removeToday (habit: Habit) {
         const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)

@@ -14,30 +14,30 @@ export default function useHabits () {
             return data.map(h => ({...h, completedDates: h.completedDates ?? []}))
         }
     
-        const [habits, setHabits] = useState<Habit[]>(() => getLocalStorage())
+    const [habits, setHabits] = useState<Habit[]>(() => getLocalStorage())
     
-        useEffect(() => {
+    useEffect(() => {
                 localStorage.setItem('habits', JSON.stringify(habits))
-            }, [habits])
+    }, [habits])
     
-        const colors: RadixColors[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
-                            'iris' , 'indigo' , 'blue' , 'cyan' , 'teal' , 'jade' , 'green' , 'grass' ,
-                            'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze'
-                        ]
+    const colors: RadixColors[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
+                        'iris' , 'indigo' , 'blue' , 'cyan' , 'teal' , 'jade' , 'green' , 'grass' ,
+                        'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze'
+                    ]
 
-        function getToday () {
+    function getToday () {
         const today = dayjs().format('DD/MM/YYYY')
         return today
-        }
+    }
 
-        function verifyIsCompletedToday(completedDates: string[]) {
-                const datesSet = new Set(completedDates)
-                const today = getToday()
+    function verifyIsCompletedToday(completedDates: string[]) {
+        const datesSet = new Set(completedDates)
+        const today = getToday()
         
-                return datesSet.has(today)
-        }
+        return datesSet.has(today)
+    }
 
-        function calculateStreak (completedDates: string[]) {
+    function calculateStreak (completedDates: string[]) {
         const datesSet = new Set(completedDates)
         let date: dayjs.Dayjs = dayjs()
 
@@ -53,9 +53,9 @@ export default function useHabits () {
             date = date.subtract(1, 'day')
         }
         return streak
-        }
+    }
     
-        function addHabit (e: React.FormEvent<HTMLFormElement>) {
+    function addHabit (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
@@ -71,13 +71,13 @@ export default function useHabits () {
         }
 
         setHabits((state) => [...state, newHabit])
-        }
+    }
 
-        function removeHabit (id:number) {
+    function removeHabit (id:number) {
         setHabits((state) => state.filter(h => h.id !== id))
-        }
+    }
 
-        function editHabit (e: React.FormEvent<HTMLFormElement>, habit: Habit) {
+    function editHabit (e: React.FormEvent<HTMLFormElement>, habit: Habit) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
@@ -86,6 +86,20 @@ export default function useHabits () {
         const newHabit: Habit = {...habit, name: name}
 
         setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+    }
+
+    function concludeToday (habit: Habit) {
+        const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
+
+        if (!isCompletedToday) {
+            const today = getToday()
+            const newDates = [...habit.completedDates, today]
+
+            const newHabit: Habit = {...habit, completedDates: newDates}
+
+            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
         }
-        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit}
+    }
+
+        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit, concludeToday}
 }
