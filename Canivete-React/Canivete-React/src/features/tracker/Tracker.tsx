@@ -2,12 +2,13 @@ import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import type { RadixColors } from "../../utils/colors";
 import { useEffect, useState } from "react";
+import dayjs from 'dayjs';
 
 interface Habit {
     id: number
-    name: string,
-    streak: number,
+    name: string
     color: RadixColors
+    completedDates: string[]
 }
 
 export default function Tracker () {
@@ -17,7 +18,8 @@ export default function Tracker () {
         if (!raw) return []
         
         const data = JSON.parse(raw) as Habit[]
-        return data
+
+        return data.map(h => ({...h, completedDates: h.completedDates ?? []}))
     }
 
     const [habits, setHabits] = useState<Habit[]>(() => getLocalStorage())
@@ -31,6 +33,37 @@ export default function Tracker () {
                         'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze'
                     ]
 
+    function getToday () {
+        const today = dayjs().format('DD/MM/YYYY')
+        return today
+    }
+
+    function verifyIsCompletedToday(completedDates: string[]) {
+        const datesSet = new Set(completedDates)
+        const today = getToday()
+
+        return datesSet.has(today)
+    }
+
+    function calculateStreak (completedDates: string[]) {
+        const datesSet = new Set(completedDates)
+        let date: dayjs.Dayjs = dayjs()
+
+        if (!datesSet.has(date.format('DD/MM/YYYY'))) {
+            date = date.subtract(1, 'day')
+            if (!datesSet.has(date.format('DD/MM/YYYY'))) {
+                return 0
+            }
+        }
+
+        let streak = 0
+        while (datesSet.has(date.format('DD/MM/YYYY'))) {
+            streak += 1
+            date = date.subtract(1, 'day')
+        }
+        return streak
+    }
+
     function addHabit (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
@@ -42,15 +75,48 @@ export default function Tracker () {
         const newHabit: Habit = {
             id: Math.round(Math.random() * 100000),
             name,
-            streak: 0,
-            color
+            color,
+            completedDates: []
         }
 
         setHabits((state) => [...state, newHabit])
     }
 
-    function concludeToday (id:number) {
-        setHabits((state) => state.map((habit) => habit.id === id ? {...habit, streak: habit.streak =+ 1} : habit))
+    function concludeToday (habit: Habit) {
+        const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
+
+        if (!isCompletedToday) {
+            const today = getToday()
+            const newDates = [...habit.completedDates, today]
+
+            const newHabit: Habit = {
+                id: habit?.id,
+                name: habit?.name,
+                color: habit?.color,
+                completedDates: newDates
+            }
+
+            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+        }
+
+    }
+
+    function removeToday (habit: Habit) {
+        const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
+
+        if (isCompletedToday) {
+            const today = getToday()
+            const newDates = habit.completedDates.filter(d => d !== today)
+
+            const newHabit: Habit = {
+                id: habit?.id,
+                name: habit?.name,
+                color: habit?.color,
+                completedDates: newDates
+            }
+
+            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+        }
     }
     
     return (
@@ -67,14 +133,14 @@ export default function Tracker () {
                                     <Flex direction={'column'} gap={'3'}>
                                         <Heading color='gray' >{habit.name}</Heading>
                                         <Flex direction={'row'} gap={'4'}>
-                                            <Button color={habit.color} onClick={() => concludeToday(habit.id)}>Concluir Hoje</Button>
-                                            <Button color={habit.color} variant="outline">Desmarcar Hoje</Button>
+                                            <Button color={habit.color} onClick={() => concludeToday(habit)}>Concluir Hoje</Button>
+                                            <Button color={habit.color} variant="outline" onClick={() => removeToday(habit)}>Desmarcar Hoje</Button>
                                             <Button color="gray" variant="outline">Excluir</Button>
                                             <Button color="gray" variant="outline"><Pencil1Icon/></Button>
                                         </Flex>
                                     </Flex>
                                 </Box>
-                                <Heading color={habit.color} ml={'19.5rem'} size={'8'}>{habit.streak}</Heading>
+                                <Heading color={habit.color} ml={'19.5rem'} size={'8'}>{calculateStreak(habit.completedDates)}</Heading>
                             </Flex>
                         </Card>
                     ))}
