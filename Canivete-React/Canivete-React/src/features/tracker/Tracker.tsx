@@ -1,6 +1,5 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
-import type { RadixColors } from "../../utils/colors";
 import type { Habit } from "./types/habit";
 import useHabits from "./hooks/useHabits";
 
@@ -8,25 +7,7 @@ import useHabits from "./hooks/useHabits";
 
 export default function Tracker () {
 
-    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak} = useHabits()
- 
-    function addHabit (e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-
-        const formData = new FormData(e.currentTarget)
-        const name = formData.get("name")?.toString() || 'Habit'
-        const colorRaw = formData.get("color")?.toString()
-        const color: RadixColors = typeof colorRaw === "string" && colors.includes(colorRaw as RadixColors) ? colorRaw as RadixColors  : colors[0] 
-
-        const newHabit: Habit = {
-            id: Math.round(Math.random() * 100000),
-            name,
-            color,
-            completedDates: []
-        }
-
-        setHabits((state) => [...state, newHabit])
-    }
+    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit} = useHabits()
 
     function removeHabit (id:number) {
         setHabits((state) => state.filter(h => h.id !== id))

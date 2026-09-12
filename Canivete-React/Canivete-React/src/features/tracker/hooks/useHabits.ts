@@ -55,6 +55,22 @@ export default function useHabits () {
         return streak
         }
     
-    
-        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak}
+        function addHabit (e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+        const name = formData.get("name")?.toString() || 'Habit'
+        const colorRaw = formData.get("color")?.toString()
+        const color: RadixColors = typeof colorRaw === "string" && colors.includes(colorRaw as RadixColors) ? colorRaw as RadixColors  : colors[0] 
+
+        const newHabit: Habit = {
+            id: Math.round(Math.random() * 100000),
+            name,
+            color,
+            completedDates: []
+        }
+
+        setHabits((state) => [...state, newHabit])
+        }
+        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit}
 }
