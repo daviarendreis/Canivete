@@ -48,7 +48,9 @@ export default function TodoCard ({todo, editTodo, setEditingTodoId, editingTodo
                                                 <Dialog.Close>
                                                     <Button variant="soft" color="gray" onClick={() => setEditingTodoId(null)}>Cancelar</Button>
                                                 </Dialog.Close>
-                                                <Button type="submit">Salvar Tarefa</Button>
+                                                <Dialog.Close>
+                                                    <Button type="submit">Salvar Tarefa</Button>
+                                                </Dialog.Close>
                                             </Flex>
                                         </form>
                                     </Dialog.Content>

@@ -82,6 +82,21 @@ export default function Tracker () {
         setHabits((state) => [...state, newHabit])
     }
 
+    function removeHabit (id:number) {
+        setHabits((state) => state.filter(h => h.id !== id))
+    }
+
+    function editHabit (e: React.FormEvent<HTMLFormElement>, habit: Habit) {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+        const name = formData.get("name")?.toString() || habit.name
+        
+        const newHabit: Habit = {...habit, name: name}
+
+        setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+    }
+
     function concludeToday (habit: Habit) {
         const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
 
@@ -89,12 +104,7 @@ export default function Tracker () {
             const today = getToday()
             const newDates = [...habit.completedDates, today]
 
-            const newHabit: Habit = {
-                id: habit?.id,
-                name: habit?.name,
-                color: habit?.color,
-                completedDates: newDates
-            }
+            const newHabit: Habit = {...habit, completedDates: newDates}
 
             setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
         }
@@ -108,12 +118,7 @@ export default function Tracker () {
             const today = getToday()
             const newDates = habit.completedDates.filter(d => d !== today)
 
-            const newHabit: Habit = {
-                id: habit?.id,
-                name: habit?.name,
-                color: habit?.color,
-                completedDates: newDates
-            }
+            const newHabit: Habit = {...habit, completedDates: newDates}
 
             setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
         }
@@ -133,10 +138,40 @@ export default function Tracker () {
                                     <Flex direction={'column'} gap={'3'}>
                                         <Heading color='gray' >{habit.name}</Heading>
                                         <Flex direction={'row'} gap={'4'}>
-                                            <Button color={habit.color} onClick={() => concludeToday(habit)}>Concluir Hoje</Button>
+                                            <Button color={habit.color} onClick={() => concludeToday(habit)} >Concluir Hoje</Button>
                                             <Button color={habit.color} variant="outline" onClick={() => removeToday(habit)}>Desmarcar Hoje</Button>
-                                            <Button color="gray" variant="outline">Excluir</Button>
-                                            <Button color="gray" variant="outline"><Pencil1Icon/></Button>
+                                            <Button color="gray" variant="outline" onClick={() => removeHabit(habit.id)}>Excluir</Button>
+                                            <Dialog.Root>
+                                                <Dialog.Trigger>
+                                                    <Button color="gray" variant="outline"><Pencil1Icon/></Button>
+                                                </Dialog.Trigger>
+                                                <Dialog.Content maxWidth={'18rem'}>
+                                                    
+                                                    <Dialog.Title>Editando Habito</Dialog.Title>
+                                                    <form onSubmit={(e) => editHabit(e, habit)}>
+                                                        <Flex gap={'4'} direction={'column'}>
+                                                            <label htmlFor="name">
+                                                                <Text size={'2'} m={'1'} weight={'bold'}>Nome: </Text>
+                                                                <TextField.Root
+                                                                type="text"
+                                                                placeholder="Enter your Habit"
+                                                                name="name"
+                                                                defaultValue={habit.name}
+                                                                required/>
+                                                            </label>
+                                                            
+                                                            <Flex justify={'end'} gap={'2'}>
+                                                                <Dialog.Close >
+                                                                    <Button color="red" variant="surface">Close</Button>
+                                                                </Dialog.Close>
+                                                                <Dialog.Close>
+                                                                    <Button type="submit" color="gray" variant="soft">Salvar</Button>
+                                                                </Dialog.Close>
+                                                            </Flex>
+                                                        </Flex>
+                                                    </form>
+                                                </Dialog.Content>
+                                            </Dialog.Root>
                                         </Flex>
                                     </Flex>
                                 </Box>
@@ -183,7 +218,9 @@ export default function Tracker () {
                                         <Dialog.Close >
                                             <Button color="red" variant="surface">Close</Button>
                                         </Dialog.Close>
-                                        <Button type="submit" color="gray" variant="soft">Adicionar</Button>
+                                        <Dialog.Close>
+                                            <Button type="submit" color="gray" variant="soft">Adicionar</Button>
+                                        </Dialog.Close>
                                     </Flex>
                                 </Flex>
                             </form>

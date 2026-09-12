@@ -29,7 +29,9 @@ export default function Todo () {
                             <Dialog.Close>
                                 <Button variant="soft" color="gray">Cancelar</Button>
                             </Dialog.Close>
-                            <Button type="submit" >Adicionar Tarefa</Button>
+                            <Dialog.Close>
+                                <Button type="submit" >Adicionar Tarefa</Button>
+                            </Dialog.Close>
                         </Flex>
                         </form>
                     </Dialog.Content>
