@@ -114,5 +114,5 @@ export default function useHabits () {
         }
     }
 
-        return {habits, colors, calculateStreak, addHabit, removeHabit, editHabit, concludeToday, removeToday}
+        return { habits, colors, calculateStreak, addHabit, removeHabit, editHabit, concludeToday, removeToday }
 }
