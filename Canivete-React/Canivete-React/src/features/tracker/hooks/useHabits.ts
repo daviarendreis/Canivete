@@ -1,59 +1,26 @@
 import { useEffect, useState } from "react"
 import type { Habit } from "../types/habit"
-import type { RadixColors } from "../../../utils/colors"
-import dayjs from "dayjs"
+import { colors, type RadixColors } from "../../../utils/colors"
+import { getToday, verifyIsCompletedToday } from "../logic/streak"
 
 export default function useHabits () {
-    function getLocalStorage () {
+    function getStoredHabits () {
             const raw = localStorage.getItem('habits')
             
             if (!raw) return []
             
-            const data = JSON.parse(raw) as Habit[]
+            const storedHabits = JSON.parse(raw) as Habit[]
     
-            return data.map(h => ({...h, completedDates: h.completedDates ?? []}))
+            return storedHabits.map(h => ({...h, completedDates: h.completedDates ?? []}))
         }
     
-    const [habits, setHabits] = useState<Habit[]>(() => getLocalStorage())
+    const [habits, setHabits] = useState<Habit[]>(() => getStoredHabits())
     
     useEffect(() => {
                 localStorage.setItem('habits', JSON.stringify(habits))
     }, [habits])
     
-    const colors: RadixColors[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
-                        'iris' , 'indigo' , 'blue' , 'cyan' , 'teal' , 'jade' , 'green' , 'grass' ,
-                        'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze'
-                    ]
-
-    function getToday () {
-        const today = dayjs().format('DD/MM/YYYY')
-        return today
-    }
-
-    function verifyIsCompletedToday(completedDates: string[]) {
-        const datesSet = new Set(completedDates)
-        const today = getToday()
-        
-        return datesSet.has(today)
-    }
-
-    function calculateStreak (completedDates: string[]) {
-        const datesSet = new Set(completedDates)
-        let date: dayjs.Dayjs = dayjs()
-
-        if (!datesSet.has(date.format('DD/MM/YYYY'))) {
-            date = date.subtract(1, 'day')
-            if (!datesSet.has(date.format('DD/MM/YYYY'))) {
-                return 0
-            }
-        }
-            let streak = 0
-        while (datesSet.has(date.format('DD/MM/YYYY'))) {
-            streak += 1
-            date = date.subtract(1, 'day')
-        }
-        return streak
-    }
+    
     
     function addHabit (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -74,7 +41,7 @@ export default function useHabits () {
     }
 
     function removeHabit (id:number) {
-        setHabits((state) => state.filter(h => h.id !== id))
+        setHabits((state) => state.filter(currentHabit => currentHabit.id !== id))
     }
 
     function editHabit (e: React.FormEvent<HTMLFormElement>, habit: Habit) {
@@ -85,10 +52,10 @@ export default function useHabits () {
         
         const newHabit: Habit = {...habit, name: name}
 
-        setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+        setHabits((state) => state.map((currentHabit) => currentHabit.id === habit.id ? newHabit : currentHabit))
     }
 
-    function concludeToday (habit: Habit) {
+    function markToday (habit: Habit) {
         const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
 
         if (!isCompletedToday) {
@@ -97,11 +64,11 @@ export default function useHabits () {
 
             const newHabit: Habit = {...habit, completedDates: newDates}
 
-            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+            setHabits((state) => state.map((currentHabit) => currentHabit.id === habit.id ? newHabit : currentHabit))
         }
     }
 
-    function removeToday (habit: Habit) {
+    function unmarkToday (habit: Habit) {
         const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
 
         if (isCompletedToday) {
@@ -110,9 +77,9 @@ export default function useHabits () {
 
             const newHabit: Habit = {...habit, completedDates: newDates}
 
-            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+            setHabits((state) => state.map((currentHabit) => currentHabit.id === habit.id ? newHabit : currentHabit))
         }
     }
 
-        return { habits, colors, calculateStreak, addHabit, removeHabit, editHabit, concludeToday, removeToday }
+        return { habits, addHabit, removeHabit, editHabit, markToday, unmarkToday }
 }
