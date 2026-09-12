@@ -9,20 +9,8 @@ import useHabits from "./hooks/useHabits";
 
 export default function Tracker () {
 
-    const {habits, setHabits, colors} = useHabits()
-
-    function getToday () {
-        const today = dayjs().format('DD/MM/YYYY')
-        return today
-    }
-
-    function verifyIsCompletedToday(completedDates: string[]) {
-        const datesSet = new Set(completedDates)
-        const today = getToday()
-
-        return datesSet.has(today)
-    }
-
+    const {habits, setHabits, colors, getToday, verifyIsCompletedToday} = useHabits()
+ 
     function calculateStreak (completedDates: string[]) {
         const datesSet = new Set(completedDates)
         let date: dayjs.Dayjs = dayjs()
