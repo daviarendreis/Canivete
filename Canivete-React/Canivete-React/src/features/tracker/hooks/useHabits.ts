@@ -101,5 +101,18 @@ export default function useHabits () {
         }
     }
 
-        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit, concludeToday}
+    function removeToday (habit: Habit) {
+        const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
+
+        if (isCompletedToday) {
+            const today = getToday()
+            const newDates = habit.completedDates.filter(d => d !== today)
+
+            const newHabit: Habit = {...habit, completedDates: newDates}
+
+            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+        }
+    }
+
+        return {habits, colors, calculateStreak, addHabit, removeHabit, editHabit, concludeToday, removeToday}
 }

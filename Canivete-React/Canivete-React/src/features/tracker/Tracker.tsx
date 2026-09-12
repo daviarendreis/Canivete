@@ -1,27 +1,13 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
-import type { Habit } from "./types/habit";
 import useHabits from "./hooks/useHabits";
 
 
 
 export default function Tracker () {
 
-    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit, concludeToday} = useHabits()
+    const {habits, colors, calculateStreak, addHabit, removeHabit, editHabit, concludeToday, removeToday} = useHabits()
 
-    function removeToday (habit: Habit) {
-        const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)
-
-        if (isCompletedToday) {
-            const today = getToday()
-            const newDates = habit.completedDates.filter(d => d !== today)
-
-            const newHabit: Habit = {...habit, completedDates: newDates}
-
-            setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
-        }
-    }
-    
     return (
         <Box>
             <Flex direction={'column'} align={'center'} gap={'4'}>
