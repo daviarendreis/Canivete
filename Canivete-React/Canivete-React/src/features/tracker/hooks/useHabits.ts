@@ -36,6 +36,25 @@ export default function useHabits () {
         
                 return datesSet.has(today)
         }
+
+        function calculateStreak (completedDates: string[]) {
+        const datesSet = new Set(completedDates)
+        let date: dayjs.Dayjs = dayjs()
+
+        if (!datesSet.has(date.format('DD/MM/YYYY'))) {
+            date = date.subtract(1, 'day')
+            if (!datesSet.has(date.format('DD/MM/YYYY'))) {
+                return 0
+            }
+        }
+            let streak = 0
+        while (datesSet.has(date.format('DD/MM/YYYY'))) {
+            streak += 1
+            date = date.subtract(1, 'day')
+        }
+        return streak
+        }
     
-        return {habits, setHabits, colors, getToday, verifyIsCompletedToday}
+    
+        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak}
 }

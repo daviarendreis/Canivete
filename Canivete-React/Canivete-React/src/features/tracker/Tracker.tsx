@@ -1,7 +1,6 @@
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import type { RadixColors } from "../../utils/colors";
-import dayjs from 'dayjs';
 import type { Habit } from "./types/habit";
 import useHabits from "./hooks/useHabits";
 
@@ -9,27 +8,8 @@ import useHabits from "./hooks/useHabits";
 
 export default function Tracker () {
 
-    const {habits, setHabits, colors, getToday, verifyIsCompletedToday} = useHabits()
+    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak} = useHabits()
  
-    function calculateStreak (completedDates: string[]) {
-        const datesSet = new Set(completedDates)
-        let date: dayjs.Dayjs = dayjs()
-
-        if (!datesSet.has(date.format('DD/MM/YYYY'))) {
-            date = date.subtract(1, 'day')
-            if (!datesSet.has(date.format('DD/MM/YYYY'))) {
-                return 0
-            }
-        }
-
-        let streak = 0
-        while (datesSet.has(date.format('DD/MM/YYYY'))) {
-            streak += 1
-            date = date.subtract(1, 'day')
-        }
-        return streak
-    }
-
     function addHabit (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
