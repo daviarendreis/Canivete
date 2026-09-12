@@ -7,18 +7,7 @@ import useHabits from "./hooks/useHabits";
 
 export default function Tracker () {
 
-    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit} = useHabits()
-
-    function editHabit (e: React.FormEvent<HTMLFormElement>, habit: Habit) {
-        e.preventDefault()
-
-        const formData = new FormData(e.currentTarget)
-        const name = formData.get("name")?.toString() || habit.name
-        
-        const newHabit: Habit = {...habit, name: name}
-
-        setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
-    }
+    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit} = useHabits()
 
     function concludeToday (habit: Habit) {
         const isCompletedToday = verifyIsCompletedToday(habit?.completedDates)

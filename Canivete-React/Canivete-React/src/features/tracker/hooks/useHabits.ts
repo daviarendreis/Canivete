@@ -76,6 +76,16 @@ export default function useHabits () {
         function removeHabit (id:number) {
         setHabits((state) => state.filter(h => h.id !== id))
         }
+
+        function editHabit (e: React.FormEvent<HTMLFormElement>, habit: Habit) {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+        const name = formData.get("name")?.toString() || habit.name
         
-        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit}
+        const newHabit: Habit = {...habit, name: name}
+
+        setHabits((state) => state.map((h) => h.id === habit.id ? newHabit : h))
+        }
+        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit, editHabit}
 }
