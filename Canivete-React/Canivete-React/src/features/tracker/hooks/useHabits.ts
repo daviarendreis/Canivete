@@ -72,5 +72,10 @@ export default function useHabits () {
 
         setHabits((state) => [...state, newHabit])
         }
-        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit}
+
+        function removeHabit (id:number) {
+        setHabits((state) => state.filter(h => h.id !== id))
+        }
+        
+        return {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit}
 }

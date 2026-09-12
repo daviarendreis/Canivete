@@ -7,11 +7,7 @@ import useHabits from "./hooks/useHabits";
 
 export default function Tracker () {
 
-    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit} = useHabits()
-
-    function removeHabit (id:number) {
-        setHabits((state) => state.filter(h => h.id !== id))
-    }
+    const {habits, setHabits, colors, getToday, verifyIsCompletedToday, calculateStreak, addHabit, removeHabit} = useHabits()
 
     function editHabit (e: React.FormEvent<HTMLFormElement>, habit: Habit) {
         e.preventDefault()
