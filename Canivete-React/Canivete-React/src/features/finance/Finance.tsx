@@ -1,11 +1,37 @@
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Strong, Text, TextField } from "@radix-ui/themes";
+import { useState } from "react";
+
+type Types = 'entrada' | 'saida'
+
+interface Transaction {
+    id: number
+    description: string,
+    value: number,
+    type: Types
+}
 
 export default function Finance () {
-    const transactions = [{
-        name: 'rd',
-        value: 455,
-        type: 'entrada'
-    }]
+    const [transactions, setTransactions] = useState<Transaction[]>([])
+
+    function addTransaction (e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+        const description = formData.get('description')?.toString() || ''
+        const value = Number(formData.get('value'))
+        const typeRaw = formData.get('type')?.toString()
+        const type: Types = typeof typeRaw === 'string' ? typeRaw as Types : 'entrada'
+
+        const newTransaction: Transaction = {
+            id: Math.floor(Math.random() * 100000),
+            description,
+            value,
+            type
+        }
+
+        setTransactions(state => [...state, newTransaction])
+    }
+    
     return (
         <Box>
             <Flex align={'center'} direction={'column'} gap={'4'}>
@@ -29,7 +55,7 @@ export default function Finance () {
                     </Dialog.Trigger>
                     <Dialog.Content maxWidth={'20rem'}>
                         <Dialog.Title>Nova Transacao</Dialog.Title>
-                        <form action="">
+                        <form onSubmit={addTransaction}>
                             <Flex gap={'4'} direction={'column'}>
                                 <label htmlFor="description">
                                     <Text>Descricao:</Text>
@@ -77,9 +103,11 @@ export default function Finance () {
                         <Heading>Transações</Heading>
                         <Flex direction={'column'}>
                             {transactions.map(transaction => (
-                                <Card>
+                                <Card key={transaction.id}>
                                     <Flex justify={'between'} align={'center'}>
-                                        <Text color={transaction.type === 'entrada' ? 'grass' : 'red'}>{`${transaction.name} - R$ ${transaction.value} (${transaction.type})`}</Text>
+                                        <Text color={transaction.type === 'entrada' ? 'grass' : 'red'}>
+                                            {`${transaction.description} - R$ ${transaction.value} (${transaction.type})`}
+                                        </Text>
                                         <Button color="red" variant="ghost" size={'3'}><Strong>Remover</Strong></Button>
                                     </Flex>
                                 </Card>
