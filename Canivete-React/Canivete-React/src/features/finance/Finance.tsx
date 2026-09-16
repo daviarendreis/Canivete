@@ -1,7 +1,7 @@
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Strong, Text, TextField } from "@radix-ui/themes";
 import { useState } from "react";
 
-type Types = 'inbout' | 'outbound'
+type Types = 'inbound' | 'outbound'
 
 interface Transaction {
     id: number
@@ -20,7 +20,7 @@ export default function Finance () {
         const description = formData.get('description')?.toString() || ''
         const value = Number(formData.get('value'))
         const typeRaw = formData.get('type')?.toString()
-        const type: Types = typeof typeRaw === 'string' ? typeRaw as Types : 'inbout'
+        const type: Types = typeof typeRaw === 'string' ? typeRaw as Types : 'inbound'
 
         const newTransaction: Transaction = {
             id: Math.floor(Math.random() * 100000),
@@ -35,6 +35,39 @@ export default function Finance () {
     function deleteTransaction (id: number) {
         setTransactions((state) => state.filter(t => t.id !== id))
     }
+
+    function getInbound () {
+        let value = 0
+        for (let i = 0; i < transactions.length; i++) {
+            const transaction = transactions[i]
+            if (transaction.type === 'inbound') {
+                value += transaction.value
+            }
+            
+        }
+
+        return value
+    }
+
+    function getOutbound () {
+        let value = 0
+
+        for (let i = 0; i < transactions.length; i++) {
+            const transaction = transactions[i]
+            if (transaction.type === 'outbound') {
+                value += transaction.value
+            }
+        }
+
+        return value
+    }
+
+    function getTotalBalance () {
+        const inbounds = getInbound()
+        const outbounds = getOutbound()
+
+        return inbounds - outbounds
+    }
     
     return (
         <Box>
@@ -44,12 +77,12 @@ export default function Finance () {
                     <Flex direction={'column'} align={'center'} gap={'5'} m={'3'}>
                         <Flex direction={'column'} align={'center'}>
                             <Text size={'1'}>Saldo Total</Text>
-                            <Heading>R$ 0.00</Heading>
+                            <Heading>{`R$ ${getTotalBalance()}`}</Heading>
                         </Flex>
                         
                         <Flex gap={'9'}>
-                            <Text size={'1'}>Entradas:<Text color="green" weight={'bold'}>R$ 0.00</Text></Text>
-                            <Text size={'1'}>Saidas:<Text color="red" weight={'bold'}>R$ 0.00</Text></Text>
+                            <Text size={'1'}>Entradas:<Text color="green" weight={'bold'}>{` R$ ${getInbound()}`}</Text></Text>
+                            <Text size={'1'}>Saidas:<Text color="red" weight={'bold'}>{` R$ ${getOutbound()}`}</Text></Text>
                         </Flex>
                     </Flex>
                 </Card>
@@ -79,12 +112,12 @@ export default function Finance () {
                                     placeholder="0.00"
                                     required/>
                                 </label>
-                                <Select.Root defaultValue="inbout" name="type">
+                                <Select.Root defaultValue="inbound" name="type">
                                     <Select.Trigger placeholder="Escolha o tipo"/>
                                     <Select.Content>
                                         <Select.Group>
                                             <Select.Label>Tipo</Select.Label>
-                                            <Select.Item value="inbout">Entrada</Select.Item>
+                                            <Select.Item value="inbound">Entrada</Select.Item>
                                             <Select.Item value="outbound">Saida</Select.Item>
                                         </Select.Group>
                                     </Select.Content>
@@ -106,10 +139,10 @@ export default function Finance () {
                     <Flex minWidth={'25rem'} direction={'column'} gap={'4'}>
                         <Heading>Transações</Heading>
                         <Flex direction={'column'}>
-                            {transactions.map(transaction => (
+                            {transactions.length !== 0 ? transactions.map(transaction => (
                                 <Card key={transaction.id}>
                                     <Flex justify={'between'} align={'center'}>
-                                        <Text color={transaction.type === 'inbout' ? 'grass' : 'red'}>
+                                        <Text color={transaction.type === 'inbound' ? 'grass' : 'red'}>
                                             {`${transaction.description} - R$ ${transaction.value} (${transaction.type})`}
                                         </Text>
                                         <Button color="red"
@@ -118,7 +151,7 @@ export default function Finance () {
                                           onClick={() => deleteTransaction(transaction.id)}><Strong>Remover</Strong></Button>
                                     </Flex>
                                 </Card>
-                            ))}
+                            )) : <Flex direction={'column'} align={'center'}><Text color="gray" weight='light'>Ainda nao ha transacoes</Text></Flex>}
                         </Flex>
                     </Flex>
                 </Card>
