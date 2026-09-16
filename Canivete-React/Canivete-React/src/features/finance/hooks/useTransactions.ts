@@ -28,5 +28,36 @@ export default function useTransactions () {
         setTransactions((state) => state.filter(t => t.id !== id))
     }
 
-    return {transactions, addTransaction, deleteTransaction}
+    function getInbound () {
+        let value = 0
+        for (let i = 0; i < transactions.length; i++) {
+            const transaction = transactions[i]
+            if (transaction.type === 'inbound') {
+                value += transaction.value
+            }
+        }
+
+        return value
+    }
+
+    function getOutbound () {
+        let value = 0
+
+        for (let i = 0; i < transactions.length; i++) {
+            const transaction = transactions[i]
+            if (transaction.type === 'outbound') {
+                value += transaction.value
+            }
+        }
+        return value
+    }
+
+    function getTotalBalance () {
+        const inbounds = getInbound()
+        const outbounds = getOutbound()
+
+        return inbounds - outbounds
+    }
+
+    return {transactions, addTransaction, deleteTransaction, getInbound, getOutbound, getTotalBalance}
 }

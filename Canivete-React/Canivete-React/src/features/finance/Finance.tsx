@@ -2,42 +2,8 @@ import { Box, Button, Card, Dialog, Flex, Heading, Select, Strong, Text, TextFie
 import useTransactions from "./hooks/useTransactions";
 
 export default function Finance () {
-    const { transactions, addTransaction, deleteTransaction} = useTransactions()
+    const { transactions, addTransaction, deleteTransaction, getInbound, getOutbound, getTotalBalance} = useTransactions()
 
-
-    function getInbound () {
-        let value = 0
-        for (let i = 0; i < transactions.length; i++) {
-            const transaction = transactions[i]
-            if (transaction.type === 'inbound') {
-                value += transaction.value
-            }
-            
-        }
-
-        return value
-    }
-
-    function getOutbound () {
-        let value = 0
-
-        for (let i = 0; i < transactions.length; i++) {
-            const transaction = transactions[i]
-            if (transaction.type === 'outbound') {
-                value += transaction.value
-            }
-        }
-
-        return value
-    }
-
-    function getTotalBalance () {
-        const inbounds = getInbound()
-        const outbounds = getOutbound()
-
-        return inbounds - outbounds
-    }
-    
     return (
         <Box>
             <Flex align={'center'} direction={'column'} gap={'4'}>
