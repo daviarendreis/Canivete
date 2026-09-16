@@ -24,5 +24,9 @@ export default function useTransactions () {
         setTransactions(state => [...state, newTransaction])
     }
 
-    return {transactions, setTransactions, addTransaction}
+    function deleteTransaction (id: number) {
+        setTransactions((state) => state.filter(t => t.id !== id))
+    }
+
+    return {transactions, addTransaction, deleteTransaction}
 }

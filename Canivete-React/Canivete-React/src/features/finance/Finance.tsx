@@ -2,11 +2,8 @@ import { Box, Button, Card, Dialog, Flex, Heading, Select, Strong, Text, TextFie
 import useTransactions from "./hooks/useTransactions";
 
 export default function Finance () {
-    const { transactions, setTransactions, addTransaction} = useTransactions()
+    const { transactions, addTransaction, deleteTransaction} = useTransactions()
 
-    function deleteTransaction (id: number) {
-        setTransactions((state) => state.filter(t => t.id !== id))
-    }
 
     function getInbound () {
         let value = 0
