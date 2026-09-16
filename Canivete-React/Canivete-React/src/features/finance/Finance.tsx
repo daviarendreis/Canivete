@@ -1,7 +1,7 @@
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Strong, Text, TextField } from "@radix-ui/themes";
 import { useState } from "react";
 
-type Types = 'entrada' | 'saida'
+type Types = 'inbout' | 'outbound'
 
 interface Transaction {
     id: number
@@ -20,7 +20,7 @@ export default function Finance () {
         const description = formData.get('description')?.toString() || ''
         const value = Number(formData.get('value'))
         const typeRaw = formData.get('type')?.toString()
-        const type: Types = typeof typeRaw === 'string' ? typeRaw as Types : 'entrada'
+        const type: Types = typeof typeRaw === 'string' ? typeRaw as Types : 'inbout'
 
         const newTransaction: Transaction = {
             id: Math.floor(Math.random() * 100000),
@@ -30,6 +30,10 @@ export default function Finance () {
         }
 
         setTransactions(state => [...state, newTransaction])
+    }
+
+    function deleteTransaction (id: number) {
+        setTransactions((state) => state.filter(t => t.id !== id))
     }
     
     return (
@@ -75,13 +79,13 @@ export default function Finance () {
                                     placeholder="0.00"
                                     required/>
                                 </label>
-                                <Select.Root defaultValue="entrada" name="type">
+                                <Select.Root defaultValue="inbout" name="type">
                                     <Select.Trigger placeholder="Escolha o tipo"/>
                                     <Select.Content>
                                         <Select.Group>
                                             <Select.Label>Tipo</Select.Label>
-                                            <Select.Item value="entrada">Entrada</Select.Item>
-                                            <Select.Item value="saida">Saida</Select.Item>
+                                            <Select.Item value="inbout">Entrada</Select.Item>
+                                            <Select.Item value="outbound">Saida</Select.Item>
                                         </Select.Group>
                                     </Select.Content>
                                 </Select.Root>
@@ -105,10 +109,13 @@ export default function Finance () {
                             {transactions.map(transaction => (
                                 <Card key={transaction.id}>
                                     <Flex justify={'between'} align={'center'}>
-                                        <Text color={transaction.type === 'entrada' ? 'grass' : 'red'}>
+                                        <Text color={transaction.type === 'inbout' ? 'grass' : 'red'}>
                                             {`${transaction.description} - R$ ${transaction.value} (${transaction.type})`}
                                         </Text>
-                                        <Button color="red" variant="ghost" size={'3'}><Strong>Remover</Strong></Button>
+                                        <Button color="red"
+                                         variant="ghost"
+                                          size={'3'}
+                                          onClick={() => deleteTransaction(transaction.id)}><Strong>Remover</Strong></Button>
                                     </Flex>
                                 </Card>
                             ))}
