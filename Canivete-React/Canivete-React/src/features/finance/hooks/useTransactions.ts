@@ -1,10 +1,21 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { Transaction } from "../types/transaction"
 import type { TransactionTypes } from "../types/transactionTypes"
 
 export default function useTransactions () {
+    function getStoredTransactions () {
+        const raw = localStorage.getItem('transactions')
 
-    const [transactions, setTransactions] = useState<Transaction[]>([])
+        if (!raw) {return []}
+
+        return JSON.parse(raw) as Transaction[]
+    }
+
+    const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
+
+    useEffect(() => {
+        localStorage.setItem('transactions', JSON.stringify(transactions))
+    }, [transactions])
 
     function addTransaction (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -28,8 +39,6 @@ export default function useTransactions () {
     function deleteTransaction (id: number) {
         setTransactions((state) => state.filter(t => t.id !== id))
     }
-
-    
 
     return {transactions, addTransaction, deleteTransaction}
 }
