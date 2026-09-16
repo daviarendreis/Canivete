@@ -1,17 +1,10 @@
 import { Box, Button, Card, Dialog, Flex, Heading, Select, Strong, Text, TextField } from "@radix-ui/themes";
-import { useState } from "react";
-
-type Types = 'inbound' | 'outbound'
-
-interface Transaction {
-    id: number
-    description: string,
-    value: number,
-    type: Types
-}
+import type { TransactionTypes } from "./types/transactionTypes";
+import type { Transaction } from "./types/transaction";
+import useTransactions from "./hooks/useTransactions";
 
 export default function Finance () {
-    const [transactions, setTransactions] = useState<Transaction[]>([])
+    const { transactions, setTransactions} = useTransactions()
 
     function addTransaction (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -20,7 +13,7 @@ export default function Finance () {
         const description = formData.get('description')?.toString() || ''
         const value = Number(formData.get('value'))
         const typeRaw = formData.get('type')?.toString()
-        const type: Types = typeof typeRaw === 'string' ? typeRaw as Types : 'inbound'
+        const type: TransactionTypes = typeof typeRaw === 'string' ? typeRaw as TransactionTypes : 'inbound'
 
         const newTransaction: Transaction = {
             id: Math.floor(Math.random() * 100000),
