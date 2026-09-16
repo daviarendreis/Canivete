@@ -1,8 +1,10 @@
-import { Box, Button, Card, Dialog, Flex, Heading, Select, Strong, Text, TextField } from "@radix-ui/themes";
+import { Box, Button, Card, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import useTransactions from "./hooks/useTransactions";
+import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
+import FinanceCard from "./components/FinanceCard";
 
 export default function Finance () {
-    const { transactions, addTransaction, deleteTransaction, getInbound, getOutbound, getTotalBalance} = useTransactions()
+    const { transactions, addTransaction, deleteTransaction} = useTransactions()
 
     return (
         <Box>
@@ -12,12 +14,12 @@ export default function Finance () {
                     <Flex direction={'column'} align={'center'} gap={'5'} m={'3'}>
                         <Flex direction={'column'} align={'center'}>
                             <Text size={'1'}>Saldo Total</Text>
-                            <Heading>{`R$ ${getTotalBalance()}`}</Heading>
+                            <Heading>{`R$ ${getTotalBalance(transactions)}`}</Heading>
                         </Flex>
                         
                         <Flex gap={'9'}>
-                            <Text size={'1'}>Entradas:<Text color="green" weight={'bold'}>{` R$ ${getInbound()}`}</Text></Text>
-                            <Text size={'1'}>Saidas:<Text color="red" weight={'bold'}>{` R$ ${getOutbound()}`}</Text></Text>
+                            <Text size={'1'}>Entradas:<Text color="green" weight={'bold'}>{` R$ ${getInbound(transactions)}`}</Text></Text>
+                            <Text size={'1'}>Saidas:<Text color="red" weight={'bold'}>{` R$ ${getOutbound(transactions)}`}</Text></Text>
                         </Flex>
                     </Flex>
                 </Card>
@@ -75,17 +77,7 @@ export default function Finance () {
                         <Heading>Transações</Heading>
                         <Flex direction={'column'}>
                             {transactions.length !== 0 ? transactions.map(transaction => (
-                                <Card key={transaction.id}>
-                                    <Flex justify={'between'} align={'center'}>
-                                        <Text color={transaction.type === 'inbound' ? 'grass' : 'red'}>
-                                            {`${transaction.description} - R$ ${transaction.value} (${transaction.type})`}
-                                        </Text>
-                                        <Button color="red"
-                                         variant="ghost"
-                                          size={'3'}
-                                          onClick={() => deleteTransaction(transaction.id)}><Strong>Remover</Strong></Button>
-                                    </Flex>
-                                </Card>
+                                <FinanceCard transaction={transaction} deleteTransaction={deleteTransaction} key={transaction.id}/>
                             )) : <Flex direction={'column'} align={'center'}><Text color="gray" weight='light'>Ainda nao ha transacoes</Text></Flex>}
                         </Flex>
                     </Flex>
