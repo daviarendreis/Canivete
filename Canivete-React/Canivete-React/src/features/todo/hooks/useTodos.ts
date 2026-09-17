@@ -3,7 +3,7 @@ import type { Todo } from "../types/todo"
 import type { priority } from "../types/priority"
 
 export default function useTodos ( ) {
-    function getLocalStorage () {
+    function getStoredTodos () {
             const raw = localStorage.getItem('todos')
     
             if (!raw) return []
@@ -12,7 +12,7 @@ export default function useTodos ( ) {
             return data
         }
     
-    const [todos, setTodos] = useState<Todo[]>(() => getLocalStorage())
+    const [todos, setTodos] = useState<Todo[]>(() => getStoredTodos())
     const [editingTodoId, setEditingTodoId] = useState<number | null>(null)
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function useTodos ( ) {
         const formData = new FormData(e.currentTarget)
         const name = formData.get("name")?.toString() || "To-do"
         const time = formData.get("time")?.toString() || "12:00"
-        const description = formData.get("description")?.toString() || "Realizar essa tarefa"
+        const description = formData.get("description")?.toString() || "Perform this task"
         const priorityRaw = formData.get("priority")?.toString()
         const priority = (priorityRaw === 'low' ||
                          priorityRaw === 'medium' ||

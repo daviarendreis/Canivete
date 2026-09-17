@@ -10,8 +10,8 @@ export default function Hub() {
       <Box>
         <Flex align={'center'} direction={'column'}>
           <Flex align={'center'} wrap={'wrap'} direction={'column'} mt={'5'}>
-            <Heading size={'8'} mt={'3'}>Hora de Produzir</Heading>
-            <Heading as="h3" mt={'5'} >Ferramentas pra te ajudar a produzir mais e melhor!</Heading>
+            <Heading size={'8'} mt={'3'}>Time to Produce</Heading>
+            <Heading as="h3" mt={'5'} >Tools to help you produce more and better work!</Heading>
             <Flex direction={'row'} gap={'10'} m={'7'}>
               <Text><Strong>{textDate}</Strong></Text>
             </Flex>

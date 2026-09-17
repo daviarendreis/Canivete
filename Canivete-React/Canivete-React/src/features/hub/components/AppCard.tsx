@@ -12,7 +12,7 @@ export default function AppCard ({icon, name, color, description, to}: App) {
                   <Heading as="h4" size={'5'}>{<Icon/>} - {name}</Heading>
                   <Text as="p">{description}</Text>
                   <Button color={color} variant="soft" asChild>
-                    <Link to={to} >Acessar</Link>
+                    <Link to={to} >Access</Link>
                   </Button>
                 </Flex>
               </Card>

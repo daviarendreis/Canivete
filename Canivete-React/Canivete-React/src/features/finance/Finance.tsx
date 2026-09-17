@@ -9,38 +9,38 @@ export default function Finance () {
     return (
         <Box>
             <Flex align={'center'} direction={'column'} gap={'4'}>
-                <Heading>Controle de Gastos</Heading>
+                <Heading>Financial Accountant</Heading>
                 <Card>
                     <Flex direction={'column'} align={'center'} gap={'5'} m={'3'}>
                         <Flex direction={'column'} align={'center'}>
-                            <Text size={'1'}>Saldo Total</Text>
+                            <Text size={'1'}>Total Balance</Text>
                             <Heading>{`R$ ${getTotalBalance(transactions)}`}</Heading>
                         </Flex>
                         
                         <Flex gap={'9'}>
-                            <Text size={'1'}>Entradas:<Text color="green" weight={'bold'}>{` R$ ${getInbound(transactions)}`}</Text></Text>
-                            <Text size={'1'}>Saidas:<Text color="red" weight={'bold'}>{` R$ ${getOutbound(transactions)}`}</Text></Text>
+                            <Text size={'1'}>Inbound: <Text color="green" weight={'bold'}>{`$ ${getInbound(transactions)}`}</Text></Text>
+                            <Text size={'1'}>Outbound: <Text color="red" weight={'bold'}>{`$ ${getOutbound(transactions)}`}</Text></Text>
                         </Flex>
                     </Flex>
                 </Card>
                 <Dialog.Root>
                     <Dialog.Trigger>
-                        <Button color="gray" variant="soft">Adicionar Transacao</Button>
+                        <Button color="gray" variant="soft">Add Transaction</Button>
                     </Dialog.Trigger>
                     <Dialog.Content maxWidth={'20rem'}>
-                        <Dialog.Title>Nova Transacao</Dialog.Title>
+                        <Dialog.Title>New Transaction</Dialog.Title>
                         <form onSubmit={addTransaction}>
                             <Flex gap={'4'} direction={'column'}>
                                 <label htmlFor="description">
-                                    <Text>Descricao:</Text>
+                                    <Text>Description:</Text>
                                     <TextField.Root
                                     type="text"
                                     name="description"
-                                    placeholder="Ex: Salario do Mes"
+                                    placeholder="Example: Monthly Salary"
                                     required/>
                                 </label>
-                                <label htmlFor="valor">
-                                    <Text>Valor (R$):</Text>
+                                <label htmlFor="value">
+                                    <Text>Value ($):</Text>
                                     <TextField.Root
                                     type="number"
                                     name="value"
@@ -50,21 +50,21 @@ export default function Finance () {
                                     required/>
                                 </label>
                                 <Select.Root defaultValue="inbound" name="type">
-                                    <Select.Trigger placeholder="Escolha o tipo"/>
+                                    <Select.Trigger placeholder="Choose a type"/>
                                     <Select.Content>
                                         <Select.Group>
-                                            <Select.Label>Tipo</Select.Label>
-                                            <Select.Item value="inbound">Entrada</Select.Item>
-                                            <Select.Item value="outbound">Saida</Select.Item>
+                                            <Select.Label>Type</Select.Label>
+                                            <Select.Item value="inbound">Inbound</Select.Item>
+                                            <Select.Item value="outbound">Outbound</Select.Item>
                                         </Select.Group>
                                     </Select.Content>
                                 </Select.Root>
                                 <Flex justify={'end'} gap={'4'}>
                                     <Dialog.Close>
-                                        <Button color="gray" variant="soft">Cancelar</Button>
+                                        <Button color="gray" variant="soft">Cancel</Button>
                                     </Dialog.Close>
                                     <Dialog.Close>
-                                        <Button type={'submit'} color="grass" variant="soft">Adicionar</Button>
+                                        <Button type={'submit'} color="grass" variant="soft">Add</Button>
                                     </Dialog.Close>
                                 </Flex>
                             </Flex>
@@ -74,11 +74,11 @@ export default function Finance () {
                 </Dialog.Root>
                 <Card size={'3'}>
                     <Flex minWidth={'25rem'} direction={'column'} gap={'4'}>
-                        <Heading>Transações</Heading>
+                        <Heading>Transactions</Heading>
                         <Flex direction={'column'}>
                             {transactions.length !== 0 ? transactions.map(transaction => (
                                 <FinanceCard transaction={transaction} deleteTransaction={deleteTransaction} key={transaction.id}/>
-                            )) : <Flex direction={'column'} align={'center'}><Text color="gray" weight='light'>Ainda nao ha transacoes</Text></Flex>}
+                            )) : <Flex direction={'column'} align={'center'}><Text color="gray" weight='light'>There are no transactions yet</Text></Flex>}
                         </Flex>
                     </Flex>
                 </Card>

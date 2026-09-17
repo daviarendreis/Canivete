@@ -16,21 +16,21 @@ export default function Todo () {
                 <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
 
                     <Dialog.Trigger>
-                        <Button color="green" variant="surface">Adicionar Tarefa</Button>
+                        <Button color="green" variant="surface">Add To-do</Button>
                     </Dialog.Trigger>
                     
                     <Dialog.Content maxWidth={'20rem'}>
-                        <Dialog.Title>Adicionar Tarefa</Dialog.Title>
+                        <Dialog.Title>Add To-do</Dialog.Title>
                         
                         <form onSubmit={addTodo}>
                         <TodoForm />
 
                         <Flex gap="3" mt="4" justify="end">
                             <Dialog.Close>
-                                <Button variant="soft" color="gray">Cancelar</Button>
+                                <Button variant="soft" color="gray">Cancel</Button>
                             </Dialog.Close>
                             <Dialog.Close>
-                                <Button type="submit" >Adicionar Tarefa</Button>
+                                <Button type="submit" >Add</Button>
                             </Dialog.Close>
                         </Flex>
                         </form>
@@ -41,7 +41,7 @@ export default function Todo () {
 
                     <Flex justify={'start'} direction={'column'}>
                         <Heading >
-                            Tarefas
+                            To-dos
                         </Heading>
 
                     {todos.map((todo) => (
@@ -49,7 +49,7 @@ export default function Todo () {
                     ))}
                     </Flex>
                 </Box>
-                <Heading as="h3" size={'4'}>Total de tarefas: {todos.length}</Heading>
+                <Heading as="h3" size={'4'}>Total to-dos: {todos.length}</Heading>
             </Flex>
         </Box>
     )

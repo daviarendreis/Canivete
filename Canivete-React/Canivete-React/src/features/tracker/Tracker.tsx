@@ -10,7 +10,7 @@ export default function Tracker () {
         <Box>
             <Flex direction={'column'} align={'center'} gap={'4'}>
                 <Heading color="gray" size={'8'}>Tracker</Heading>
-                <Heading as="h2" size={'6'}>Cultivando os seus Habitos</Heading>
+                <Heading as="h2" size={'6'}>Cultivating Your Habits</Heading>
 
                 <Flex direction={'column'} gap={'4'}>
                     {habits.map((habit) => (
@@ -20,17 +20,17 @@ export default function Tracker () {
                     <Dialog.Root>
                         
                         <Dialog.Trigger> 
-                            <Button color="gray" variant="soft" size={'3'}>Criar Habito</Button>
+                            <Button color="gray" variant="soft" size={'3'}>Create Habit</Button>
                         </Dialog.Trigger>
 
                         <Dialog.Content maxWidth={'20rem'}>
                             <Dialog.Title>
-                                Adicionar Habito
+                                Add Habit
                             </Dialog.Title>
                             <form onSubmit={addHabit}>
                                 <Flex gap={'4'} direction={'column'}>
                                     <label htmlFor="name">
-                                        <Text as="span" size={'2'} m={'1'} weight={'bold'}>Nome: </Text>
+                                        <Text as="span" size={'2'} m={'1'} weight={'bold'}>Name: </Text>
                                         <TextField.Root 
                                             type="text"
                                             placeholder="Enter your Habit"
@@ -52,10 +52,10 @@ export default function Tracker () {
                                     </Select.Root>
                                     <Flex justify={'end'} gap={'2'}>
                                         <Dialog.Close >
-                                            <Button color="red" variant="surface">Close</Button>
+                                            <Button color="red" variant="surface">Cancel</Button>
                                         </Dialog.Close>
                                         <Dialog.Close>
-                                            <Button type="submit" color="gray" variant="soft">Adicionar</Button>
+                                            <Button type="submit" color="gray" variant="soft">Add</Button>
                                         </Dialog.Close>
                                     </Flex>
                                 </Flex>

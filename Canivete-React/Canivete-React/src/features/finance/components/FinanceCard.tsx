@@ -15,7 +15,7 @@ export default function FinanceCard ({ transaction, deleteTransaction }: Finance
                 <Button color="red"
                     variant="ghost"
                     size={'3'}
-                    onClick={() => deleteTransaction(transaction.id)}><Strong>Remover</Strong></Button>
+                    onClick={() => deleteTransaction(transaction.id)}><Strong>Delete</Strong></Button>
             </Flex>
         </Card>
     )
