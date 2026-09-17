@@ -1,5 +1,5 @@
-import { Pencil1Icon } from "@radix-ui/react-icons";
-import { Box, Button, Card, Dialog, Flex, Heading, Text, TextField } from "@radix-ui/themes";
+import { DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Box, Button, Card, Dialog, DropdownMenu, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import type { Habit } from "../types/habit";
 import { calculateStreak } from "../logic/streak";
 
@@ -14,17 +14,15 @@ interface TrackerCardProps {
 export default function TrackerCard ({habit, markToday, unmarkToday, removeHabit, editHabit}: TrackerCardProps) {
     return (
         <Card >
-            <Flex direction={'row'} width={'35rem'} height={'6rem'} align={'center'} p={'3'} gap={'3'} justify={'between'}>
+            <Flex direction={'row'}  align={'center'} p={'3'} gap={'3'} justify={'between'}>
                 <Box minWidth={'6rem'}>
                     <Flex direction={'column'} gap={'3'}>
                         <Heading color='gray' >{habit.name}</Heading>
-                        <Flex direction={'row'} gap={'4'}>
-                            <Button color={habit.color} onClick={() => markToday(habit)} >Conclude Today</Button>
-                            <Button color={habit.color} variant="outline" onClick={() => unmarkToday(habit)}>Unmark Today</Button>
-                            <Button color="gray" variant="outline" onClick={() => removeHabit(habit.id)}>Delete</Button>
+                        <Flex direction={'row'} gap={'3'} minWidth={'25vh'}>
+                            <Button size={'1'} color={habit.color} onClick={() => markToday(habit)} >Conclude Today</Button>
                             <Dialog.Root>
                                 <Dialog.Trigger>
-                                    <Button color="gray" variant="outline"><Pencil1Icon/></Button>
+                                    <Button size={'1'} color="gray" variant="outline"><Pencil1Icon/></Button>
                                 </Dialog.Trigger>
                                 <Dialog.Content maxWidth={'18rem'}>
                                     
@@ -53,6 +51,19 @@ export default function TrackerCard ({habit, markToday, unmarkToday, removeHabit
                                     </form>
                                 </Dialog.Content>
                             </Dialog.Root>
+                            <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                    <Button size={'1'} color="gray" variant="outline"><DotsVerticalIcon/></Button>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content>
+                                    <DropdownMenu.Item shortcut='⨯' color={habit.color} onClick={() => unmarkToday(habit)}>
+                                        Unmark Today
+                                    </DropdownMenu.Item>
+                                    <DropdownMenu.Item shortcut="⌫" color="red" onClick={() => removeHabit(habit.id)}>
+                                        Delete
+                                    </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Root>
                         </Flex>
                     </Flex>
                 </Box>

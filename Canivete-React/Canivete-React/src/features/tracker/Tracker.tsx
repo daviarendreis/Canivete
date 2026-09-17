@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
+import { Box, Button, Dialog, Flex, Grid, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import useHabits from "./hooks/useHabits";
 import TrackerCard from "./components/TrackerCard";
 import { colors } from "../../utils/colors";
@@ -12,11 +12,11 @@ export default function Tracker () {
                 <Heading color="gray" size={'8'}>Tracker</Heading>
                 <Heading as="h2" size={'6'}>Cultivating Your Habits</Heading>
 
-                <Flex direction={'column'} gap={'4'}>
+                <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap={'4'}>
                     {habits.map((habit) => (
                         <TrackerCard key={habit.id} habit={habit} markToday={markToday} unmarkToday={unmarkToday} removeHabit={removeHabit} editHabit={editHabit} />
                     ))}
-                </Flex>
+                </Grid>
                     <Dialog.Root>
                         
                         <Dialog.Trigger> 
