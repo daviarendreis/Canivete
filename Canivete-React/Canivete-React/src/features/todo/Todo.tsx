@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, Flex, Heading } from "@radix-ui/themes";
+import { Box, Button, Card, Dialog, Flex, Grid, Heading } from "@radix-ui/themes";
 import { useState } from "react";
 import useTodos from "./hooks/useTodos";
 import TodoCard from "./components/TodoCard";
@@ -6,7 +6,7 @@ import TodoForm from "./components/TodoForm";
 
 export default function Todo () {
     const [isOpen, setIsOpen] = useState(false)
-    const { todos, addTodo, editTodo, setEditingTodoId, editingTodoId, removeTodo } = useTodos()
+    const { todos, lowPriorityTodos, mediumPriorityTodos, highPriorityTodos, addTodo, editTodo, setEditingTodoId, editingTodoId, removeTodo } = useTodos()
 
     return(
         <Box>
@@ -16,7 +16,7 @@ export default function Todo () {
                 <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
 
                     <Dialog.Trigger>
-                        <Button color="green" variant="surface">Add To-do</Button>
+                        <Button color="gray" variant="soft">Add To-do</Button>
                     </Dialog.Trigger>
                     
                     <Dialog.Content maxWidth={'20rem'}>
@@ -37,16 +37,56 @@ export default function Todo () {
                     </Dialog.Content>
                 </Dialog.Root>
 
-                <Box width={'25rem'} >
+                <Box width={'90vh'} >
 
                     <Flex justify={'start'} direction={'column'}>
                         <Heading >
                             To-dos
                         </Heading>
-
-                    {todos.map((todo) => (
-                        <TodoCard key={todo.id} todo={todo} editTodo={editTodo} setEditingTodoId={setEditingTodoId} editingTodoId={editingTodoId} removeTodo={removeTodo} />
-                    ))}
+                    <Grid columns={'3'} gap={'4'} >
+                    <Flex direction={'column'} gap={'4'}>
+                        <Heading size={'5'} color="gray" weight={'light'}>Low</Heading>
+                        {lowPriorityTodos.length !== 0 && <Card>
+                            {lowPriorityTodos.map(todo => (
+                                <TodoCard 
+                                key={todo.id}
+                                todo={todo} 
+                                editTodo={editTodo} 
+                                editingTodoId={editingTodoId} 
+                                removeTodo={removeTodo} 
+                                setEditingTodoId={setEditingTodoId}/>
+                            ))}
+                        </Card>}
+                    </Flex>
+                    <Flex direction={'column'} gap={'4'}>
+                        <Heading size={'5'} color="gray" weight={'light'}>Medium</Heading>
+                        {mediumPriorityTodos.length !== 0 && <Card>
+                            {mediumPriorityTodos.map(todo => (
+                                <TodoCard 
+                                key={todo.id}
+                                todo={todo} 
+                                editTodo={editTodo} 
+                                editingTodoId={editingTodoId} 
+                                removeTodo={removeTodo} 
+                                setEditingTodoId={setEditingTodoId}/>
+                            ))}
+                        </Card>}
+                    </Flex>
+                    <Flex direction={'column'} gap={'4'}>
+                        <Heading size={'5'} color="gray" weight={'light'}>High</Heading>
+                        {highPriorityTodos.length !== 0 && <Card>
+                            {highPriorityTodos.map(todo => (
+                                <TodoCard 
+                                key={todo.id}
+                                todo={todo} 
+                                editTodo={editTodo} 
+                                editingTodoId={editingTodoId} 
+                                removeTodo={removeTodo} 
+                                setEditingTodoId={setEditingTodoId}/>
+                            ))}
+                        </Card>}
+                    </Flex>
+                    </Grid>
                     </Flex>
                 </Box>
                 <Heading as="h3" size={'4'}>Total to-dos: {todos.length}</Heading>

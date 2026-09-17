@@ -64,5 +64,11 @@ export default function useTodos ( ) {
         setEditingTodoId(null)
     }
 
-    return { todos, addTodo, removeTodo, editTodo, editingTodoId, setEditingTodoId } as const
+        const lowPriorityTodos = todos.filter(t => t.priority === 'low')
+
+        const mediumPriorityTodos = todos.filter(t => t.priority === 'medium')
+
+        const highPriorityTodos = todos.filter(t => t.priority === 'high')
+
+    return { todos, lowPriorityTodos, mediumPriorityTodos, highPriorityTodos, addTodo, removeTodo, editTodo, editingTodoId, setEditingTodoId } as const
 }
