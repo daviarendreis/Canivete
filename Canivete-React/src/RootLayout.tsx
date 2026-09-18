@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from 'react-router-dom'
-import BackButton from '../components/BackButton'
+import BackButton from './components/BackButton'
 import { Flex, Theme } from '@radix-ui/themes'
 import { useState } from 'react'
-import ToggleThemeButton from '../components/ToggleThemeButton'
+import ToggleThemeButton from './components/ToggleThemeButton'
 
 type Themes = 'dark' | 'light'
 

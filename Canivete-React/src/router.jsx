@@ -3,7 +3,7 @@ import Hub from './features/hub/Hub'
 import  Todo  from './features/todo/Todo'
 import  Tracker  from './features/tracker/Tracker'
 import  Finance  from './features/finance/Finance'
-import RootLayout from '../pages/RootLayout'
+import RootLayout from './RootLayout'
 
 const router = createBrowserRouter([
     {
