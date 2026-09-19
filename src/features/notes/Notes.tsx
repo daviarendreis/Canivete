@@ -2,6 +2,7 @@ import { CaretRightIcon, FileTextIcon, MagnifyingGlassIcon, PlusIcon } from "@ra
 import { Button, Card, Container, Dialog, Flex, Heading, Table, Text, TextField } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 import useNotes from "./hooks/useNotes";
+import { useState } from "react";
 
 export interface Pages {
     id: number,
@@ -10,7 +11,13 @@ export interface Pages {
 }
 
 export default function Notes () {
-    const { addPage, pages } = useNotes()
+    const { addPage, pages} = useNotes()
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const filteredPages = pages.filter(page =>
+        page.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+
     return (
         <Container size={'3'} align={'center'} m={'4'}>
             <Flex gap={'4'} direction={'column'}>
@@ -48,7 +55,10 @@ export default function Notes () {
                     </Dialog.Root>
                 </Flex>
 
-                <TextField.Root placeholder="Search the pages..." size={'3'}>
+                <TextField.Root 
+                placeholder="Search the pages..." 
+                size={'3'}
+                onChange={(e) => setSearchQuery(e.currentTarget.value)}>
                     <TextField.Slot>
                         <MagnifyingGlassIcon height="16" width="16" />
                     </TextField.Slot>
@@ -57,8 +67,8 @@ export default function Notes () {
                 <Card>
                     <Table.Root size={'3'}>
                         <Table.Body >
-                            { pages.length > 0 ? 
-                                pages.map(page => (
+                            { filteredPages.length > 0 ? 
+                                filteredPages.map(page => (
                                     <Table.Row >
                                         <Table.Cell>
                                                 <Flex justify={'between'}>
