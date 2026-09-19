@@ -58,7 +58,8 @@ export default function Notes () {
                 <TextField.Root 
                 placeholder="Search the pages..." 
                 size={'3'}
-                onChange={(e) => setSearchQuery(e.currentTarget.value)}>
+                onChange={(e) => setSearchQuery(e.currentTarget.value)}
+                value={searchQuery}>
                     <TextField.Slot>
                         <MagnifyingGlassIcon height="16" width="16" />
                     </TextField.Slot>
