@@ -1,8 +1,12 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Outlet } from 'react-router-dom'
 import Hub from './features/hub/Hub'
 import  Todo  from './features/todo/Todo'
 import  Tracker  from './features/tracker/Tracker'
 import  Finance  from './features/finance/Finance'
+import  Notes  from './features/notes/Notes'
+import  NotesPage  from './features/notes/NotesPage'
+import NotesProvider from './features/notes/context/NotesProvider'
+
 import RootLayout from './RootLayout'
 
 const router = createBrowserRouter([
@@ -22,6 +26,16 @@ const router = createBrowserRouter([
             }, {
                 path:'finance',
                 element: <Finance/>
+            }, {
+                path:'notes',
+                element: (
+                    <NotesProvider>
+                        <Outlet/>
+                    </NotesProvider>),
+                children: [
+                    { index: true, element: <Notes/>},
+                    { path: ':id', element: <NotesPage/>}
+                ]
             }
         ]
     }

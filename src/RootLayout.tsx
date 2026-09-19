@@ -13,7 +13,7 @@ export default function RootLayout () {
     return (
         <Theme appearance={theme}>
         <Flex direction={'row'} gap={'2'} justify={'between'}>
-            {location.pathname !== '/' && <BackButton/>}
+            {(location.pathname !== '/') && <BackButton/>}
             <ToggleThemeButton theme={theme} setTheme={setTheme}  />
         </Flex>
         <Outlet/>

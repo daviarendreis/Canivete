@@ -1,8 +1,8 @@
-import { ActivityLogIcon, BackpackIcon, RulerSquareIcon } from '@radix-ui/react-icons';
+import { ActivityLogIcon, BackpackIcon, CalendarIcon, ReaderIcon } from '@radix-ui/react-icons';
 import type { ComponentType} from 'react';
 import type { RadixColors } from '../../../utils/colors';
 
-type Links = "/todo" | "/tracker" | "/finance"
+type Links = "/todo" | "/tracker" | "/finance" | "/notes"
 
 export interface App {
     icon: ComponentType,
@@ -20,7 +20,7 @@ export const apps: App[] = [
         color: "green",
         to: "/todo"
     }, {
-        icon: RulerSquareIcon,
+        icon: CalendarIcon,
         name: "Tracker",
         description: "Your habits, your sequence",
         color: "purple",
@@ -31,5 +31,11 @@ export const apps: App[] = [
         description: "Where your money goes",
         color: "sky",
         to: "/finance"
+    }, {
+        icon: ReaderIcon,
+        name: 'Notes',
+        description: "Your daily notes",
+        color: 'gold',
+        to: "/notes"
     }
 ]
