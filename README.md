@@ -2,7 +2,7 @@
 
 My personal hub of daily use web apps, a Swiss Army knife for the small tools I use every day.
 
-- **[Live version](https://daviarendreis.github.io/Canivete/)** *(the original vanilla JS version — the React rebuild isn't deployed yet)*
+- **[Live version](https://daviarendreis.github.io/Canivete/)** 
 
 ## Why I built it
 
@@ -17,11 +17,11 @@ I had a few small apps I'd built for my own use, scattered across different plac
 
 ## Tech
 
-Originally built in **vanilla JavaScript**, Canivete is currently being **rebuilt in React + TypeScript**, using **Radix UI** for the interface.
+Originally built in vanilla JavaScript, Canivete was rebuilt from scratch in **React + TypeScript**, using **Radix UI** for the interface.
 
 ## Status
 
-- Under reconstruction — **Hub** and **Todo** done, **Tracker** and **Finance** on the way.
+- Rebuilt in React + TypeScript — all apps (Hub, Todo, Tracker, Finance, **Notes**) complete and live.
 
 ---
 
