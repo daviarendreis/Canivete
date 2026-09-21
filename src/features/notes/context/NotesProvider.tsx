@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
-import type { Pages } from "../Notes";
 import { NotesContext, type NotesContextType } from "./NotesContext";
+import type { Pages } from "../types/Pages";
 
 interface NotesProviderProps {
     children: ReactNode

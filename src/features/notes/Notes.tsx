@@ -1,14 +1,9 @@
-import { MagnifyingGlassIcon, PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { Button, Card, Container, Dialog, Flex, Heading, Table, Text, TextField } from "@radix-ui/themes";
 import useNotes from "./hooks/useNotes";
 import { useState } from "react";
 import NotesCard from "./components/NotesCard";
-
-export interface Pages {
-    id: number,
-    title: string,
-    content: string
-}
+import NotesSearchBar from "./components/NotesSearchBar";
 
 export default function Notes () {
     const { addPage, pages} = useNotes()
@@ -55,15 +50,7 @@ export default function Notes () {
                     </Dialog.Root>
                 </Flex>
 
-                <TextField.Root 
-                placeholder="Search the pages..." 
-                size={'3'}
-                onChange={(e) => setSearchQuery(e.currentTarget.value)}
-                value={searchQuery}>
-                    <TextField.Slot>
-                        <MagnifyingGlassIcon height="16" width="16" />
-                    </TextField.Slot>
-                </TextField.Root>
+                <NotesSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
                 <Card>
                     <Table.Root size={'3'}>

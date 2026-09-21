@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Pages } from "../Notes";
+import type { Pages } from "../types/Pages";
 
 export interface NotesContextType {
     pages: Pages[]
