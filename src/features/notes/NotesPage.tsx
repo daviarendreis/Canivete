@@ -43,15 +43,16 @@ export default function NotesPage () {
             <Container size={'3'} align={'center'}>
                 {page ?
                     <Flex direction={'column'} gap={'4'}>
-                        <Heading ml={'3'} size={'8'}>{page.title}</Heading>
+                        <Heading size={'8'}>{page.title}</Heading>
                         <TextArea 
-                        name="content"
-                        color="gray" 
-                        variant="soft" 
-                        rows={38} 
-                        size={'2'} 
-                        value={page.content}
-                        onChange={(e) => updatePageContent(e, page)}></TextArea>
+                            name="content"
+                            color="gray" 
+                            variant="soft" 
+                            style={{minHeight: '30rem'}} 
+                            size={'3'}
+                            resize={'vertical'}
+                            value={page.content}
+                            onChange={(e) => updatePageContent(e, page)}></TextArea>
                         <Flex justify={'end'}>
                             <Button color="red" variant="surface" onClick={() => deletePage(page?.id)}><TrashIcon/></Button>
                         </Flex>
