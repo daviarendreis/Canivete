@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { NotesContext, type NotesContextType } from "./NotesContext";
-import type { Pages } from "../types/Pages";
+import type { Page } from "../types/Page";
 
 interface NotesProviderProps {
     children: ReactNode
@@ -12,10 +12,10 @@ export default function NotesProvider ({children}: NotesProviderProps) {
 
         if (!raw) return []
 
-        return JSON.parse(raw) as Pages[]
+        return JSON.parse(raw) as Page[]
     }
 
-    const [ pages, setPages] = useState<Pages[]>(() => getStoredPages())
+    const [ pages, setPages] = useState<Page[]>(() => getStoredPages())
 
     useEffect(() => {
         localStorage.setItem('pages', JSON.stringify(pages))
@@ -27,7 +27,7 @@ export default function NotesProvider ({children}: NotesProviderProps) {
         const formData = new FormData(e.currentTarget)
         const title = formData.get('title')?.toString() || 'Page'
 
-        const newPage: Pages = {
+        const newPage: Page = {
             id: Math.floor(Math.random() * 1000000),
             title,
             content: ''
@@ -35,9 +35,9 @@ export default function NotesProvider ({children}: NotesProviderProps) {
         setPages(state => [...state, newPage])
     }
 
-    function updatePageContent(e: React.ChangeEvent<HTMLTextAreaElement>, page: Pages) {
+    function updatePageContent(e: React.ChangeEvent<HTMLTextAreaElement>, page: Page) {
 
-        const newPage: Pages = {...page, content: e.currentTarget.value}
+        const newPage: Page = {...page, content: e.currentTarget.value}
 
         setPages(state => state.map(currentPage => currentPage.id === page.id ? newPage : currentPage))
     }

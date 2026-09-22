@@ -1,10 +1,10 @@
 import { createContext } from "react";
-import type { Pages } from "../types/Pages";
+import type { Page } from "../types/Page";
 
 export interface NotesContextType {
-    pages: Pages[]
+    pages: Page[]
     addPage: (e: React.FormEvent<HTMLFormElement>) => void
-    updatePageContent: (e: React.ChangeEvent<HTMLTextAreaElement>, page: Pages) => void
+    updatePageContent: (e: React.ChangeEvent<HTMLTextAreaElement>, page: Page) => void
     deletePage: (id: number) => void
 }
 

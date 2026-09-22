@@ -1,13 +1,13 @@
 import { CaretRightIcon, FileTextIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Table } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
-import type { Pages } from "../types/Pages";
+import type { Page } from "../types/Page";
 
 interface NotesCardProps {
-    page: Pages
+    page: Page
 }
 
-export default function NotesCard ({page}: NotesCardProps) {
+export default function NotesRow ({page}: NotesCardProps) {
     return (
         <Table.Row >
             <Table.Cell>

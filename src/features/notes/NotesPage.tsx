@@ -1,9 +1,12 @@
-import { Button, Container, Flex, Heading, Text, TextArea } from "@radix-ui/themes";
+import { Box, Button, Card, Container, Flex, Heading, Text, TextArea } from "@radix-ui/themes";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeftIcon, TrashIcon } from "@radix-ui/react-icons";
+import * as Popover from '@radix-ui/react-popover'
 import useNotes from "./hooks/useNotes";
 import NotesSearchBar from "./components/NotesSearchBar";
 import { useState } from "react";
+import filterPages from "./logic/filterPages";
+import NotesResults from "./components/NotesResults";
 
 export default function NotesPage () {
     const { pages, updatePageContent, deletePage } = useNotes()
@@ -11,6 +14,8 @@ export default function NotesPage () {
     const [searchQuery, setSearchQuery] = useState('')
 
     const page = pages.find(p => p.id === Number(id))
+
+    const filteredPages = filterPages(pages, searchQuery)
 
     return (
         <Container>
@@ -20,7 +25,20 @@ export default function NotesPage () {
                         <ArrowLeftIcon color="gray" width={'1.25rem'} height={'1.25rem'}/>
                     </Link>
                 </Button>
-                <NotesSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                <Popover.Root >
+                    <Flex direction={'column'}>
+                        <Popover.Trigger asChild>
+                            <Box>
+                                <NotesSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                            </Box>
+                        </Popover.Trigger>
+                        <Popover.Content onOpenAutoFocus={(e) => e.preventDefault()}>
+                            <Card >
+                                <NotesResults pages={pages} filteredPages={filteredPages}/>
+                            </Card>
+                        </Popover.Content>
+                    </Flex>
+                </Popover.Root>
             </Flex>
             <Container size={'3'} align={'center'}>
                 {page ?

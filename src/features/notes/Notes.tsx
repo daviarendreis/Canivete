@@ -1,17 +1,16 @@
 import { PlusIcon } from "@radix-ui/react-icons";
-import { Button, Card, Container, Dialog, Flex, Heading, Table, Text, TextField } from "@radix-ui/themes";
+import { Button, Card, Container, Dialog, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import useNotes from "./hooks/useNotes";
 import { useState } from "react";
-import NotesCard from "./components/NotesCard";
 import NotesSearchBar from "./components/NotesSearchBar";
+import filterPages from "./logic/filterPages";
+import NotesResults from "./components/NotesResults";
 
 export default function Notes () {
     const { addPage, pages} = useNotes()
     const [searchQuery, setSearchQuery] = useState('')
 
-    const filteredPages = pages.filter(page =>
-        page.title.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    const filteredPages = filterPages(pages, searchQuery)
 
     return (
         <Container size={'3'} align={'center'} m={'4'}>
@@ -53,14 +52,7 @@ export default function Notes () {
                 <NotesSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
                 <Card>
-                    <Table.Root size={'3'}>
-                        <Table.Body >
-                            { filteredPages.length > 0 ? 
-                                filteredPages.map(page => (
-                                    <NotesCard page={page} /> ))
-                            : <Text color="gray">There are no pages yet</Text>}
-                        </Table.Body>
-                    </Table.Root>
+                    <NotesResults pages={pages} filteredPages={filteredPages}/>
                 </Card>
             </Flex>
         </Container>
