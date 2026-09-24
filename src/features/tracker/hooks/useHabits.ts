@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import dayjs from "dayjs"
 import type { Habit } from "../types/habit"
 import { colors, type RadixColors } from "../../../utils/colors"
 import { getToday, verifyIsCompletedToday } from "../logic/streak"
@@ -6,12 +7,20 @@ import { getToday, verifyIsCompletedToday } from "../logic/streak"
 export default function useHabits () {
     function getStoredHabits () {
             const raw = localStorage.getItem('habits')
-            
+
             if (!raw) return []
-            
+
             const storedHabits = JSON.parse(raw) as Habit[]
-    
-            return storedHabits.map(h => ({...h, completedDates: h.completedDates ?? []}))
+
+            return storedHabits.map(h => ({
+                ...h,
+                completedDates: (h.completedDates ?? []).map(date => {
+                    if (date.includes('/')) {
+                        return dayjs(date, ['DD/MM/YYYY', 'YYYY-MM-DD']).format('YYYY-MM-DD')
+                    }
+                    return date
+                })
+            }))
         }
     
     const [habits, setHabits] = useState<Habit[]>(() => getStoredHabits())
