@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { Grid } from "@radix-ui/themes";
 import type { Habit } from "../types/habit";
+import { useMemo } from "react";
 
 interface TrackerGraphicProps {
     habit: Habit
@@ -9,9 +10,8 @@ interface TrackerGraphicProps {
 export default function TrackerGraphic ({habit}: TrackerGraphicProps) {
 
     function getAllDaysYear () {
-        const year = dayjs().format('YYYY')
-        const startOfYear = dayjs(`01/01/${year}`)
-        const endOfYear = dayjs(`31/12/${year}`)
+        const startOfYear = dayjs().startOf('year')
+        const endOfYear = dayjs().endOf('year')
 
         const daysYear: dayjs.Dayjs[] = []
 
@@ -21,14 +21,13 @@ export default function TrackerGraphic ({habit}: TrackerGraphicProps) {
             daysYear.push(currentDay)
             currentDay = currentDay.add(1, 'day')
         }
-
         return daysYear
     }
 
-    const daysYear = getAllDaysYear()
+    const daysYear = useMemo(() => getAllDaysYear(), []) 
 
     return (
-        <Grid rows={'7'}>
+        <Grid rows={'7'} flow={'column'} style={{gap: "1px"}} overflowX={'auto'}>
             {daysYear.map((day) => {
                 const dateKey = day.format('YYYY-MM-DD')
                 const isCompleted = habit.completedDates.includes(dateKey)
@@ -39,10 +38,10 @@ export default function TrackerGraphic ({habit}: TrackerGraphicProps) {
                         id={dateKey}
                         title={dateKey}
                         style={{
-                            width: '8px',
-                            height: '8px',
-                            backgroundColor: isCompleted ? habit.color : 'gray',
-                            borderRadius: '2px',
+                            width: '6px',
+                            height: '6px',
+                            backgroundColor: isCompleted ? `var(--${habit.color}-9)` : `var(--gray-8)`,
+                            borderRadius: '1.5px',
                             display: 'block'
                         }}
                     />
