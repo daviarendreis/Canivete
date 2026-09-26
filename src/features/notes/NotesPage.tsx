@@ -1,5 +1,5 @@
 import { Box, Button, Card, Container, Flex, Heading, Text, TextArea } from "@radix-ui/themes";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from 'react-router';
 import { ArrowLeftIcon, TrashIcon } from "@radix-ui/react-icons";
 import * as Popover from '@radix-ui/react-popover'
 import useNotes from "./hooks/useNotes";

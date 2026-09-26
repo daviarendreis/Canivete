@@ -1,6 +1,6 @@
 import { CaretRightIcon, FileTextIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Table, Text } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router';
 import type { Page } from "../types/Page";
 
 interface NotesCardProps {

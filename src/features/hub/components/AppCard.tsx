@@ -1,5 +1,5 @@
 import { Box, Button, Card, Flex, Heading, Text } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router';
 import type { App } from "../data/apps";
 
 

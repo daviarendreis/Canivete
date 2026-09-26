@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from 'react-router-dom'
+import { createBrowserRouter, Outlet } from 'react-router'
 import Hub from './features/hub/Hub'
 import  Todo  from './features/todo/Todo'
 import  Tracker  from './features/tracker/Tracker'

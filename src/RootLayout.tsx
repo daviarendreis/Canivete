@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router'
 import BackButton from './components/BackButton'
 import { Flex, Theme } from '@radix-ui/themes'
 import { useEffect, useState } from 'react'

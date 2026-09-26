@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
 import type { Habit } from "../types/habit"
 import { colors, type RadixColors } from "../../../utils/colors"
 import { getToday, verifyIsCompletedToday } from "../logic/streak"
+
+dayjs.extend(customParseFormat)
 
 export default function useHabits () {
     function getStoredHabits () {

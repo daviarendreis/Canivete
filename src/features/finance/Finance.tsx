@@ -2,9 +2,20 @@ import { Badge, Button, Card, Container, Dialog, Flex, Heading, Select, Table, T
 import useTransactions from "./hooks/useTransactions";
 import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
 import { ArrowBottomLeftIcon, ArrowTopRightIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
+import type { TransactionTypes } from "./types/transactionTypes";
 
 export default function Finance () {
-    const { transactions, addTransaction, deleteTransaction} = useTransactions()
+    const { transactions, addTransaction, deleteTransaction, inboundCategories, outboundCategories} = useTransactions()
+    const [type, setType] = useState<TransactionTypes>('inbound')
+    const [category, setCategory] = useState('')
+
+    const availableCategories = type === 'inbound' ? inboundCategories : outboundCategories
+
+    function handleTypeChange (newType: TransactionTypes) {
+        setType(newType)
+        setCategory('')
+    }
 
     return (
         <Container size={'4'} align={'center'}>
@@ -31,8 +42,8 @@ export default function Finance () {
                             </Flex>
                         </Card>
                 </Flex>
-                <Card size={'5'}>
-                    <Flex width={'100vh'} direction={'column'} gap={'4'}>
+                <Card size={'5'} style={{width: '100%'}}>
+                    <Flex width={'100%'} direction={'column'} gap={'4'}>
                         <Flex justify={'between'}>
                             <Heading>Transactions</Heading>
                             <Dialog.Root>
@@ -61,13 +72,24 @@ export default function Finance () {
                                                 placeholder="0.00"
                                                 required/>
                                             </label>
-                                            <Select.Root defaultValue="inbound" name="type">
+                                            <Select.Root value={type} name="type" onValueChange={handleTypeChange}>
                                                 <Select.Trigger placeholder="Choose a type"/>
                                                 <Select.Content>
                                                     <Select.Group>
                                                         <Select.Label>Type</Select.Label>
                                                         <Select.Item value="inbound">Inbound</Select.Item>
                                                         <Select.Item value="outbound">Outbound</Select.Item>
+                                                    </Select.Group>
+                                                </Select.Content>
+                                            </Select.Root>
+                                            <Select.Root value={category} onValueChange={setCategory} name="category">
+                                                <Select.Trigger placeholder="Choose a category"/>
+                                                <Select.Content>
+                                                    <Select.Group>
+                                                        <Select.Label>Category</Select.Label>
+                                                        {availableCategories.map(cat => (
+                                                            <Select.Item key={cat.name} value={cat.name}>{cat.name}</Select.Item>
+                                                        ))}
                                                     </Select.Group>
                                                 </Select.Content>
                                             </Select.Root>
@@ -85,7 +107,7 @@ export default function Finance () {
                                 </Dialog.Content>
                             </Dialog.Root>
                         </Flex>
-                        {transactions.length !== 0 ? <Table.Root>
+                        {transactions.length !== 0 ? <Table.Root >
                             <Table.Header>
                                 <Table.Row>
                                     <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>

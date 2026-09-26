@@ -2,9 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import "@radix-ui/themes/styles.css";
-import { RouterProvider } from 'react-router-dom'
-// router.jsx does not currently provide TypeScript declarations.
-// @ts-expect-error The JavaScript module is valid at runtime.
+import { RouterProvider } from 'react-router'
 import router from './router'
 
 
