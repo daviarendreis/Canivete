@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import type { Transaction } from "../types/transaction"
 import type { TransactionTypes } from "../types/transactionTypes"
 import useCategorys from "./useCategorys"
 import type { Category } from "../types/category"
 import dayjs from "dayjs"
+import type { Transaction } from "../types/transaction"
 
 export default function useTransactions () {
     function getStoredTransactions () {
@@ -11,7 +11,19 @@ export default function useTransactions () {
 
         if (!raw) {return []}
 
-        return JSON.parse(raw) as Transaction[]
+        const transactions = JSON.parse(raw) as Transaction[]
+
+        return transactions.map((t) => {
+            const category = t.type === 'inbound' ?  {name: 'Extra Income', type: 'inbound'} as Category : {name: 'Rent', type: 'outbound'} as Category
+            const updatedTransaction: Transaction = {
+                id: t.id,
+                description: t.description,
+                value: t.value,
+                type: t.type,
+                category,
+                createdAt: dayjs().format('YYYY-MM-DD')
+            }
+            return updatedTransaction})
     }
 
     const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
