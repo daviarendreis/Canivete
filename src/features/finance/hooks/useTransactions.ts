@@ -3,6 +3,7 @@ import type { Transaction } from "../types/transaction"
 import type { TransactionTypes } from "../types/transactionTypes"
 import useCategorys from "./useCategorys"
 import type { Category } from "../types/category"
+import dayjs from "dayjs"
 
 export default function useTransactions () {
     function getStoredTransactions () {
@@ -41,7 +42,8 @@ export default function useTransactions () {
             description,
             value,
             type,
-            category
+            category,
+            createdAt: dayjs().format('YYYY-MM-DD')
         }
         console.log(newTransaction)
         setTransactions(state => [...state, newTransaction])
