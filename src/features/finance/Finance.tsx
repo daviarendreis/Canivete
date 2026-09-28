@@ -1,12 +1,13 @@
-import { Button, Card, Container, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
+import { Card, Container, Flex, Heading, Select, Text } from "@radix-ui/themes";
 import useTransactions from "./hooks/useTransactions";
 import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
-import { ArrowBottomLeftIcon, ArrowTopRightIcon, PlusIcon } from "@radix-ui/react-icons";
+import { ArrowBottomLeftIcon, ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import FinanceResults from "./components/FinanceResults";
 import FinanceTransactionDialog from "./components/FinanceTransactionDialog";
 import { filterCategories } from "./logic/filterCategories";
 import useCategories from "./hooks/useCategories";
+import FinanceCategoryDialog from "./components/FinanceCategoryDialog";
 
 export default function Finance () {
     const { transactions, addTransaction, deleteTransaction} = useTransactions()
@@ -65,49 +66,7 @@ export default function Finance () {
                                             <Select.Item key={c.name} value={c.name}>{c.name}</Select.Item>
                                         ))}
                                     </Select.Group>
-                                    <Dialog.Root >
-                                        <Dialog.Trigger>
-                                            <Button variant="surface" color="gray"><Flex align={'center'}><PlusIcon/>Add Category</Flex></Button>
-                                        </Dialog.Trigger>
-                                       
-                                            <Dialog.Content maxWidth={'15rem'}>
-                                                 
-                                                    <Dialog.Title>Add Category</Dialog.Title>
-                                                    <form onSubmit={addCategory}>
-                                                        <Flex align={'start'} direction={'column'} gap={'4'}>
-                                                            <label htmlFor="name">
-                                                                <Text>Name:</Text>
-                                                                <TextField.Root
-                                                                    type="text"
-                                                                    name="name"
-                                                                    placeholder="Enter the name"
-                                                                    required
-                                                                />
-                                                            </label>
-                                                            <Select.Root defaultValue="inbound" name="type">
-                                                                <Select.Trigger placeholder="Choose a type"/>
-                                                                <Select.Content>
-                                                                    <Select.Group>
-                                                                        <Select.Label>Type</Select.Label>
-                                                                        <Select.Item value="inbound">Inbound</Select.Item>
-                                                                        <Select.Item value="outbound">Outbound</Select.Item>
-                                                                    </Select.Group>
-                                                                </Select.Content>
-                                                            </Select.Root>
-                                                            </Flex>
-                                                            <Flex mt={'2'} justify={'end'} gap={'4'}>
-                                                                <Dialog.Close>
-                                                                    <Button color="gray" variant="soft">Cancel</Button>
-                                                                </Dialog.Close>
-                                                                <Dialog.Close>
-                                                                    <Button type='submit' color="grass" variant="soft">Add</Button>
-                                                                </Dialog.Close>
-                                                            </Flex>
-                                                        
-                                                    </form>
-                                                
-                                            </Dialog.Content>
-                                    </Dialog.Root>
+                                    <FinanceCategoryDialog addCategory={addCategory}/>
                                 </Select.Content>
                             </Select.Root>
                         </Flex>
