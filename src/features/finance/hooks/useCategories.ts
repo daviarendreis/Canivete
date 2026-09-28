@@ -3,7 +3,7 @@ import type { Category } from "../types/category"
 import type { TransactionTypes } from "../types/transactionTypes"
 
 export default function useCategories () {
-    const inboundCategoriesRaw: Category[] = [
+    const categoriesRaw: Category[] = [
     {
         name: 'Salary',
         type: 'inbound'
@@ -22,11 +22,7 @@ export default function useCategories () {
     }, {
         name: 'Benefit',
         type: 'inbound'
-    }
-]
-
-    const outboundCategoriesRaw: Category[] = [
-    {
+    }, {
         name: 'Rent',
         type: 'outbound'
     }, {
@@ -46,52 +42,21 @@ export default function useCategories () {
         type: 'outbound'
     }
 ]   
-    function getStoredInboundCategories () {
-        const raw = localStorage.getItem('Finance-inboundCategories')
+    function getStoredCategories () {
+        const raw = localStorage.getItem('Finance-Categories')
 
-        if (!raw) return inboundCategoriesRaw
-
-        return JSON.parse(raw) as Category[]
-    }
-
-    function getStoredOutboundCategories () {
-        const raw = localStorage.getItem('Finance-outboundCategories')
-
-        if (!raw) return outboundCategoriesRaw
+        if (!raw) return categoriesRaw
 
         return JSON.parse(raw) as Category[]
     }
     
-    const [inboundCategories, setInboundCategories] = useState<Category[]>(() => getStoredInboundCategories())
-    const [outboundCategories, setOutboundCategories] = useState<Category[]>(() => getStoredOutboundCategories())
+    const [categories, setCategories] = useState<Category[]>(() => getStoredCategories())
 
     useEffect(() => {
-        localStorage.setItem('Finance-inboundCategories', JSON.stringify(inboundCategories))
-    }, [inboundCategories])
+        localStorage.setItem('Finance-Categories', JSON.stringify(categories))
+    }, [categories])
 
-    useEffect(() => {
-        localStorage.setItem('Finance-outboundCategories', JSON.stringify(outboundCategories))
-    }, [outboundCategories])
-
-    function addInboundCategory (name: string){
-        const newCategory: Category = {
-            name,
-            type: 'inbound'
-        }
-
-        setInboundCategories(state => [...state, newCategory])
-    }
-
-    function addOutboundCategory (name: string){
-        const newCategory: Category = {
-            name,
-            type: 'outbound'
-        }
-
-        setOutboundCategories(state => [...state, newCategory])
-    }
-
-    function handleNewCategory (e: React.FormEvent<HTMLFormElement>) {
+    function addCategory (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
@@ -100,12 +65,13 @@ export default function useCategories () {
         const typeRaw = formData.get('type')?.toString()
         const type: TransactionTypes = typeof typeRaw === 'string' ? typeRaw as TransactionTypes : 'inbound'
         
-        if (type === 'inbound') {
-            addInboundCategory(name)
-        } else {
-            addOutboundCategory(name)
+        const newCategory: Category = {
+            name,
+            type
         }
+
+        setCategories(state => [...state, newCategory])
     }
 
-    return {inboundCategories, outboundCategories, handleNewCategory}
+    return {categories, addCategory}
 }

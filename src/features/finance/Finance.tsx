@@ -4,12 +4,16 @@ import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
 import { ArrowBottomLeftIcon, ArrowTopRightIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import type { TransactionTypes } from "./types/transactionTypes";
+import { getFilteredTransactions } from "./logic/filterTransactions";
 
 export default function Finance () {
-    const { transactions, addTransaction, deleteTransaction, inboundCategories, outboundCategories, handleNewCategory} = useTransactions()
+    const { transactions, addTransaction, deleteTransaction, categories,  addCategory} = useTransactions()
     const [type, setType] = useState<TransactionTypes>('inbound')
     const [category, setCategory] = useState('')
     const [filterCategory, setFilterCategory] = useState('all')
+
+    const inboundCategories = categories.filter(cat => cat.type === 'inbound')
+    const outboundCategories = categories.filter(cat => cat.type === 'outbound')
 
     const availableCategories = type === 'inbound' ? inboundCategories : outboundCategories
 
@@ -19,13 +23,7 @@ export default function Finance () {
     }
     
 
-    function getFilteredTransactions (category: string) {
-        if (category === 'all') return transactions
-        
-        const filteredTransactions = transactions.filter(tr => tr.category.name === category)
-
-        return filteredTransactions
-    }
+    
 
     return (
         <Container size={'4'} align={'center'}>
@@ -142,7 +140,7 @@ export default function Finance () {
                                             <Dialog.Content maxWidth={'15rem'}>
                                                  
                                                     <Dialog.Title>Add Category</Dialog.Title>
-                                                    <form onSubmit={handleNewCategory}>
+                                                    <form onSubmit={addCategory}>
                                                         <Flex align={'start'} direction={'column'} gap={'4'}>
                                                             <label htmlFor="name">
                                                                 <Text>Name:</Text>
@@ -189,8 +187,8 @@ export default function Finance () {
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
-                                {getFilteredTransactions(filterCategory).map(transaction => (
-                                    <Table.Row>
+                                {getFilteredTransactions(transactions, filterCategory).map(transaction => (
+                                    <Table.Row key={transaction.id}>
                                         <Table.RowHeaderCell>{transaction.description}</Table.RowHeaderCell>
                                         <Table.Cell>{transaction.type === "inbound" ? <Badge radius="full" color="grass">Inbound</Badge> :  <Badge radius="full" color="red">Outbound</Badge>}</Table.Cell>
                                         <Table.Cell>{transaction.type === "inbound" ? <Text color="grass">{`+ ${transaction.value.toLocaleString()}`}</Text> :  <Text color="red">{`- ${transaction.value.toLocaleString()}`}</Text>}</Table.Cell>

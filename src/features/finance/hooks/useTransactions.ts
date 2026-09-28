@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import type { TransactionTypes } from "../types/transactionTypes"
-import type { Category } from "../types/category"
 import dayjs from "dayjs"
 import type { Transaction } from "../types/transaction"
 import useCategories from "./useCategories"
@@ -13,22 +12,11 @@ export default function useTransactions () {
 
         const transactions = JSON.parse(raw) as Transaction[]
 
-        return transactions.map((t) => {
-            const category = t.type === 'inbound' ?  {name: 'Extra Income', type: 'inbound'} as Category : {name: 'Rent', type: 'outbound'} as Category
-            const updatedTransaction: Transaction = {
-                id: t.id,
-                description: t.description,
-                value: t.value,
-                type: t.type,
-                category,
-                createdAt: dayjs().format('YYYY-MM-DD')
-            }
-            return updatedTransaction})
+        return transactions
     }
 
     const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
-    const { outboundCategories, inboundCategories, handleNewCategory } = useCategories()
-    const allCategories = [...inboundCategories, ...outboundCategories]
+    const { categories, addCategory } = useCategories()
 
     useEffect(() => {
         localStorage.setItem('transactions', JSON.stringify(transactions))
@@ -43,9 +31,9 @@ export default function useTransactions () {
         const typeRaw = formData.get('type')?.toString()
         const type: TransactionTypes = typeof typeRaw === 'string' ? typeRaw as TransactionTypes : 'inbound'
         const categoryRaw = formData.get('category')?.toString()
-        const category: Category = allCategories.find(cat => cat.name === categoryRaw) as Category
+        const category= categories.find(cat => cat.name === categoryRaw)
+
         if (!category) {
-            alert('Please select a valid category')
             return
         }
 
@@ -57,7 +45,7 @@ export default function useTransactions () {
             category,
             createdAt: dayjs().format('YYYY-MM-DD')
         }
-        console.log(newTransaction)
+
         setTransactions(state => [...state, newTransaction])
     }
 
@@ -65,5 +53,5 @@ export default function useTransactions () {
         setTransactions((state) => state.filter(t => t.id !== id))
     }
 
-    return {transactions, addTransaction, deleteTransaction, inboundCategories, outboundCategories, handleNewCategory}
+    return {transactions, addTransaction, deleteTransaction, categories, addCategory}
 }
