@@ -3,27 +3,16 @@ import useTransactions from "./hooks/useTransactions";
 import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
 import { ArrowBottomLeftIcon, ArrowTopRightIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import type { TransactionTypes } from "./types/transactionTypes";
 import FinanceResults from "./components/FinanceResults";
+import FinanceTransactionDialog from "./components/FinanceTransactionDialog";
 
 export default function Finance () {
     const { transactions, addTransaction, deleteTransaction, categories,  addCategory} = useTransactions()
-    const [type, setType] = useState<TransactionTypes>('inbound')
-    const [category, setCategory] = useState('')
+    
     const [filterCategory, setFilterCategory] = useState('all')
 
     const inboundCategories = categories.filter(cat => cat.type === 'inbound')
     const outboundCategories = categories.filter(cat => cat.type === 'outbound')
-
-    const availableCategories = type === 'inbound' ? inboundCategories : outboundCategories
-
-    function handleTypeChange (newType: TransactionTypes) {
-        setType(newType)
-        setCategory('')
-    }
-    
-
-    
 
     return (
         <Container size={'4'} align={'center'}>
@@ -54,66 +43,7 @@ export default function Finance () {
                     <Flex width={'100%'} direction={'column'} gap={'4'}>
                         <Flex justify={'between'}>
                             <Heading>Transactions</Heading>
-                            <Dialog.Root>
-                                <Dialog.Trigger>
-                                    <Button color="gray" variant="surface"><PlusIcon/>Add Transaction</Button>
-                                </Dialog.Trigger>
-                                <Dialog.Content maxWidth={'20rem'}>
-                                    <Dialog.Title>New Transaction</Dialog.Title>
-                                    <form onSubmit={addTransaction}>
-                                        <Flex gap={'4'} direction={'column'}>
-                                            <label htmlFor="description">
-                                                <Text>Description:</Text>
-                                                <TextField.Root
-                                                type="text"
-                                                name="description"
-                                                placeholder="Example: Monthly Salary"
-                                                required/>
-                                            </label>
-                                            <label htmlFor="value">
-                                                <Text>Value ($):</Text>
-                                                <TextField.Root
-                                                type="number"
-                                                name="value"
-                                                step={'0.01'}
-                                                min={'0'}
-                                                placeholder="0.00"
-                                                required/>
-                                            </label>
-                                            <Select.Root value={type} name="type" onValueChange={handleTypeChange}>
-                                                <Select.Trigger placeholder="Choose a type"/>
-                                                <Select.Content>
-                                                    <Select.Group>
-                                                        <Select.Label>Type</Select.Label>
-                                                        <Select.Item value="inbound">Inbound</Select.Item>
-                                                        <Select.Item value="outbound">Outbound</Select.Item>
-                                                    </Select.Group>
-                                                </Select.Content>
-                                            </Select.Root>
-                                            <Select.Root value={category} onValueChange={setCategory} name="category">
-                                                <Select.Trigger placeholder="Choose a category"/>
-                                                <Select.Content>
-                                                    <Select.Group>
-                                                        <Select.Label>Category</Select.Label>
-                                                        {availableCategories.map(cat => (
-                                                            <Select.Item key={cat.name} value={cat.name}>{cat.name}</Select.Item>
-                                                        ))}
-                                                    </Select.Group>
-                                                </Select.Content>
-                                            </Select.Root>
-                                            <Flex justify={'end'} gap={'4'}>
-                                                <Dialog.Close>
-                                                    <Button color="gray" variant="soft">Cancel</Button>
-                                                </Dialog.Close>
-                                                <Dialog.Close>
-                                                    <Button type={'submit'} color="grass" variant="soft">Add</Button>
-                                                </Dialog.Close>
-                                            </Flex>
-                                        </Flex>
-                                    </form>
-                                    
-                                </Dialog.Content>
-                            </Dialog.Root>
+                            <FinanceTransactionDialog categories={categories} addTransaction={addTransaction}/>
                         </Flex>
                         <Flex justify={'start'} align={'center'}>
                             <Select.Root value={filterCategory} onValueChange={setFilterCategory}>
