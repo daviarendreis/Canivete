@@ -5,14 +5,17 @@ import { ArrowBottomLeftIcon, ArrowTopRightIcon, PlusIcon } from "@radix-ui/reac
 import { useState } from "react";
 import FinanceResults from "./components/FinanceResults";
 import FinanceTransactionDialog from "./components/FinanceTransactionDialog";
+import { filterCategories } from "./logic/filterCategories";
+import useCategories from "./hooks/useCategories";
 
 export default function Finance () {
-    const { transactions, addTransaction, deleteTransaction, categories,  addCategory} = useTransactions()
+    const { transactions, addTransaction, deleteTransaction} = useTransactions()
+    const { categories, addCategory } = useCategories()
     
     const [filterCategory, setFilterCategory] = useState('all')
 
-    const inboundCategories = categories.filter(cat => cat.type === 'inbound')
-    const outboundCategories = categories.filter(cat => cat.type === 'outbound')
+    const inboundCategories = filterCategories(categories, 'inbound')
+    const outboundCategories = filterCategories(categories, 'outbound')
 
     return (
         <Container size={'4'} align={'center'}>

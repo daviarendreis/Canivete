@@ -3,18 +3,19 @@ import { Button, Dialog, Flex, Select, Text, TextField } from "@radix-ui/themes"
 import type { TransactionTypes } from "../types/transactionTypes";
 import { useState } from "react";
 import type { Category } from "../types/category";
+import { filterCategories } from "../logic/filterCategories";
 
 interface FinanceTransactionDialogProps {
     categories: Category[]
-    addTransaction: (e: React.FormEvent<HTMLFormElement>) => void
+    addTransaction: (e: React.FormEvent<HTMLFormElement>, categories: Category[]) => void
 }
 
 export default function FinanceTransactionDialog ({categories, addTransaction}: FinanceTransactionDialogProps) {
     const [type, setType] = useState<TransactionTypes>('inbound')
     const [category, setCategory] = useState('')
 
-    const inboundCategories = categories.filter(cat => cat.type === 'inbound')
-    const outboundCategories = categories.filter(cat => cat.type === 'outbound')
+    const inboundCategories = filterCategories(categories, 'inbound')
+    const outboundCategories = filterCategories(categories, 'outbound')
 
 
     const availableCategories = type === 'inbound' ? inboundCategories : outboundCategories
@@ -31,7 +32,7 @@ export default function FinanceTransactionDialog ({categories, addTransaction}: 
             </Dialog.Trigger>
             <Dialog.Content maxWidth={'20rem'}>
                 <Dialog.Title>New Transaction</Dialog.Title>
-                <form onSubmit={addTransaction}>
+                <form onSubmit={(e) => addTransaction(e, categories)}>
                     <Flex gap={'4'} direction={'column'}>
                         <label htmlFor="description">
                             <Text>Description:</Text>

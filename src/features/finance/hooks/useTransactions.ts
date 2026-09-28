@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import type { TransactionTypes } from "../types/transactionTypes"
 import dayjs from "dayjs"
 import type { Transaction } from "../types/transaction"
-import useCategories from "./useCategories"
+import type { Category } from "../types/category"
 
 export default function useTransactions () {
     function getStoredTransactions () {
@@ -16,13 +16,13 @@ export default function useTransactions () {
     }
 
     const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
-    const { categories, addCategory } = useCategories()
+    
 
     useEffect(() => {
         localStorage.setItem('transactions', JSON.stringify(transactions))
     }, [transactions])
 
-    function addTransaction (e: React.FormEvent<HTMLFormElement>) {
+    function addTransaction (e: React.FormEvent<HTMLFormElement>, categories: Category[]) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
@@ -53,5 +53,5 @@ export default function useTransactions () {
         setTransactions((state) => state.filter(t => t.id !== id))
     }
 
-    return {transactions, addTransaction, deleteTransaction, categories, addCategory}
+    return {transactions, addTransaction, deleteTransaction}
 }
