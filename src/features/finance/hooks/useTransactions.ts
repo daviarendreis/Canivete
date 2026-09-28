@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import type { TransactionTypes } from "../types/transactionTypes"
-import useCategorys from "./useCategorys"
 import type { Category } from "../types/category"
 import dayjs from "dayjs"
 import type { Transaction } from "../types/transaction"
+import useCategories from "./useCategories"
 
 export default function useTransactions () {
     function getStoredTransactions () {
@@ -27,7 +27,7 @@ export default function useTransactions () {
     }
 
     const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
-    const { outboundCategories, inboundCategories } = useCategorys()
+    const { outboundCategories, inboundCategories, handleNewCategory } = useCategories()
     const allCategories = [...inboundCategories, ...outboundCategories]
 
     useEffect(() => {
@@ -65,5 +65,5 @@ export default function useTransactions () {
         setTransactions((state) => state.filter(t => t.id !== id))
     }
 
-    return {transactions, addTransaction, deleteTransaction, inboundCategories, outboundCategories}
+    return {transactions, addTransaction, deleteTransaction, inboundCategories, outboundCategories, handleNewCategory}
 }

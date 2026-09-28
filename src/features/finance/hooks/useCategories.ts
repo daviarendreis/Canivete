@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import type { Category } from "../types/category"
+import type { TransactionTypes } from "../types/transactionTypes"
 
-export default function useCategorys () {
+export default function useCategories () {
     const inboundCategoriesRaw: Category[] = [
     {
         name: 'Salary',
@@ -90,5 +91,21 @@ export default function useCategorys () {
         setOutboundCategories(state => [...state, newCategory])
     }
 
-    return {inboundCategories, outboundCategories, addInboundCategory, addOutboundCategory}
+    function handleNewCategory (e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        const formData = new FormData(e.currentTarget)
+
+        const name = formData.get('name')?.toString() || 'Category'
+        const typeRaw = formData.get('type')?.toString()
+        const type: TransactionTypes = typeof typeRaw === 'string' ? typeRaw as TransactionTypes : 'inbound'
+        
+        if (type === 'inbound') {
+            addInboundCategory(name)
+        } else {
+            addOutboundCategory(name)
+        }
+    }
+
+    return {inboundCategories, outboundCategories, handleNewCategory}
 }
