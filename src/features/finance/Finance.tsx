@@ -1,10 +1,10 @@
-import { Badge, Button, Card, Container, Dialog, Flex, Heading, Select, Table, Text, TextField } from "@radix-ui/themes";
+import { Button, Card, Container, Dialog, Flex, Heading, Select, Text, TextField } from "@radix-ui/themes";
 import useTransactions from "./hooks/useTransactions";
 import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
-import { ArrowBottomLeftIcon, ArrowTopRightIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ArrowBottomLeftIcon, ArrowTopRightIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import type { TransactionTypes } from "./types/transactionTypes";
-import { getFilteredTransactions } from "./logic/filterTransactions";
+import FinanceResults from "./components/FinanceResults";
 
 export default function Finance () {
     const { transactions, addTransaction, deleteTransaction, categories,  addCategory} = useTransactions()
@@ -178,26 +178,7 @@ export default function Finance () {
                                 </Select.Content>
                             </Select.Root>
                         </Flex>
-                        {transactions.length !== 0 ? <Table.Root >
-                            <Table.Header>
-                                <Table.Row>
-                                    <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
-                                    <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
-                                    <Table.ColumnHeaderCell>Value</Table.ColumnHeaderCell>
-                                </Table.Row>
-                            </Table.Header>
-                            <Table.Body>
-                                {getFilteredTransactions(transactions, filterCategory).map(transaction => (
-                                    <Table.Row key={transaction.id}>
-                                        <Table.RowHeaderCell>{transaction.description}</Table.RowHeaderCell>
-                                        <Table.Cell>{transaction.type === "inbound" ? <Badge radius="full" color="grass">Inbound</Badge> :  <Badge radius="full" color="red">Outbound</Badge>}</Table.Cell>
-                                        <Table.Cell>{transaction.type === "inbound" ? <Text color="grass">{`+ ${transaction.value.toLocaleString()}`}</Text> :  <Text color="red">{`- ${transaction.value.toLocaleString()}`}</Text>}</Table.Cell>
-                                        <Table.Cell><Button color="red" variant="ghost"  onClick={() => deleteTransaction(transaction.id)}><TrashIcon/></Button></Table.Cell>
-                                    </Table.Row>
-                                ))}
-                                
-                            </Table.Body>
-                        </Table.Root> : <Flex direction={'column'} align={'center'}><Text color="gray" weight='light'>There are no transactions yet</Text></Flex>}
+                        <FinanceResults transactions={transactions} filterCategory={filterCategory} deleteTransaction={deleteTransaction} />
                     </Flex>
                 </Card>
             </Flex>
