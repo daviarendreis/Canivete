@@ -3,11 +3,11 @@ import { Grid } from "@radix-ui/themes";
 import type { Habit } from "../types/habit";
 import { useMemo } from "react";
 
-interface TrackerGraphicProps {
+interface TrackerChartProps {
     habit: Habit
 }
 
-export default function TrackerGraphic ({habit}: TrackerGraphicProps) {
+export default function TrackerChart ({habit}: TrackerChartProps) {
 
     function getAllDaysYear () {
         const startOfYear = dayjs().startOf('year')

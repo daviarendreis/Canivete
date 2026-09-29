@@ -2,7 +2,7 @@ import { DotsVerticalIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { Box, Button, Card, Dialog, DropdownMenu, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import type { Habit } from "../types/habit";
 import { calculateStreak } from "../logic/streak";
-import TrackerGraphic from "./TrackerGraphic";
+import TrackerChart from "./TrackerChart";
 
 interface TrackerCardProps {
     habit: Habit,
@@ -71,7 +71,7 @@ export default function TrackerCard ({habit, markToday, unmarkToday, removeHabit
                     </Box>
                     <Heading color={habit.color} size={'9'}>{calculateStreak(habit.completedDates)}</Heading>
                 </Flex>
-                <TrackerGraphic habit={habit}/>
+                <TrackerChart habit={habit}/>
             </Flex>
         </Card>
 )
