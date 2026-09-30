@@ -1,5 +1,5 @@
 import { Badge, Button, Flex, Table, Text } from "@radix-ui/themes"
-import { getFilteredTransactions } from "../logic/filterTransactions"
+import { filterTransactions } from "../logic/filterTransactions"
 import { TrashIcon } from "@radix-ui/react-icons"
 import type { Transaction } from "../types/transaction"
 
@@ -22,7 +22,7 @@ export default function FinanceResults ({transactions, filterCategory, deleteTra
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {getFilteredTransactions(transactions, filterCategory).map(transaction => (
+                {filterTransactions(transactions, filterCategory).map(transaction => (
                     <Table.Row key={transaction.id}>
                         <Table.RowHeaderCell>{transaction.description}</Table.RowHeaderCell>
                         <Table.Cell>{transaction.type === "inbound" ? <Badge radius="full" color="grass">Inbound</Badge> :  <Badge radius="full" color="red">Outbound</Badge>}</Table.Cell>

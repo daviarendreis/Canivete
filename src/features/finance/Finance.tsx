@@ -44,12 +44,9 @@ export default function Finance () {
                             </Flex>
                         </Card>
                 </Flex>
-                <Card>
-                    <Heading ml={'3'} color="blue" weight={'bold'} size={'2'}>NEW — SPENDING BY CATEGORY</Heading>
-                    <Flex direction={'column'} align={'center'}>
-                        <FinancePieChart/>
-                    </Flex>
-                </Card>
+
+                <FinancePieChart transactions={transactions} categories={categories}/>
+
                 <Card size={'5'} style={{width: '100%'}}>
                     <Flex width={'100%'} direction={'column'} gap={'4'}>
                         <Flex justify={'between'}>

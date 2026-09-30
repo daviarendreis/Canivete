@@ -1,6 +1,8 @@
 import type { Category } from '../types/category';
 import type { Transaction } from "../types/transaction";
 import type { CategorySummary } from '../types/categorySummary';
+import { filterCategories } from './filterCategories';
+import { chartColors } from '../../../utils/colors';
 
 export function calculateCategoryTotal (transactions: Transaction[], category: Category) {
     const categoryTransactions = transactions.filter(tr => tr.category.name === category.name)
@@ -10,13 +12,16 @@ export function calculateCategoryTotal (transactions: Transaction[], category: C
 }
 
 export function getCategoryTotals (transactions: Transaction[], categories: Category[]) {
+    
     const categoryTotals: CategorySummary[] = []
 
     categories.forEach(cat => {
+        const colorRandomNumber = Math.floor(Math.random() * chartColors.length)
         const categoryTotal = calculateCategoryTotal(transactions, cat)
         const categorySummary: CategorySummary = {
             name: cat.name,
-            categoryTotal
+            categoryTotal,
+            color: chartColors[colorRandomNumber]
         }
         categoryTotals.push(categorySummary)
     })
@@ -24,7 +29,8 @@ export function getCategoryTotals (transactions: Transaction[], categories: Cate
 }
 
 export function getTopCategories (transactions: Transaction[], categories: Category[]) {
-    const categoryTotals = getCategoryTotals(transactions, categories)
+    const outboundCategories = filterCategories(categories, "outbound")
+    const categoryTotals = getCategoryTotals(transactions, outboundCategories)
     const sortedCategories = [...categoryTotals].sort((catA, catB) => catB.categoryTotal - catA.categoryTotal )
 
     const topCategories = sortedCategories.slice(0, 4)
@@ -34,7 +40,7 @@ export function getTopCategories (transactions: Transaction[], categories: Categ
 
     const otherCategoriesTotal = +(allCategoriesTotal - topCategoriesTotal).toFixed(2)
 
-    const chartData: CategorySummary[] = otherCategoriesTotal > 0 ? [...topCategories, { name: 'Others', categoryTotal: otherCategoriesTotal}] : topCategories
+    const chartData: CategorySummary[] = otherCategoriesTotal > 0 ? [...topCategories, { name: 'Others', categoryTotal: otherCategoriesTotal, color: 'gray'}] : topCategories
 
     return chartData
 }
