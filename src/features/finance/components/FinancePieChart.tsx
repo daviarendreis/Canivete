@@ -11,7 +11,6 @@ interface FinancePieChartProps {
 
 export default function FinancePieChart ({transactions, categories}: FinancePieChartProps) {
     const chartData = getTopCategories(transactions, categories).filter(cat => cat.categoryTotal > 0)
-    console.log(chartData)
     return (
         <Card>
             <Heading ml={'3'} color="blue" weight={'bold'} size={'2'}>NEW — SPENDING BY CATEGORY</Heading>
@@ -30,7 +29,7 @@ export default function FinancePieChart ({transactions, categories}: FinancePieC
                             isAnimationActive
                         >
                             {chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.color || 'var(--gray-9)'}/>
+                                <Cell key={`cell-${index}`} fill={`var(--${entry.color ?? 'gray'}-9)`}/>
                             ))}
                         </Pie>
                         <Tooltip/>

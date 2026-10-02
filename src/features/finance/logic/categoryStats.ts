@@ -2,7 +2,6 @@ import type { Category } from '../types/category';
 import type { Transaction } from "../types/transaction";
 import type { CategorySummary } from '../types/categorySummary';
 import { filterCategories } from './filterCategories';
-import { chartColors } from '../../../utils/colors';
 
 export function calculateCategoryTotal (transactions: Transaction[], category: Category) {
     const categoryTransactions = transactions.filter(tr => tr.category.name === category.name)
@@ -16,12 +15,11 @@ export function getCategoryTotals (transactions: Transaction[], categories: Cate
     const categoryTotals: CategorySummary[] = []
 
     categories.forEach(cat => {
-        const colorRandomNumber = Math.floor(Math.random() * chartColors.length)
         const categoryTotal = calculateCategoryTotal(transactions, cat)
         const categorySummary: CategorySummary = {
             name: cat.name,
             categoryTotal,
-            color: chartColors[colorRandomNumber]
+            color: cat.color
         }
         categoryTotals.push(categorySummary)
     })

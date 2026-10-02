@@ -6,7 +6,8 @@ export default function useCategories () {
     const categoriesRaw: Category[] = [
     {
         name: 'Salary',
-        type: 'inbound'
+        type: 'inbound',
+        
     }, {
         name: 'Sale',
         type: 'inbound'
@@ -24,22 +25,28 @@ export default function useCategories () {
         type: 'inbound'
     }, {
         name: 'Rent',
-        type: 'outbound'
+        type: 'outbound',
+        color: 'cyan'
     }, {
         name: 'Food',
-        type: 'outbound'
+        type: 'outbound',
+        color: 'tomato'
     }, {
         name: 'Transport',
-        type: 'outbound'
+        type: 'outbound',
+        color: 'yellow'
     }, {
         name: 'Health / Education',
-        type: 'outbound'
+        type: 'outbound',
+        color: 'grass'
     }, {
         name: 'Subscription',
-        type: 'outbound'
+        type: 'outbound',
+        color: "purple"
     }, {
         name: 'Investment / reserve',
-        type: 'outbound'
+        type: 'outbound',
+        color: 'pink'
     }
 ]   
     function getStoredCategories () {
