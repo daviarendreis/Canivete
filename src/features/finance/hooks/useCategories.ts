@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import type { Category } from "../types/category"
 import type { TransactionTypes } from "../types/transactionTypes"
+import { chartColors, nextAvailableColor } from "../../../utils/colors"
+import { filterCategories } from "../logic/filterCategories"
 
 export default function useCategories () {
     const categoriesRaw: Category[] = [
@@ -70,11 +72,22 @@ export default function useCategories () {
 
         const name = formData.get('name')?.toString() || 'Category'
         const typeRaw = formData.get('type')?.toString()
-        const type: TransactionTypes = typeof typeRaw === 'string' ? typeRaw as TransactionTypes : 'inbound'
+        const type: TransactionTypes = typeRaw === 'outbound' ? 'outbound' : 'inbound'
+
+        if (categories.some(c => c.name === name && c.type === type)) {
+            alert('Category with this name already exists')
+            return
+        }
         
         const newCategory: Category = {
             name,
             type
+        }
+
+        const outboundCategories = filterCategories(categories, 'outbound')
+
+        if (type === 'outbound') {
+            newCategory.color = nextAvailableColor(outboundCategories, chartColors)
         }
 
         setCategories(state => [...state, newCategory])
