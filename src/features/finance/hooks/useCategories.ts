@@ -51,18 +51,29 @@ export default function useCategories () {
         color: 'pink'
     }
 ]   
-    function getStoredCategories () {
-        const raw = localStorage.getItem('Finance-Categories')
-
-        if (!raw) return categoriesRaw
-
-        return JSON.parse(raw) as Category[]
-    }
+    function getStoredCategories (): Category[] {
+    const raw = localStorage.getItem('finance-categories')
+    if (!raw) return categoriesRaw
+    
+    const stored = JSON.parse(raw) as Category[]
+    
+    return stored.reduce<Category[]>((acc, cat) => {
+        if (cat.type === 'inbound' || cat.color) {
+            acc.push(cat)
+            return acc
+        }
+        
+        const outboundSoFar = acc.filter(c => c.type === 'outbound')
+        const color = nextAvailableColor(outboundSoFar, chartColors)
+        acc.push({ ...cat, color })
+        return acc
+    }, [])
+}
     
     const [categories, setCategories] = useState<Category[]>(() => getStoredCategories())
 
     useEffect(() => {
-        localStorage.setItem('Finance-Categories', JSON.stringify(categories))
+        localStorage.setItem('finance-categories', JSON.stringify(categories))
     }, [categories])
 
     function addCategory (e: React.FormEvent<HTMLFormElement>) {
