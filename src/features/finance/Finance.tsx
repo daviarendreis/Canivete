@@ -1,4 +1,4 @@
-import { Card, Container, Flex, Heading, Select, Text } from "@radix-ui/themes";
+import { Card, Container, Flex, Grid, Heading, Select, Text } from "@radix-ui/themes";
 import useTransactions from "./hooks/useTransactions";
 import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
 import { ArrowBottomLeftIcon, ArrowTopRightIcon } from "@radix-ui/react-icons";
@@ -22,30 +22,31 @@ export default function Finance () {
     return (
         <Container size={'4'} align={'center'}>
             <Heading m={'5'} size={'7'}>Financial Accountant</Heading>
-            <Flex direction={'column'} gap={'4'}>
+            <Grid columns={{ initial: '1', sm: '2' }} gap="3" mb="4">
                 
-                <Flex gap={'6'} >
-                        <Card variant="surface">
-                            <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} >
-                                <Text size={'3'} ml={'3'} color="gray">Total Balance</Text>
-                                <Heading size={'8'}>{`$ ${getTotalBalance(transactions).toLocaleString()}`}</Heading>
-                            </Flex>
-                        </Card>
-                        <Card variant="surface">
-                            <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
-                                <Text size={'3'} ml={'2'} color="gray"><ArrowBottomLeftIcon/> Inbound </Text>
-                                <Heading size={'8'} color="grass" weight={'bold'}>{`$ ${getInbound(transactions).toLocaleString()}`}</Heading>
-                            </Flex>
-                        </Card>
-                        <Card variant="surface">
-                            <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
-                                <Text size={'3'} ml={'2'} color="gray"><ArrowTopRightIcon/> Outbound </Text>
-                                <Heading size={'8'} color="red" weight={'bold'}>{`$ ${getOutbound(transactions).toLocaleString()}`}</Heading>
-                            </Flex>
-                        </Card>
+                <Flex direction={'column'} gap={'3'}>
+                    <Card variant="surface">
+                        <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'}  width={'auto'}>
+                            <Text size={'3'} ml={'3'} color="gray">Total Balance</Text>
+                            <Heading size={'8'}>{`$ ${getTotalBalance(transactions).toLocaleString()}`}</Heading>
+                        </Flex>
+                    </Card>
+                    <Card variant="surface">
+                        <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
+                            <Text size={'3'} ml={'2'} color="gray"><ArrowBottomLeftIcon/> Inbound </Text>
+                            <Heading size={'8'} color="grass" weight={'bold'}>{`$ ${getInbound(transactions).toLocaleString()}`}</Heading>
+                        </Flex>
+                    </Card>
+                    <Card variant="surface">
+                        <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
+                            <Text size={'3'} ml={'2'} color="gray"><ArrowTopRightIcon/> Outbound </Text>
+                            <Heading size={'8'} color="red" weight={'bold'}>{`$ ${getOutbound(transactions).toLocaleString()}`}</Heading>
+                        </Flex>
+                    </Card>
                 </Flex>
-
-                <FinancePieChart transactions={transactions} categories={categories}/>
+                    <FinancePieChart transactions={transactions} categories={categories}/>   
+            </Grid>
+                
 
                 <Card size={'5'} style={{width: '100%'}}>
                     <Flex width={'100%'} direction={'column'} gap={'4'}>
@@ -77,7 +78,7 @@ export default function Finance () {
                         <FinanceResults transactions={transactions} filterCategory={filterCategory} deleteTransaction={deleteTransaction} />
                     </Flex>
                 </Card>
-            </Flex>
+            
             
         </Container>
     )
