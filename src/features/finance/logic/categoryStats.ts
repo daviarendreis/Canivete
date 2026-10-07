@@ -48,6 +48,7 @@ export function calculateCategoryPercent (category: CategorySummary, allCategori
         (acc, cat) => acc + cat.categoryTotal, 0)
 
     if (balance === 0) return 0
+    
     const categoryPercent = (category.categoryTotal / balance) * 100
 
     return categoryPercent
