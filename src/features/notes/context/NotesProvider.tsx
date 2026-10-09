@@ -26,11 +26,13 @@ export default function NotesProvider ({children}: NotesProviderProps) {
 
         const formData = new FormData(e.currentTarget)
         const title = formData.get('title')?.toString() || 'Page'
+        const notebookId = Number(formData.get('notebookId')) || 1
 
         const newPage: Page = {
             id: Math.floor(Math.random() * 1000000),
             title,
-            content: ''
+            content: '',
+            notebookId
         }
         setPages(state => [...state, newPage])
     }
@@ -46,7 +48,12 @@ export default function NotesProvider ({children}: NotesProviderProps) {
         setPages(state => state.filter(page => page.id !== id))
     }
 
-    const value:NotesContextType = { pages, addPage, updatePageContent, deletePage}
+    function changeNotebookId (pageId: number, newNotebookId: number) {
+        setPages(state => state.map(currentPage => currentPage.id === pageId ?
+            {...currentPage, notebookId: newNotebookId} : currentPage))
+    }
+
+    const value:NotesContextType = { pages, addPage, updatePageContent, deletePage, changeNotebookId }
 
     return (
         <NotesContext.Provider value={value}>
