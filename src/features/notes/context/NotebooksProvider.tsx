@@ -1,6 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import type { Notebook } from "../types/Notebook";
 import type { Page } from "../types/Page";
+import { NotebooksContext, type NotebooksContextType } from "./NotebooksContext";
+import useNotes from "../hooks/useNotes";
 
 const notebooksRaw: Notebook[] = [
     {
@@ -25,6 +27,7 @@ export default function NotebooksProvider ({children}: NotebooksProviderProps) {
     }
 
     const [notebooks, setNotebooks] = useState<Notebook[]>(() => getStoredNotebooks())
+    const {changeNotebookId} = useNotes()
 
     useEffect(() => {
         localStorage.setItem('note-notebooks', JSON.stringify(notebooks))
@@ -49,8 +52,17 @@ export default function NotebooksProvider ({children}: NotebooksProviderProps) {
     function deleteNotebook (id: number, pages: Page[]) {
         const filteredPages = pages.filter(p => p.notebookId === id)
 
-        filteredPages.forEach(page => changeNotebookId(1))
+        filteredPages.forEach(page => changeNotebookId(page.id, 1))
+
+        setNotebooks(state => state.filter(notebook => notebook.id !== id))
     }
 
-    return { notebooks, addNotebook }
+    const value: NotebooksContextType = { notebooks, addNotebook, deleteNotebook }
+
+    return (
+        <NotebooksContext.Provider value={value}>
+            {children}
+        </NotebooksContext.Provider>
+    )
+    
 }

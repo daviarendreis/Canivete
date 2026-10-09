@@ -8,6 +8,7 @@ import  NotesPage  from './features/notes/NotesPage'
 import NotesProvider from './features/notes/context/NotesProvider'
 
 import RootLayout from './RootLayout'
+import NotebooksProvider from './features/notes/context/NotebooksProvider'
 
 const router = createBrowserRouter([
     {
@@ -30,7 +31,9 @@ const router = createBrowserRouter([
                 path:'notes',
                 element: (
                     <NotesProvider>
-                        <Outlet/>
+                        <NotebooksProvider>
+                            <Outlet/>
+                        </NotebooksProvider>
                     </NotesProvider>),
                 children: [
                     { index: true, element: <Notes/>},
