@@ -13,6 +13,7 @@ export default function NotesPage () {
     const { noteId, notebookId } = useParams()
     const [searchQuery, setSearchQuery] = useState('')
 
+
     if (!notebookId) {
         return <Text>Pages not found</Text>
     }
@@ -25,7 +26,7 @@ export default function NotesPage () {
         <Container>
             <Flex justify={'between'} align={'center'} mt={'3'}>
                 <Button color="gray" variant="soft">
-                    <Link to={'/notes'}>
+                    <Link to={`/notes/${notebookId}`}>
                         <ArrowLeftIcon color="gray" width={'1.25rem'} height={'1.25rem'}/>
                     </Link>
                 </Button>

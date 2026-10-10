@@ -55,7 +55,10 @@ export default function NotebooksProvider ({children}: NotebooksProviderProps) {
         setNotebooks(state => [...state, newNotebook])
     }
 
-    function deleteNotebook (id: string) {
+    function deleteNotebook (id: string | undefined) {
+
+        if (!id) return
+
         const filteredPages = pages.filter(p => p.notebookId === id)
 
         filteredPages.forEach(page => changeNotebookId(page.id, PUBLIC_NOTEBOOK_ID))
