@@ -6,7 +6,7 @@ export interface NotesContextType {
     addPage: (e: React.SubmitEvent<HTMLFormElement>, notebookId: string) => void
     updatePageContent: (e: React.ChangeEvent<HTMLTextAreaElement>, page: Page) => void
     deletePage: (id: string) => void
-    changeNotebookId: (oldId: string, newId: string) => void
+    changeNotebookId: (pageId: string, newId: string) => void
 }
 
 export const NotesContext = createContext<NotesContextType | null>(null)

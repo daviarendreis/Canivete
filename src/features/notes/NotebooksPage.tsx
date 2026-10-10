@@ -20,7 +20,7 @@ export default function NotebooksPage () {
         <Container size={'3'} align={'center'} m={'4'}>
             <Flex gap={'4'} direction={'column'}>
                 <Heading>Notebooks</Heading>
-                <hr/>
+                <br />
                 <Grid columns={{ initial: "2", sm: "3", md: "4" }} gap="4">
                     {notebooks.map((nb) => (
                         <NotebookCard
