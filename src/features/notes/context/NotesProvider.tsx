@@ -12,7 +12,13 @@ export default function NotesProvider ({children}: NotesProviderProps) {
 
         if (!raw) return []
 
-        return JSON.parse(raw) as Page[]
+        const pages = JSON.parse(raw) as Page[]
+
+        return pages.map((page) => {
+            if (!page.notebookId) {
+                return { ...page, notebookId: "1" }
+            } else return { ...page, notebookId: page.notebookId.toString() }
+        })
     }
 
     const [ pages, setPages] = useState<Page[]>(() => getStoredPages())
@@ -21,15 +27,15 @@ export default function NotesProvider ({children}: NotesProviderProps) {
         localStorage.setItem('pages', JSON.stringify(pages))
     }, [pages])
     
-    function addPage (e: React.FormEvent<HTMLFormElement>) {
+    function addPage (e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
         const title = formData.get('title')?.toString() || 'Page'
-        const notebookId = Number(formData.get('notebookId')) || 1
+        const notebookId = formData.get('notebookId')?.toString() || "1"
 
         const newPage: Page = {
-            id: Math.floor(Math.random() * 1000000),
+            id: crypto.randomUUID(),
             title,
             content: '',
             notebookId
@@ -44,11 +50,11 @@ export default function NotesProvider ({children}: NotesProviderProps) {
         setPages(state => state.map(currentPage => currentPage.id === page.id ? newPage : currentPage))
     }
 
-    function deletePage (id: number) {
+    function deletePage (id: string) {
         setPages(state => state.filter(page => page.id !== id))
     }
 
-    function changeNotebookId (pageId: number, newNotebookId: number) {
+    function changeNotebookId (pageId: string, newNotebookId: string) {
         setPages(state => state.map(currentPage => currentPage.id === pageId ?
             {...currentPage, notebookId: newNotebookId} : currentPage))
     }

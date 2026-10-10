@@ -1,6 +1,6 @@
 
 export interface Notebook {
-    id: number
+    id: string
     name: string
     protected: boolean
 }
