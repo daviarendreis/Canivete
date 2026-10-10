@@ -18,7 +18,6 @@ export default function Notes () {
 
     const notebookPages = pages.filter(p => p.notebookId === notebookId)
 
-
     const filteredPages = filterPages(notebookPages, searchQuery)
 
     const notebook = notebooks.find(nb => nb.id === notebookId)

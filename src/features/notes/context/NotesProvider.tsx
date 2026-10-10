@@ -6,19 +6,26 @@ interface NotesProviderProps {
     children: ReactNode
 }
 
+type StoredPage = Omit<Partial<Page>, "id" | "notebookId"> & {
+    id?: string | number
+    notebookId?: string | number
+}
+
 export default function NotesProvider ({children}: NotesProviderProps) {
     function getStoredPages () {
         const raw = localStorage.getItem('pages')
 
         if (!raw) return []
 
-        const pages = JSON.parse(raw) as Page[]
+        const pages = JSON.parse(raw) as StoredPage[]
 
-        return pages.map((page) => {
+        return pages.map((page): StoredPage => {
             if (!page.notebookId) {
                 return { ...page, notebookId: "1" }
+            } else if (typeof page.id === "number") {
+                return { ...page, id: page.id.toString(), notebookId: page.notebookId.toString() }
             } else return { ...page, notebookId: page.notebookId.toString() }
-        })
+        }) as Page[]
     }
 
     const [ pages, setPages] = useState<Page[]>(() => getStoredPages())

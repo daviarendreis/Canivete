@@ -70,7 +70,7 @@ export default function NotebooksPage () {
                                                 <Button color="gray" variant="soft">Cancel</Button>
                                             </Dialog.Close>
                                             <Dialog.Close>
-                                                <Button type="submit" color="grass" variant="soft">Add Page</Button>
+                                                <Button type="submit" color="grass" variant="soft">Add Notebook</Button>
                                             </Dialog.Close>
                                     </Flex>
                                 </Flex>
