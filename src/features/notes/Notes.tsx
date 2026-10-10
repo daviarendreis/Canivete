@@ -5,18 +5,31 @@ import { useState } from "react";
 import NotesSearchBar from "./components/NotesSearchBar";
 import filterPages from "./logic/filterPages";
 import NotesResults from "./components/NotesResults";
+import { useParams } from "react-router";
+import useNotebooks from "./hooks/useNotebooks";
 
 export default function Notes () {
     const { addPage, pages} = useNotes()
+    const { notebooks } = useNotebooks()
     const [searchQuery, setSearchQuery] = useState('')
+    const { notebookId } = useParams()
 
-    const filteredPages = filterPages(pages, searchQuery)
+    const notebookPages = pages.filter(p => p.notebookId === notebookId)
+
+
+    const filteredPages = filterPages(notebookPages, searchQuery)
+
+    const notebook = notebooks.find(nb => nb.id === notebookId)
+
+    if (!notebook) {
+        return <Text>Notebook not found</Text>
+    }
 
     return (
         <Container size={'3'} align={'center'} m={'4'}>
             <Flex gap={'4'} direction={'column'}>
                 <Flex justify={'between'}>
-                    <Heading>Notes</Heading>
+                    <Heading>{notebook?.name}</Heading>
                     <Dialog.Root>
                         <Dialog.Trigger>
                             <Button color="gray" variant="surface"><PlusIcon/>New Page</Button>
@@ -24,7 +37,7 @@ export default function Notes () {
 
                         <Dialog.Content width={'17rem'}>
                             <Dialog.Title>New Page</Dialog.Title>
-                            <form onSubmit={addPage}>
+                            <form onSubmit={(e) => addPage(e, notebook.id )}>
                                 <Flex gap={'4'} direction={'column'} >
                                     <label htmlFor="title">
                                         <Text>Title</Text>
@@ -44,6 +57,7 @@ export default function Notes () {
                                     </Flex>
                                     
                                 </Flex>
+                                
                             </form>
                         </Dialog.Content>
                     </Dialog.Root>
@@ -52,7 +66,7 @@ export default function Notes () {
                 <NotesSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
                 <Card>
-                    <NotesResults pages={pages} filteredPages={filteredPages}/>
+                    <NotesResults pages={notebookPages} filteredPages={filteredPages} notebookId={notebook.id}/>
                 </Card>
             </Flex>
         </Container>

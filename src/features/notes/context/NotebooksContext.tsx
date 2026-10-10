@@ -3,7 +3,7 @@ import type { Notebook } from "../types/Notebook";
 
 export interface NotebooksContextType {
     notebooks: Notebook[],
-    addNotebook: (e: React.FormEvent<HTMLFormElement>) => void,
+    addNotebook: (e: React.SubmitEvent<HTMLFormElement>) => void,
     deleteNotebook: (id: string) => void
 }
 

@@ -10,10 +10,14 @@ import NotesResults from "./components/NotesResults";
 
 export default function NotesPage () {
     const { pages, updatePageContent, deletePage } = useNotes()
-    const { id } = useParams()
+    const { noteId, notebookId } = useParams()
     const [searchQuery, setSearchQuery] = useState('')
 
-    const page = pages.find(p => p.id === Number(id))
+    if (!notebookId) {
+        return <Text>Pages not found</Text>
+    }
+
+    const page = pages.find(p => p.id === noteId)
 
     const filteredPages = filterPages(pages, searchQuery)
 
@@ -34,7 +38,7 @@ export default function NotesPage () {
                         </Popover.Trigger>
                         <Popover.Content onOpenAutoFocus={(e) => e.preventDefault()}>
                             <Card >
-                                <NotesResults pages={pages} filteredPages={filteredPages}/>
+                                <NotesResults pages={pages} filteredPages={filteredPages} notebookId={notebookId}/>
                             </Card>
                         </Popover.Content>
                     </Flex>

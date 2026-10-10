@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import type { Notebook } from "../types/Notebook";
 import { NotebooksContext, type NotebooksContextType } from "./NotebooksContext";
 import useNotes from "../hooks/useNotes";
+import { parseColor } from "../../../utils/colors";
 
 const PUBLIC_NOTEBOOK_ID = "1"
 
@@ -9,7 +10,8 @@ const notebooksRaw: Notebook[] = [
     {
         id: PUBLIC_NOTEBOOK_ID,
         name: 'Public',
-        protected: true
+        protected: true,
+        color: 'gray'
     }
 ]
 
@@ -34,17 +36,20 @@ export default function NotebooksProvider ({children}: NotebooksProviderProps) {
         localStorage.setItem('note-notebooks', JSON.stringify(notebooks))
     }, [notebooks])
 
-    function addNotebook (e: React.FormEvent<HTMLFormElement>) {
+    function addNotebook (e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
 
         const name = formData.get('name')?.toString() || `Notebook ${notebooks.length + 1}`
+        const colorRaw = formData.get("color")?.toString()
+        const color = parseColor(colorRaw)
 
         const newNotebook: Notebook = {
             id: crypto.randomUUID(),
             name,
-            protected: false
+            protected: false,
+            color
         }
 
         setNotebooks(state => [...state, newNotebook])

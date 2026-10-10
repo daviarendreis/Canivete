@@ -5,14 +5,15 @@ import type { Page } from "../types/Page";
 
 interface NotesCardProps {
     page: Page
+    notebookId: string
 }
 
-export default function NotesRow ({page}: NotesCardProps) {
+export default function NotesRow ({page, notebookId}: NotesCardProps) {
     return (
         <Table.Row >
             <Table.Cell>
                 <Button color="gray" variant="ghost" asChild>
-                    <Link to={`/notes/${page.id}`}>
+                    <Link to={`/notes/${notebookId}/${page.id}`}>
                         <Flex justify={'between'} width={'78vh'} align={'center'}>
                             <Flex gap={'3'}>
                                 <FileTextIcon color="gray" width={'1.5rem'} height={'1.5rem'}/><Text size={'3'}>{page.title}</Text>

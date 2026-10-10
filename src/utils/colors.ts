@@ -19,3 +19,10 @@ export function nextAvailableColor (existing: Category[], palette: RadixColors[]
 
     return palette[existing.length % palette.length]
 }
+
+export function parseColor(raw: string | undefined): RadixColors {
+    if (typeof raw === 'string' && colors.includes(raw as RadixColors)) {
+        return raw as RadixColors
+    }
+    return colors[0]
+}

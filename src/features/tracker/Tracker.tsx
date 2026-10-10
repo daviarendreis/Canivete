@@ -1,7 +1,7 @@
-import { Box, Button, Dialog, Flex, Grid, Heading, Select, Text, TextField } from "@radix-ui/themes";
+import { Box, Button, Dialog, Flex, Grid, Heading, Text, TextField } from "@radix-ui/themes";
 import useHabits from "./hooks/useHabits";
 import TrackerCard from "./components/TrackerCard";
-import { colors } from "../../utils/colors";
+import ColorSelect from "../../utils/ColorSelect";
 
 export default function Tracker () {
     const { habits, addHabit, removeHabit, editHabit, markToday, unmarkToday } = useHabits()
@@ -38,18 +38,7 @@ export default function Tracker () {
                                             required/>
                                     </label>
 
-                                    <Select.Root defaultValue="blue" name="color">
-                                        <Select.Trigger />
-                                        <Select.Content>
-                                            <Select.Group>
-                                                <Select.Label>Colors</Select.Label>
-                                                {colors.map((color) => (
-                                                    <Select.Item key={color} value={color}>{color}</Select.Item>
-                                                ))}
-                                                
-                                            </Select.Group>
-                                        </Select.Content>
-                                    </Select.Root>
+                                    <ColorSelect/>
                                     <Flex justify={'end'} gap={'2'}>
                                         <Dialog.Close >
                                             <Button color="red" variant="surface">Cancel</Button>

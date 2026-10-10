@@ -3,7 +3,7 @@ import type { Page } from "../types/Page";
 
 export interface NotesContextType {
     pages: Page[]
-    addPage: (e: React.SubmitEvent<HTMLFormElement>) => void
+    addPage: (e: React.SubmitEvent<HTMLFormElement>, notebookId: string) => void
     updatePageContent: (e: React.ChangeEvent<HTMLTextAreaElement>, page: Page) => void
     deletePage: (id: string) => void
     changeNotebookId: (oldId: string, newId: string) => void

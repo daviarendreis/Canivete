@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import React, { useEffect, useState, type ReactNode } from "react";
 import { NotesContext, type NotesContextType } from "./NotesContext";
 import type { Page } from "../types/Page";
 
@@ -27,18 +27,17 @@ export default function NotesProvider ({children}: NotesProviderProps) {
         localStorage.setItem('pages', JSON.stringify(pages))
     }, [pages])
     
-    function addPage (e: React.SubmitEvent<HTMLFormElement>) {
+    function addPage (e: React.SubmitEvent<HTMLFormElement>, notebookId: string | undefined ) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
         const title = formData.get('title')?.toString() || 'Page'
-        const notebookId = formData.get('notebookId')?.toString() || "1"
 
         const newPage: Page = {
             id: crypto.randomUUID(),
             title,
             content: '',
-            notebookId
+            notebookId: notebookId || '1'
         }
         setPages(state => [...state, newPage])
     }
