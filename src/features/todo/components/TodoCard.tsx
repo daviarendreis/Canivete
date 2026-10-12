@@ -5,10 +5,10 @@ import TodoForm from "./TodoForm"
 
 interface TodoCardProps {
     todo: Todo
-    editTodo: (e: React.FormEvent<HTMLFormElement>, id:number) => void
-    setEditingTodoId: (a:number | null) => void
-    editingTodoId: number | null
-    removeTodo: (id: number) => void
+    editTodo: (e: React.FormEvent<HTMLFormElement>, id: string) => void
+    setEditingTodoId: (a: string | null) => void
+    editingTodoId: string | null
+    removeTodo: (id: string) => void
 }
 
 export default function TodoCard ({todo, editTodo, setEditingTodoId, editingTodoId, removeTodo}: TodoCardProps) {

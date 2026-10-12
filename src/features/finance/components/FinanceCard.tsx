@@ -2,7 +2,7 @@ import { Button, Card, Flex, Strong, Text } from "@radix-ui/themes";
 import type { Transaction } from "../types/transaction";
 interface FinanceCardProps {
     transaction: Transaction
-    deleteTransaction: (id: number) => void
+    deleteTransaction: (id: string) => void
 }
 
 export default function FinanceCard ({ transaction, deleteTransaction }: FinanceCardProps) {

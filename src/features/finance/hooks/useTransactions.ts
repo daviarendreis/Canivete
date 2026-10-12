@@ -4,15 +4,24 @@ import dayjs from "dayjs"
 import type { Transaction } from "../types/transaction"
 import type { Category } from "../types/category"
 
+interface StoredTransactions {
+    id: string | number
+    description: string
+    value: number
+    type: TransactionTypes
+    category: Category
+    createdAt: string
+}
+
 export default function useTransactions () {
     function getStoredTransactions () {
         const raw = localStorage.getItem('transactions')
 
         if (!raw) {return []}
 
-        const transactions = JSON.parse(raw) as Transaction[]
+        const transactionsRaw = JSON.parse(raw) as StoredTransactions[]
 
-        return transactions
+        return transactionsRaw.map(transaction => typeof transaction.id === 'number' ? {...transaction, id: crypto.randomUUID()} : transaction) as Transaction[]
     }
 
     const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
@@ -38,7 +47,7 @@ export default function useTransactions () {
         }
 
         const newTransaction: Transaction = {
-            id: Math.floor(Math.random() * 100000),
+            id: crypto.randomUUID(),
             description,
             value,
             type,
@@ -49,7 +58,7 @@ export default function useTransactions () {
         setTransactions(state => [...state, newTransaction])
     }
 
-    function deleteTransaction (id: number) {
+    function deleteTransaction (id: string) {
         setTransactions((state) => state.filter(t => t.id !== id))
     }
 

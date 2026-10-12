@@ -7,23 +7,22 @@ import { getToday, verifyIsCompletedToday } from "../logic/streak"
 
 dayjs.extend(customParseFormat)
 
+interface StoredHabits {
+    id: string | number
+    name: string
+    color: RadixColors
+    completedDates: string[]
+}
+
 export default function useHabits () {
     function getStoredHabits () {
             const raw = localStorage.getItem('habits')
 
             if (!raw) return []
 
-            const storedHabits = JSON.parse(raw) as Habit[]
+            const storedHabits = JSON.parse(raw) as StoredHabits[]
 
-            return storedHabits.map(h => ({
-                ...h,
-                completedDates: (h.completedDates ?? []).map(date => {
-                    if (date.includes('/')) {
-                        return dayjs(date, ['DD/MM/YYYY', 'YYYY-MM-DD']).format('YYYY-MM-DD')
-                    }
-                    return date
-                })
-            }))
+            return storedHabits.map(h => typeof h.id === 'number' ? {...h, id: crypto.randomUUID()} : h) as Habit[]
         }
     
     const [habits, setHabits] = useState<Habit[]>(() => getStoredHabits())
@@ -43,7 +42,7 @@ export default function useHabits () {
         const color: RadixColors = typeof colorRaw === "string" && colors.includes(colorRaw as RadixColors) ? colorRaw as RadixColors  : colors[0] 
 
         const newHabit: Habit = {
-            id: Math.round(Math.random() * 100000),
+            id: crypto.randomUUID(),
             name,
             color,
             completedDates: []
@@ -52,7 +51,7 @@ export default function useHabits () {
         setHabits((state) => [...state, newHabit])
     }
 
-    function removeHabit (id:number) {
+    function removeHabit (id: string) {
         setHabits((state) => state.filter(currentHabit => currentHabit.id !== id))
     }
 

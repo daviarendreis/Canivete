@@ -2,18 +2,27 @@ import { useEffect, useState } from "react"
 import type { Todo } from "../types/todo"
 import type { priority } from "../types/priority"
 
+interface StoredTodos {
+    id: string | number
+    name: string
+    description: string
+    time: string
+    priority: priority
+}
+
 export default function useTodos ( ) {
     function getStoredTodos () {
             const raw = localStorage.getItem('todos')
     
             if (!raw) return []
     
-            const data = JSON.parse(raw) as Todo[]
-            return data
+            const todosRaw = JSON.parse(raw) as StoredTodos[]
+
+            return todosRaw.map(todo => typeof todo.id === 'number' ? {...todo, id: crypto.randomUUID()} : todo) as Todo[]
         }
     
     const [todos, setTodos] = useState<Todo[]>(() => getStoredTodos())
-    const [editingTodoId, setEditingTodoId] = useState<number | null>(null)
+    const [editingTodoId, setEditingTodoId] = useState<string | null>(null)
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
@@ -38,7 +47,7 @@ export default function useTodos ( ) {
             const {name, time, description, priority} = getFormData(e)
     
             const newTodo: Todo = {
-                id: Math.round(Math.random() * 100000),
+                id: crypto.randomUUID(),
                 name: name,
                 time: time,
                 description: description,
@@ -49,13 +58,13 @@ export default function useTodos ( ) {
             e.currentTarget.reset()
     }
 
-    function removeTodo  (id:number)  {
+    function removeTodo  (id: string)  {
         const todosFiltred = todos.filter((t) => t.id !== id)
         setTodos(todosFiltred)
         
     }
 
-    function editTodo (e: React.FormEvent<HTMLFormElement>, id:number )  {
+    function editTodo (e: React.FormEvent<HTMLFormElement>, id: string )  {
         e.preventDefault()
 
         const {name, time, description, priority} = getFormData(e)

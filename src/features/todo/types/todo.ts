@@ -1,7 +1,7 @@
 import type { priority } from "./priority"
 
 export interface Todo {
-    id: number
+    id: string
     name: string
     description: string
     time: string

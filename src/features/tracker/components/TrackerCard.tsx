@@ -8,7 +8,7 @@ interface TrackerCardProps {
     habit: Habit,
     markToday: (habit: Habit) => void,
     unmarkToday: (habit: Habit) => void,
-    removeHabit: (id: number) => void,
+    removeHabit: (id: string) => void,
     editHabit: (e: React.FormEvent<HTMLFormElement>, habit: Habit) => void
 }
 

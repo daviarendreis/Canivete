@@ -6,7 +6,7 @@ import type { Transaction } from "../types/transaction"
 interface FinanceResultsProps {
     transactions: Transaction[]
     filterCategory: string
-    deleteTransaction: (id: number) => void
+    deleteTransaction: (id: string) => void
 }
 
 export default function FinanceResults ({transactions, filterCategory, deleteTransaction}: FinanceResultsProps) {
