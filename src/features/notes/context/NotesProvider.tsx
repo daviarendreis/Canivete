@@ -1,14 +1,15 @@
 import React, { useEffect, useState, type ReactNode } from "react";
 import { NotesContext, type NotesContextType } from "./NotesContext";
 import type { Page } from "../types/Page";
+import { getCurrentTime } from "../../../utils/date";
 
 interface NotesProviderProps {
     children: ReactNode
 }
 
-type StoredPage = Omit<Partial<Page>, "id" | "notebookId"> & {
-    id?: string | number
-    notebookId?: string | number
+type StoredPage = Omit<Partial<Page>, "createdAt" | "updatedAt"> & {
+    createdAt?: string
+    updatedAt?: string
 }
 
 export default function NotesProvider ({children}: NotesProviderProps) {
@@ -20,11 +21,16 @@ export default function NotesProvider ({children}: NotesProviderProps) {
         const pages = JSON.parse(raw) as StoredPage[]
 
         return pages.map((page): StoredPage => {
-            if (!page.notebookId) {
-                return { ...page, notebookId: "1" }
-            } else if (typeof page.id === "number") {
-                return { ...page, id: page.id.toString(), notebookId: page.notebookId.toString() }
-            } else return { ...page, notebookId: page.notebookId.toString() }
+            if (!page.createdAt && !page.updatedAt) {
+                const now = getCurrentTime()
+                return {...page, createdAt: now, updatedAt: now}
+            } else if (!page.createdAt) {
+                return {...page, createdAt: getCurrentTime()}
+            } else if (!page.updatedAt) {
+                return {...page, updatedAt: getCurrentTime()}
+            }
+
+            return page
         }) as Page[]
     }
 
@@ -39,19 +45,23 @@ export default function NotesProvider ({children}: NotesProviderProps) {
 
         const formData = new FormData(e.currentTarget)
         const title = formData.get('title')?.toString() || 'Page'
+        const now = getCurrentTime()
 
         const newPage: Page = {
             id: crypto.randomUUID(),
             title,
             content: '',
-            notebookId: notebookId || '1'
+            notebookId: notebookId || '1',
+            createdAt: now,
+            updatedAt: now
         }
+        
         setPages(state => [...state, newPage])
     }
 
     function updatePageContent(e: React.ChangeEvent<HTMLTextAreaElement>, page: Page) {
 
-        const newPage: Page = {...page, content: e.currentTarget.value}
+        const newPage: Page = {...page, content: e.currentTarget.value, updatedAt: getCurrentTime()}
 
         setPages(state => state.map(currentPage => currentPage.id === page.id ? newPage : currentPage))
     }

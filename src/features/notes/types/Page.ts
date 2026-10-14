@@ -3,4 +3,6 @@ export interface Page {
     title: string
     content: string
     notebookId: string
+    createdAt: string
+    updatedAt: string
 }

@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Strong, Text } from "@radix-ui/themes";
 import { apps } from "./data/apps"
 import AppCard from "./components/AppCard";
-import getToday from "../../utils/date";
+import { getToday } from "../../utils/date";
 
 export default function Hub() {
      const textDate = getToday()
