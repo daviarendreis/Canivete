@@ -1,11 +1,12 @@
 import { Button, Card, Flex, Strong, Text } from "@radix-ui/themes";
 import type { Transaction } from "../types/transaction";
+import useTransactions from "../hooks/useTransactions";
 interface FinanceCardProps {
     transaction: Transaction
-    deleteTransaction: (id: string) => void
 }
 
-export default function FinanceCard ({ transaction, deleteTransaction }: FinanceCardProps) {
+export default function FinanceCard ({ transaction }: FinanceCardProps) {
+    const { deleteTransaction } = useTransactions()
     return (
         <Card>
             <Flex justify={'between'} align={'center'}>

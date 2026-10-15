@@ -10,6 +10,7 @@ import NotesProvider from './features/notes/context/NotesProvider'
 import RootLayout from './RootLayout'
 import NotebooksProvider from './features/notes/context/NotebooksProvider'
 import NotebooksPage from './features/notes/NotebooksPage'
+import TransactionsProvider from './features/finance/context/TransactionsProvider'
 
 const router = createBrowserRouter([
     {
@@ -27,7 +28,14 @@ const router = createBrowserRouter([
                 element: <Tracker/>
             }, {
                 path:'finance',
-                element: <Finance/>
+                element: (
+                    <TransactionsProvider>
+                        <Outlet/>
+                    </TransactionsProvider>
+                ),
+                children: [
+                    {index: true, element: <Finance/>}
+                ]
             }, {
                 path:'notes',
                 element: (

@@ -4,15 +4,16 @@ import type { TransactionTypes } from "../types/transactionTypes";
 import { useState } from "react";
 import type { Category } from "../types/category";
 import { filterCategories } from "../logic/filterCategories";
+import useTransactions from "../hooks/useTransactions";
 
 interface FinanceTransactionDialogProps {
     categories: Category[]
-    addTransaction: (e: React.FormEvent<HTMLFormElement>, categories: Category[]) => void
 }
 
-export default function FinanceTransactionDialog ({categories, addTransaction}: FinanceTransactionDialogProps) {
+export default function FinanceTransactionDialog ({categories}: FinanceTransactionDialogProps) {
     const [type, setType] = useState<TransactionTypes>('inbound')
     const [category, setCategory] = useState('')
+    const { addTransaction } = useTransactions()
 
     const inboundCategories = filterCategories(categories, 'inbound')
     const outboundCategories = filterCategories(categories, 'outbound')

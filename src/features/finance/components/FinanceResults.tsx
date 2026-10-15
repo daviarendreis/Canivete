@@ -1,15 +1,14 @@
 import { Badge, Button, Flex, Table, Text } from "@radix-ui/themes"
 import { filterTransactions } from "../logic/filterTransactions"
 import { TrashIcon } from "@radix-ui/react-icons"
-import type { Transaction } from "../types/transaction"
+import useTransactions from "../hooks/useTransactions"
 
 interface FinanceResultsProps {
-    transactions: Transaction[]
     filterCategory: string
-    deleteTransaction: (id: string) => void
 }
 
-export default function FinanceResults ({transactions, filterCategory, deleteTransaction}: FinanceResultsProps) {
+export default function FinanceResults ({ filterCategory }: FinanceResultsProps) {
+    const { transactions, deleteTransaction } = useTransactions()
     return (
         <>
         {transactions.length !== 0 ? 

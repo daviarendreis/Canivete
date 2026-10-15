@@ -11,7 +11,7 @@ import FinanceCategoryDialog from "./components/FinanceCategoryDialog";
 import FinancePieChart from "./components/FinancePieChart";
 
 export default function Finance () {
-    const { transactions, addTransaction, deleteTransaction} = useTransactions()
+    const { transactions } = useTransactions()
     const { categories, addCategory } = useCategories()
     
     const [filterCategory, setFilterCategory] = useState('all')
@@ -52,7 +52,7 @@ export default function Finance () {
                     <Flex width={'100%'} direction={'column'} gap={'4'}>
                         <Flex justify={'between'}>
                             <Heading>Transactions</Heading>
-                            <FinanceTransactionDialog categories={categories} addTransaction={addTransaction}/>
+                            <FinanceTransactionDialog categories={categories} />
                         </Flex>
                         <Flex justify={'start'} align={'center'}>
                             <Select.Root value={filterCategory} onValueChange={setFilterCategory}>
@@ -75,7 +75,7 @@ export default function Finance () {
                                 </Select.Content>
                             </Select.Root>
                         </Flex>
-                        <FinanceResults transactions={transactions} filterCategory={filterCategory} deleteTransaction={deleteTransaction} />
+                        <FinanceResults filterCategory={filterCategory} />
                     </Flex>
                 </Card>
             
