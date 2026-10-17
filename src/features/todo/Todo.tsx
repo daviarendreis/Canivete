@@ -6,7 +6,7 @@ import TodoForm from "./components/TodoForm";
 
 export default function Todo () {
     const [isOpen, setIsOpen] = useState(false)
-    const { todos, lowPriorityTodos, mediumPriorityTodos, highPriorityTodos, addTodo, editTodo, setEditingTodoId, editingTodoId, removeTodo } = useTodos()
+    const { todos, lowPriorityTodos, mediumPriorityTodos, highPriorityTodos, addTodo } = useTodos()
 
     return(
         <Box>
@@ -48,13 +48,7 @@ export default function Todo () {
                         <Heading size={'5'} color="gray" weight={'light'}>Low</Heading>
                         {lowPriorityTodos.length !== 0 && <Card>
                             {lowPriorityTodos.map(todo => (
-                                <TodoCard 
-                                key={todo.id}
-                                todo={todo} 
-                                editTodo={editTodo} 
-                                editingTodoId={editingTodoId} 
-                                removeTodo={removeTodo} 
-                                setEditingTodoId={setEditingTodoId}/>
+                                <TodoCard key={todo.id} todo={todo}/>
                             ))}
                         </Card>}
                     </Flex>
@@ -62,13 +56,7 @@ export default function Todo () {
                         <Heading size={'5'} color="gray" weight={'light'}>Medium</Heading>
                         {mediumPriorityTodos.length !== 0 && <Card>
                             {mediumPriorityTodos.map(todo => (
-                                <TodoCard 
-                                key={todo.id}
-                                todo={todo} 
-                                editTodo={editTodo} 
-                                editingTodoId={editingTodoId} 
-                                removeTodo={removeTodo} 
-                                setEditingTodoId={setEditingTodoId}/>
+                                <TodoCard key={todo.id} todo={todo}/>
                             ))}
                         </Card>}
                     </Flex>
@@ -76,13 +64,7 @@ export default function Todo () {
                         <Heading size={'5'} color="gray" weight={'light'}>High</Heading>
                         {highPriorityTodos.length !== 0 && <Card>
                             {highPriorityTodos.map(todo => (
-                                <TodoCard 
-                                key={todo.id}
-                                todo={todo} 
-                                editTodo={editTodo} 
-                                editingTodoId={editingTodoId} 
-                                removeTodo={removeTodo} 
-                                setEditingTodoId={setEditingTodoId}/>
+                                <TodoCard key={todo.id} todo={todo}/>
                             ))}
                         </Card>}
                     </Flex>

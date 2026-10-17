@@ -2,17 +2,14 @@ import { Badge, Button, Card, Dialog, DropdownMenu, Flex, Heading, Strong, Text 
 import type { Todo } from "../types/todo"
 import { DotsVerticalIcon } from "@radix-ui/react-icons"
 import TodoForm from "./TodoForm"
+import useTodos from "../hooks/useTodos"
 
 interface TodoCardProps {
     todo: Todo
-    editTodo: (e: React.FormEvent<HTMLFormElement>, id: string) => void
-    setEditingTodoId: (a: string | null) => void
-    editingTodoId: string | null
-    removeTodo: (id: string) => void
 }
 
-export default function TodoCard ({todo, editTodo, setEditingTodoId, editingTodoId, removeTodo}: TodoCardProps) {
-
+export default function TodoCard ({todo}: TodoCardProps) {
+    const { editingTodoId, setEditingTodoId, editTodo, removeTodo} = useTodos()
     return (
         <Card variant="classic" m={'2'} >
             <Flex direction={'column'} gap={'3'} maxHeight={'100%'}>

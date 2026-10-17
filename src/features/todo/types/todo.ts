@@ -1,9 +1,9 @@
-import type { priority } from "./priority"
+import type { Priority } from "./priority"
 
 export interface Todo {
     id: string
     name: string
     description: string
     time: string
-    priority: priority
+    priority: Priority
 }

@@ -13,6 +13,7 @@ import NotebooksPage from './features/notes/NotebooksPage'
 import TransactionsProvider from './features/finance/context/TransactionsProvider'
 import CategoriesProvider from './features/finance/context/CategoriesProvider'
 import HabitsProvider from './features/tracker/context/HabitsProvider'
+import TodosProvider from './features/todo/context/TodosProvider'
 
 const router = createBrowserRouter([
     {
@@ -24,7 +25,14 @@ const router = createBrowserRouter([
                 element: <Hub/>
             }, {
                 path: 'todo',
-                element: <Todo/>
+                element: (
+                    <TodosProvider>
+                        <Outlet/>
+                    </TodosProvider>
+                ),
+                children: [
+                    {index: true, element: <Todo/>}
+                ]
             }, {
                 path: 'tracker',
                 element: (
