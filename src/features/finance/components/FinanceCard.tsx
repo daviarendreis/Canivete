@@ -7,6 +7,7 @@ interface FinanceCardProps {
 
 export default function FinanceCard ({ transaction }: FinanceCardProps) {
     const { deleteTransaction } = useTransactions()
+    
     return (
         <Card>
             <Flex justify={'between'} align={'center'}>

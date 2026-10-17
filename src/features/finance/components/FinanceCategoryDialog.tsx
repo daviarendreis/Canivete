@@ -1,11 +1,11 @@
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Button, Dialog, Flex, Select, Text, TextField } from "@radix-ui/themes";
+import useCategories from "../hooks/useCategories";
 
-interface FinanceCategoryDialogProps {
-    addCategory: (e: React.FormEvent<HTMLFormElement>) => void
-}
 
-export default function FinanceCategoryDialog ({addCategory}: FinanceCategoryDialogProps) {
+
+export default function FinanceCategoryDialog () {
+    const { addCategory } = useCategories()
     return (
         <Dialog.Root >
             <Dialog.Trigger>

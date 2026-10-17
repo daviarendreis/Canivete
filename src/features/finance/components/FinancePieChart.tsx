@@ -1,16 +1,14 @@
 import { Pie, PieChart, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { calculateCategoryPercent, getTopCategories } from "../logic/categoryStats";
-import type { Transaction } from "../types/transaction";
-import type { Category } from "../types/category";
 import { Box, Card, Flex, Text } from "@radix-ui/themes";
 import FinancePieChartLegend from "./FinanceChartLegend";
+import useCategories from "../hooks/useCategories";
+import useTransactions from "../hooks/useTransactions";
 
-interface FinancePieChartProps {
-    transactions: Transaction[]
-    categories: Category[]
-}
+export default function FinancePieChart () {
+    const { categories } = useCategories()
+    const { transactions } = useTransactions()
 
-export default function FinancePieChart ({transactions, categories}: FinancePieChartProps) {
     const chartData = getTopCategories(transactions, categories).filter(cat => cat.categoryTotal > 0)
     return (
         <Card style={{ width: '100%'}}>

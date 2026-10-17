@@ -7,6 +7,7 @@ interface FinancePieChartLegendProps {
 }
 
 export default function FinancePieChartLegend ({category, categoryPercent}: FinancePieChartLegendProps) {
+    
     return (
         <>
             <Flex direction={'row'} justify={'between'} align={'center'} gap={'3'} width={'100%'}>

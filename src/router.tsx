@@ -11,6 +11,7 @@ import RootLayout from './RootLayout'
 import NotebooksProvider from './features/notes/context/NotebooksProvider'
 import NotebooksPage from './features/notes/NotebooksPage'
 import TransactionsProvider from './features/finance/context/TransactionsProvider'
+import CategoriesProvider from './features/finance/context/CategoriesProvider'
 
 const router = createBrowserRouter([
     {
@@ -29,9 +30,11 @@ const router = createBrowserRouter([
             }, {
                 path:'finance',
                 element: (
-                    <TransactionsProvider>
-                        <Outlet/>
-                    </TransactionsProvider>
+                    <CategoriesProvider>
+                        <TransactionsProvider>
+                            <Outlet/>
+                        </TransactionsProvider>
+                    </CategoriesProvider>
                 ),
                 children: [
                     {index: true, element: <Finance/>}

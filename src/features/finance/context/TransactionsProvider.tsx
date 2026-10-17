@@ -4,6 +4,7 @@ import type { Transaction } from "../types/transaction"
 import type { TransactionTypes } from "../types/transactionTypes"
 import dayjs from "dayjs"
 import { TransactionsContext, type TransactionsContextTypes } from "./TransactionsContext"
+import useCategories from "../hooks/useCategories"
 
 interface StoredTransactions {
     id: string | number
@@ -30,13 +31,13 @@ export default function TransactionsProvider ({children}: TransactionsProviderPr
     }
 
     const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
-    
+    const { categories } = useCategories()
 
     useEffect(() => {
         localStorage.setItem('transactions', JSON.stringify(transactions))
     }, [transactions])
 
-    function addTransaction (e: React.FormEvent<HTMLFormElement>, categories: Category[]) {
+    function addTransaction (e: React.FormEvent<HTMLFormElement> ) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)

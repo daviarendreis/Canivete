@@ -8,7 +8,9 @@ interface FinanceResultsProps {
 }
 
 export default function FinanceResults ({ filterCategory }: FinanceResultsProps) {
+    
     const { transactions, deleteTransaction } = useTransactions()
+
     return (
         <>
         {transactions.length !== 0 ? 
