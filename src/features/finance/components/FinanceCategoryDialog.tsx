@@ -6,6 +6,7 @@ import useCategories from "../hooks/useCategories";
 
 export default function FinanceCategoryDialog () {
     const { addCategory } = useCategories()
+    
     return (
         <Dialog.Root >
             <Dialog.Trigger>

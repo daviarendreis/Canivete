@@ -3,16 +3,14 @@ import { Box, Button, Card, Dialog, DropdownMenu, Flex, Heading, Text, TextField
 import type { Habit } from "../types/habit";
 import { calculateStreak } from "../logic/streak";
 import TrackerChart from "./TrackerChart";
+import useHabits from "../hooks/useHabits";
 
 interface TrackerCardProps {
-    habit: Habit,
-    markToday: (habit: Habit) => void,
-    unmarkToday: (habit: Habit) => void,
-    removeHabit: (id: string) => void,
-    editHabit: (e: React.FormEvent<HTMLFormElement>, habit: Habit) => void
+    habit: Habit
 }
 
-export default function TrackerCard ({habit, markToday, unmarkToday, removeHabit, editHabit}: TrackerCardProps) {
+export default function TrackerCard ({ habit }: TrackerCardProps) {
+    const { editHabit, markToday, removeHabit, unmarkToday} = useHabits()
     return (
         <Card >
             <Flex direction={'column'} gap={'4'}>

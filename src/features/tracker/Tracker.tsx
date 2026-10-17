@@ -4,7 +4,7 @@ import TrackerCard from "./components/TrackerCard";
 import ColorSelect from "../../utils/ColorSelect";
 
 export default function Tracker () {
-    const { habits, addHabit, removeHabit, editHabit, markToday, unmarkToday } = useHabits()
+    const { habits, addHabit } = useHabits()
 
     return (
         <Box>
@@ -14,7 +14,7 @@ export default function Tracker () {
 
                 <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap={'4'}>
                     {habits.map((habit) => (
-                        <TrackerCard key={habit.id} habit={habit} markToday={markToday} unmarkToday={unmarkToday} removeHabit={removeHabit} editHabit={editHabit} />
+                        <TrackerCard key={habit.id} habit={habit} />
                     ))}
                 </Grid>
                     <Dialog.Root>
