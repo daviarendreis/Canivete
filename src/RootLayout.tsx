@@ -3,6 +3,12 @@ import BackButton from './components/BackButton'
 import { Flex, Theme } from '@radix-ui/themes'
 import { useEffect, useState } from 'react'
 import ToggleThemeButton from './components/ToggleThemeButton'
+import TodosProvider from './features/todo/context/TodosProvider'
+import HabitsProvider from './features/tracker/context/HabitsProvider'
+import CategoriesProvider from './features/finance/context/CategoriesProvider'
+import TransactionsProvider from './features/finance/context/TransactionsProvider'
+import NotesProvider from './features/notes/context/NotesProvider'
+import NotebooksProvider from './features/notes/context/NotebooksProvider'
 
 type Themes = 'dark' | 'light'
 
@@ -31,7 +37,19 @@ export default function RootLayout () {
             {(location.pathname !== '/') && <BackButton/>}
             <ToggleThemeButton theme={theme} setTheme={setTheme}  />
         </Flex>
-        <Outlet/>
+        <TodosProvider>
+            <HabitsProvider>
+                <CategoriesProvider>
+                    <TransactionsProvider>
+                        <NotesProvider>
+                            <NotebooksProvider>
+                                <Outlet/>
+                            </NotebooksProvider>
+                        </NotesProvider>
+                    </TransactionsProvider>
+                </CategoriesProvider>
+            </HabitsProvider>
+        </TodosProvider>
         </Theme>
     )
 }
