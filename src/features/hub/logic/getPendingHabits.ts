@@ -12,5 +12,5 @@ export default function getPendingHabits (habits: Habit[]) {
         return "All habits done today!"
     }
 
-    return `${pendingHabits.length} habits left today!`
+    return pendingHabits.length === 1 ? `1 habit left today!` : `${pendingHabits.length} habits left today!`
 }

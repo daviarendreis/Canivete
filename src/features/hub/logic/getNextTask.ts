@@ -10,27 +10,27 @@ export default function getNextTask (todos: Todo[]) {
     const lowPriorityTasks = todos.filter(t => t.priority === 'low')
 
     if (highPriorityTasks.length === 0 && mediumPriorityTasks.length === 0) {
-        const ordenedTasks = getOrdenedTasks(lowPriorityTasks)
-        const prioritizedTask = ordenedTasks[0]
+        const sortedTasks = getOrdenedTasks(lowPriorityTasks)
+        const prioritizedTask = sortedTasks[0]
 
         return `Next: ${prioritizedTask.name}`
     }
 
     if (highPriorityTasks.length === 0) {
-        const ordenedTasks = getOrdenedTasks(mediumPriorityTasks)
-        const prioritizedTask = ordenedTasks[0]
+        const sortedTasks = getOrdenedTasks(mediumPriorityTasks)
+        const prioritizedTask = sortedTasks[0]
 
         return `Next: ${prioritizedTask.name}`
     }
 
-    const ordenedTasks = getOrdenedTasks(highPriorityTasks)
-    const prioritizedTask = ordenedTasks[0]
+    const sortedTasks = getOrdenedTasks(highPriorityTasks)
+    const prioritizedTask = sortedTasks[0]
 
     return `Next: ${prioritizedTask.name}`
 }
 
 function getOrdenedTasks (todos: Todo[]) {
-    const ordenedTasks = [...todos].sort((task1, task2) => task1.time.localeCompare(task2.time))
+    const sortedTasks = [...todos].sort((task1, task2) => task1.time.localeCompare(task2.time))
 
-    return ordenedTasks
+    return sortedTasks
 }
