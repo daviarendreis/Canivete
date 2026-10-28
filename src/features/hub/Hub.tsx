@@ -2,9 +2,11 @@ import { Box, Flex, Heading, Strong, Text } from "@radix-ui/themes";
 import { apps } from "./data/apps"
 import AppCard from "./components/AppCard";
 import { getToday } from "../../utils/date";
+import useAppSummaries from "./hooks/useAppSummaries";
 
 export default function Hub() {
      const textDate = getToday()
+     const summaries = useAppSummaries()
 
   return (
       <Box>
@@ -24,7 +26,8 @@ export default function Hub() {
               name={app.name} 
               description={app.description} 
               color={app.color} 
-              to={app.to} />
+              to={app.to}
+              summary={summaries[app.to]} />
             ))}
           </Flex>
         </Flex>

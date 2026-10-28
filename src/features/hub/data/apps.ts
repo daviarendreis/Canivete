@@ -1,8 +1,8 @@
 import { ActivityLogIcon, BackpackIcon, CalendarIcon, ReaderIcon } from '@radix-ui/react-icons';
 import type { ComponentType} from 'react';
 import type { RadixColors } from '../../../utils/colors';
+import type { Links } from '../../../utils/links';
 
-type Links = "/todo" | "/tracker" | "/finance" | "/notes"
 
 export interface App {
     icon: ComponentType,
