@@ -1,6 +1,6 @@
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Button, Dialog, Flex, Select, Text, TextField } from "@radix-ui/themes";
-import type { TransactionTypes } from "../types/transactionTypes";
+import type { TransactionType } from "../types/transactionType";
 import { useState } from "react";
 import { filterCategories } from "../logic/filterCategories";
 import useTransactions from "../hooks/useTransactions";
@@ -9,18 +9,18 @@ import useCategories from "../hooks/useCategories";
 
 
 export default function FinanceTransactionDialog () {
-    const [type, setType] = useState<TransactionTypes>('inbound')
+    const [type, setType] = useState<TransactionType>('inbound')
     const [category, setCategory] = useState('')
     const { addTransaction } = useTransactions()
     const { categories } = useCategories()
 
-    const inboundCategories = filterCategories(categories, 'inbound')
-    const outboundCategories = filterCategories(categories, 'outbound')
+    const incomeCategories = filterCategories(categories, 'inbound')
+    const expenseCategories = filterCategories(categories, 'outbound')
 
 
-    const availableCategories = type === 'inbound' ? inboundCategories : outboundCategories
+    const availableCategories = type === 'inbound' ? incomeCategories : expenseCategories
 
-    function handleTypeChange (newType: TransactionTypes) {
+    function handleTypeChange (newType: TransactionType) {
         setType(newType)
         setCategory('')
     }

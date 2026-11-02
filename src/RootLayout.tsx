@@ -3,28 +3,28 @@ import BackButton from './components/BackButton'
 import { Flex, Theme } from '@radix-ui/themes'
 import { useEffect, useState } from 'react'
 import ToggleThemeButton from './components/ToggleThemeButton'
-import TodosProvider from './features/todo/context/TodosProvider'
+import TasksProvider from './features/tasks/context/TasksProvider'
 import HabitsProvider from './features/tracker/context/HabitsProvider'
 import CategoriesProvider from './features/finance/context/CategoriesProvider'
 import TransactionsProvider from './features/finance/context/TransactionsProvider'
 import NotesProvider from './features/notes/context/NotesProvider'
 import NotebooksProvider from './features/notes/context/NotebooksProvider'
 
-type Themes = 'dark' | 'light'
+type ThemeMode = 'dark' | 'light'
 
 export default function RootLayout () {
     const location = useLocation()
 
     function getStoredTheme() {
         const raw = localStorage.getItem('theme')
-        const defaultValue: Themes = 'dark'
+        const defaultValue: ThemeMode = 'dark'
 
         if (!raw) return defaultValue
 
-        return raw as Themes
+        return raw as ThemeMode
     }
 
-    const [theme, setTheme] = useState<Themes>(() => getStoredTheme())
+    const [theme, setTheme] = useState<ThemeMode>(() => getStoredTheme())
 
     useEffect(() => {
         localStorage.setItem('theme', theme)
@@ -37,7 +37,7 @@ export default function RootLayout () {
             {(location.pathname !== '/') && <BackButton/>}
             <ToggleThemeButton theme={theme} setTheme={setTheme}  />
         </Flex>
-        <TodosProvider>
+        <TasksProvider>
             <HabitsProvider>
                 <CategoriesProvider>
                     <TransactionsProvider>
@@ -49,7 +49,7 @@ export default function RootLayout () {
                     </TransactionsProvider>
                 </CategoriesProvider>
             </HabitsProvider>
-        </TodosProvider>
+        </TasksProvider>
         </Theme>
     )
 }

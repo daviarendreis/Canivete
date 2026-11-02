@@ -1,8 +1,8 @@
 import useTransactions from "../../finance/hooks/useTransactions";
 import useNotes from "../../notes/hooks/useNotes";
-import useTodos from "../../todo/hooks/useTodos";
+import useTasks from "../../tasks/hooks/useTasks";
 import useHabits from "../../tracker/hooks/useHabits";
-import getLastEditedNotes from "../logic/getLastEditedNotes";
+import getLastEditedNote from "../logic/getLastEditedNote";
 import getMonthBalance from "../logic/getMonthBalance";
 import getNextTask from "../logic/getNextTask";
 import getPendingHabits from "../logic/getPendingHabits";
@@ -15,16 +15,16 @@ interface Summaries {
 }
 
 export default function useAppSummaries () {
-    const { todos } = useTodos()
+    const { tasks } = useTasks()
     const { transactions } = useTransactions()
     const { habits } = useHabits()
     const { pages } = useNotes()
 
     const summaries: Summaries = {
-        '/todo': getNextTask(todos),
+        '/todo': getNextTask(tasks),
         '/finance': getMonthBalance(transactions),
         '/tracker': getPendingHabits(habits),
-        '/notes': getLastEditedNotes(pages)
+        '/notes': getLastEditedNote(pages)
     }
 
     return summaries

@@ -1,11 +1,11 @@
 import { Box, Flex, Heading, Strong, Text } from "@radix-ui/themes";
 import { apps } from "./data/apps"
 import AppCard from "./components/AppCard";
-import { getToday } from "../../utils/date";
+import { getTodayLabel } from "../../utils/date";
 import useAppSummaries from "./hooks/useAppSummaries";
 
 export default function Hub() {
-     const textDate = getToday()
+     const todayLabel = getTodayLabel()
      const summaries = useAppSummaries()
 
   return (
@@ -15,7 +15,7 @@ export default function Hub() {
             <Heading size={'8'} mt={'3'}>Time to Produce</Heading>
             <Heading as="h3" mt={'5'} >Tools to help you produce more and better work!</Heading>
             <Flex direction={'row'} gap={'10'} m={'7'}>
-              <Text><Strong>{textDate}</Strong></Text>
+              <Text><Strong>{todayLabel}</Strong></Text>
             </Flex>
             
           </Flex>

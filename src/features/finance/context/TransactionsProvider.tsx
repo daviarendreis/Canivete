@@ -1,16 +1,16 @@
 import { useEffect, useState, type ReactNode } from "react"
 import type { Category } from "../types/category"
 import type { Transaction } from "../types/transaction"
-import type { TransactionTypes } from "../types/transactionTypes"
+import type { TransactionType } from "../types/transactionType"
 import dayjs from "dayjs"
-import { TransactionsContext, type TransactionsContextTypes } from "./TransactionsContext"
+import { TransactionsContext, type TransactionsContextType } from "./TransactionsContext"
 import useCategories from "../hooks/useCategories"
 
-interface StoredTransactions {
+interface StoredTransaction {
     id: string | number
     description: string
     value: number
-    type: TransactionTypes
+    type: TransactionType
     category: Category
     createdAt: string
 }
@@ -25,9 +25,9 @@ export default function TransactionsProvider ({children}: TransactionsProviderPr
 
         if (!raw) {return []}
 
-        const transactionsRaw = JSON.parse(raw) as StoredTransactions[]
+        const storedTransactions = JSON.parse(raw) as StoredTransaction[]
 
-        return transactionsRaw.map(transaction => typeof transaction.id === 'number' ? {...transaction, id: crypto.randomUUID()} : transaction) as Transaction[]
+        return storedTransactions.map(transaction => typeof transaction.id === 'number' ? {...transaction, id: crypto.randomUUID()} : transaction) as Transaction[]
     }
 
     const [transactions, setTransactions] = useState<Transaction[]>(() => getStoredTransactions())
@@ -44,7 +44,7 @@ export default function TransactionsProvider ({children}: TransactionsProviderPr
         const description = formData.get('description')?.toString() || ''
         const value = Number(formData.get('value'))
         const typeRaw = formData.get('type')?.toString()
-        const type: TransactionTypes = typeof typeRaw === 'string' ? typeRaw as TransactionTypes : 'inbound'
+        const type: TransactionType = typeof typeRaw === 'string' ? typeRaw as TransactionType : 'inbound'
         const categoryRaw = formData.get('category')?.toString()
         const category= categories.find(cat => cat.name === categoryRaw)
 
@@ -68,7 +68,7 @@ export default function TransactionsProvider ({children}: TransactionsProviderPr
         setTransactions((state) => state.filter(t => t.id !== id))
     }
 
-    const value: TransactionsContextTypes = { transactions, addTransaction, deleteTransaction }
+    const value: TransactionsContextType = { transactions, addTransaction, deleteTransaction }
 
     return (
         <TransactionsContext value={value}>

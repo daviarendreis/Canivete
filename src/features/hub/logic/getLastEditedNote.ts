@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import type { Page } from "../../notes/types/Page";
 
-export default function getLastEditedNotes (notes: Page[]) {
+export default function getLastEditedNote (notes: Page[]) {
     if (notes.length <= 0) {
         return "No notes yet"
     }

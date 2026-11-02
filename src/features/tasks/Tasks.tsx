@@ -1,12 +1,12 @@
 import { Box, Button, Card, Dialog, Flex, Grid, Heading } from "@radix-ui/themes";
 import { useState } from "react";
-import useTodos from "./hooks/useTodos";
-import TodoCard from "./components/TodoCard";
-import TodoForm from "./components/TodoForm";
+import useTasks from "./hooks/useTasks";
+import TaskCard from "./components/TaskCard";
+import TaskForm from "./components/TaskForm";
 
-export default function Todo () {
+export default function Tasks () {
     const [isOpen, setIsOpen] = useState(false)
-    const { todos, lowPriorityTodos, mediumPriorityTodos, highPriorityTodos, addTodo } = useTodos()
+    const { tasks, lowPriorityTasks, mediumPriorityTasks, highPriorityTasks, addTask } = useTasks()
 
     return(
         <Box>
@@ -22,8 +22,8 @@ export default function Todo () {
                     <Dialog.Content maxWidth={'20rem'}>
                         <Dialog.Title>Add To-do</Dialog.Title>
                         
-                        <form onSubmit={addTodo}>
-                        <TodoForm />
+                        <form onSubmit={addTask}>
+                        <TaskForm />
 
                         <Flex gap="3" mt="4" justify="end">
                             <Dialog.Close>
@@ -46,32 +46,32 @@ export default function Todo () {
                     <Grid columns={'3'} gap={'4'} >
                     <Flex direction={'column'} gap={'4'}>
                         <Heading size={'5'} color="gray" weight={'light'}>Low</Heading>
-                        {lowPriorityTodos.length !== 0 && <Card>
-                            {lowPriorityTodos.map(todo => (
-                                <TodoCard key={todo.id} todo={todo}/>
+                        {lowPriorityTasks.length !== 0 && <Card>
+                            {lowPriorityTasks.map(task => (
+                                <TaskCard key={task.id} task={task}/>
                             ))}
                         </Card>}
                     </Flex>
                     <Flex direction={'column'} gap={'4'}>
                         <Heading size={'5'} color="gray" weight={'light'}>Medium</Heading>
-                        {mediumPriorityTodos.length !== 0 && <Card>
-                            {mediumPriorityTodos.map(todo => (
-                                <TodoCard key={todo.id} todo={todo}/>
+                        {mediumPriorityTasks.length !== 0 && <Card>
+                            {mediumPriorityTasks.map(task => (
+                                <TaskCard key={task.id} task={task}/>
                             ))}
                         </Card>}
                     </Flex>
                     <Flex direction={'column'} gap={'4'}>
                         <Heading size={'5'} color="gray" weight={'light'}>High</Heading>
-                        {highPriorityTodos.length !== 0 && <Card>
-                            {highPriorityTodos.map(todo => (
-                                <TodoCard key={todo.id} todo={todo}/>
+                        {highPriorityTasks.length !== 0 && <Card>
+                            {highPriorityTasks.map(task => (
+                                <TaskCard key={task.id} task={task}/>
                             ))}
                         </Card>}
                     </Flex>
                     </Grid>
                     </Flex>
                 </Box>
-                <Heading as="h3" size={'4'}>Total to-dos: {todos.length}</Heading>
+                <Heading as="h3" size={'4'}>Total to-dos: {tasks.length}</Heading>
             </Flex>
         </Box>
     )

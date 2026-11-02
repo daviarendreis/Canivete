@@ -27,8 +27,8 @@ export function getCategoryTotals (transactions: Transaction[], categories: Cate
 }
 
 export function getTopCategories (transactions: Transaction[], categories: Category[]) {
-    const outboundCategories = filterCategories(categories, "outbound")
-    const categoryTotals = getCategoryTotals(transactions, outboundCategories)
+    const expenseCategories = filterCategories(categories, "outbound")
+    const categoryTotals = getCategoryTotals(transactions, expenseCategories)
     const sortedCategories = [...categoryTotals].sort((catA, catB) => catB.categoryTotal - catA.categoryTotal )
 
     const topCategories = sortedCategories.slice(0, 4)

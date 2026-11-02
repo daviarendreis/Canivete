@@ -1,15 +1,15 @@
 import { Box, Button, Card, Flex, Heading, Strong, Text } from "@radix-ui/themes";
 import { Link } from 'react-router';
 import type { ComponentType } from "react";
-import type { RadixColors } from "../../../utils/colors";
-import type { Links } from "../../../utils/links";
+import type { RadixColor } from "../../../utils/colors";
+import type { AppRoute } from "../../../utils/routes";
 
 interface AppCardProps {
       icon: ComponentType,
       name: string,
-      color: RadixColors,
+      color: RadixColor,
       description: string,
-      to: Links,
+      to: AppRoute,
       summary: string
 }
 

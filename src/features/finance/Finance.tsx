@@ -1,6 +1,6 @@
 import { Card, Container, Flex, Grid, Heading, Select, Text } from "@radix-ui/themes";
 import useTransactions from "./hooks/useTransactions";
-import { getInbound, getOutbound, getTotalBalance } from "./logic/balance";
+import { getTotalIncome, getTotalExpenses, getTotalBalance } from "./logic/balance";
 import { ArrowBottomLeftIcon, ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import FinanceResults from "./components/FinanceResults";
@@ -14,10 +14,10 @@ export default function Finance () {
     const { transactions } = useTransactions()
     const { categories } = useCategories()
     
-    const [filterCategory, setFilterCategory] = useState('all')
+    const [categoryFilter, setCategoryFilter] = useState('all')
 
-    const inboundCategories = filterCategories(categories, 'inbound')
-    const outboundCategories = filterCategories(categories, 'outbound')
+    const incomeCategories = filterCategories(categories, 'inbound')
+    const expenseCategories = filterCategories(categories, 'outbound')
 
     return (
         <Container size={'4'} align={'center'}>
@@ -34,13 +34,13 @@ export default function Finance () {
                     <Card variant="surface">
                         <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
                             <Text size={'3'} ml={'2'} color="gray"><ArrowBottomLeftIcon/> Inbound </Text>
-                            <Heading size={'8'} color="grass" weight={'bold'}>{`$ ${getInbound(transactions).toLocaleString()}`}</Heading>
+                            <Heading size={'8'} color="grass" weight={'bold'}>{`$ ${getTotalIncome(transactions).toLocaleString()}`}</Heading>
                         </Flex>
                     </Card>
                     <Card variant="surface">
                         <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
                             <Text size={'3'} ml={'2'} color="gray"><ArrowTopRightIcon/> Outbound </Text>
-                            <Heading size={'8'} color="red" weight={'bold'}>{`$ ${getOutbound(transactions).toLocaleString()}`}</Heading>
+                            <Heading size={'8'} color="red" weight={'bold'}>{`$ ${getTotalExpenses(transactions).toLocaleString()}`}</Heading>
                         </Flex>
                     </Card>
                 </Flex>
@@ -55,19 +55,19 @@ export default function Finance () {
                             <FinanceTransactionDialog/>
                         </Flex>
                         <Flex justify={'start'} align={'center'}>
-                            <Select.Root value={filterCategory} onValueChange={setFilterCategory}>
+                            <Select.Root value={categoryFilter} onValueChange={setCategoryFilter}>
                                 <Select.Trigger placeholder="Filter by Categories"/>
                                 <Select.Content>
                                     <Select.Item value="all">All categories</Select.Item>
                                     <Select.Group>
                                         <Select.Label>Inbound Categories</Select.Label>
-                                        {inboundCategories.map(c => (
+                                        {incomeCategories.map(c => (
                                             <Select.Item key={c.name} value={c.name}>{c.name}</Select.Item>
                                         ))}
                                     </Select.Group>
                                     <Select.Group>
                                         <Select.Label>Outbound Categories</Select.Label>
-                                        {outboundCategories.map(c => (
+                                        {expenseCategories.map(c => (
                                             <Select.Item key={c.name} value={c.name}>{c.name}</Select.Item>
                                         ))}
                                     </Select.Group>
@@ -75,7 +75,7 @@ export default function Finance () {
                                 </Select.Content>
                             </Select.Root>
                         </Flex>
-                        <FinanceResults filterCategory={filterCategory} />
+                        <FinanceResults categoryFilter={categoryFilter} />
                     </Flex>
                 </Card>
             

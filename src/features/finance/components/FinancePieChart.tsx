@@ -1,7 +1,7 @@
 import { Pie, PieChart, Tooltip, Cell, ResponsiveContainer } from "recharts";
 import { calculateCategoryPercent, getTopCategories } from "../logic/categoryStats";
 import { Box, Card, Flex, Text } from "@radix-ui/themes";
-import FinancePieChartLegend from "./FinanceChartLegend";
+import FinancePieChartLegend from "./FinancePieChartLegend";
 import useCategories from "../hooks/useCategories";
 import useTransactions from "../hooks/useTransactions";
 

@@ -2,13 +2,13 @@ import { Table, Text } from "@radix-ui/themes";
 import NotesRow from "./NotesRow";
 import type { Page } from "../types/Page";
 
-interface NotesTableProps {
+interface NotesResultsProps {
     pages: Page[]
     filteredPages: Page[]
     notebookId: string
 }
 
-export default function NotesResults ({pages, filteredPages, notebookId}: NotesTableProps) {
+export default function NotesResults ({pages, filteredPages, notebookId}: NotesResultsProps) {
     return (
         <Table.Root size={'3'}>
             <Table.Body >

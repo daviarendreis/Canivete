@@ -4,10 +4,10 @@ import { TrashIcon } from "@radix-ui/react-icons"
 import useTransactions from "../hooks/useTransactions"
 
 interface FinanceResultsProps {
-    filterCategory: string
+    categoryFilter: string
 }
 
-export default function FinanceResults ({ filterCategory }: FinanceResultsProps) {
+export default function FinanceResults ({ categoryFilter }: FinanceResultsProps) {
     
     const { transactions, deleteTransaction } = useTransactions()
 
@@ -23,7 +23,7 @@ export default function FinanceResults ({ filterCategory }: FinanceResultsProps)
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {filterTransactions(transactions, filterCategory).map(transaction => (
+                {filterTransactions(transactions, categoryFilter).map(transaction => (
                     <Table.Row key={transaction.id}>
                         <Table.RowHeaderCell>{transaction.description}</Table.RowHeaderCell>
                         <Table.Cell>{transaction.type === "inbound" ? <Badge radius="full" color="grass">Inbound</Badge> :  <Badge radius="full" color="red">Outbound</Badge>}</Table.Cell>

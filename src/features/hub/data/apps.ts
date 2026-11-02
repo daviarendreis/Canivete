@@ -1,15 +1,15 @@
 import { ActivityLogIcon, BackpackIcon, CalendarIcon, ReaderIcon } from '@radix-ui/react-icons';
 import type { ComponentType} from 'react';
-import type { RadixColors } from '../../../utils/colors';
-import type { Links } from '../../../utils/links';
+import type { RadixColor } from '../../../utils/colors';
+import type { AppRoute } from '../../../utils/routes';
 
 
 export interface App {
     icon: ComponentType,
     name: string,
-    color: RadixColors,
+    color: RadixColor,
     description: string,
-    to: Links
+    to: AppRoute
 }
 
 export const apps: App[] = [

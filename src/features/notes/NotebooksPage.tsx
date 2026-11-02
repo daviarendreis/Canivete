@@ -1,7 +1,7 @@
 import { Button, Container, Dialog, Flex, Grid, Heading, Text, TextField } from "@radix-ui/themes"
 import useNotebooks from "./hooks/useNotebooks"
 import NotebookCard from "./components/NotebookCard"
-import { noteCounter } from "./logic/noteCounter"
+import { countNotes } from "./logic/countNotes"
 import useNotes from "./hooks/useNotes"
 import { PlusIcon } from "@radix-ui/react-icons"
 import ColorSelect from "../../utils/ColorSelect"
@@ -12,7 +12,7 @@ export default function NotebooksPage () {
     const { pages } = useNotes()
     const navigate = useNavigate()
 
-    function onOpen (notebookId: string) {
+    function openNotebook (notebookId: string) {
         navigate(`/notes/${notebookId}`)
     }
 
@@ -26,8 +26,8 @@ export default function NotebooksPage () {
                         <NotebookCard
                         key={nb.id}
                         notebook={nb}
-                        noteCount={noteCounter(nb.id, pages)}
-                        onClick={() => onOpen(nb.id)}
+                        noteCount={countNotes(nb.id, pages)}
+                        onClick={() => openNotebook(nb.id)}
                         />
                     ))}
 

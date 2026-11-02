@@ -1,11 +1,11 @@
 import type { Category } from "./category"
-import type { TransactionTypes } from "./transactionTypes"
+import type { TransactionType } from "./transactionType"
 
 export interface Transaction {
     id: string
     description: string
     value: number
-    type: TransactionTypes
+    type: TransactionType
     category: Category
     createdAt: string
 }

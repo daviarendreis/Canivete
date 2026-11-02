@@ -1,18 +1,18 @@
 import type { Category } from "../features/finance/types/category"
 
-export type RadixColors = 'tomato' | 'red' | 'ruby' | 'crimson' | 'pink' | 'plum' | 'purple' | 'violet' |
+export type RadixColor = 'tomato' | 'red' | 'ruby' | 'crimson' | 'pink' | 'plum' | 'purple' | 'violet' |
                         'iris' | 'indigo' | 'blue' | 'cyan' | 'teal' | 'jade' | 'green' | 'grass' |
                         'lime' | 'mint' | 'sky' | 'amber' | 'orange' | 'brown' | 'gold' | 'bronze' | 'gray' | 'yellow'
 
-export const colors: RadixColors[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
+export const colors: RadixColor[] = ['tomato' , 'red' , 'ruby' , 'crimson' , 'pink' , 'plum' , 'purple' , 'violet' ,
                         'iris' , 'indigo' , 'blue' , 'cyan' , 'teal' , 'jade' , 'green' , 'grass' ,
                         'lime' , 'mint' , 'sky' , 'amber' , 'orange' , 'brown' , 'gold' , 'bronze', 'gray','yellow'
                     ]
 
-export const chartColors: RadixColors[] = ['iris', 'jade', 'orange', 'crimson', 'cyan']
+export const chartColors: RadixColor[] = ['iris', 'jade', 'orange', 'crimson', 'cyan']
 
-export function nextAvailableColor (existing: Category[], palette: RadixColors[]): RadixColors {
-    const used: RadixColors[] = existing.map(cat => cat.color).filter((c): c is RadixColors => c !== undefined)
+export function nextAvailableColor (existing: Category[], palette: RadixColor[]): RadixColor {
+    const used: RadixColor[] = existing.map(cat => cat.color).filter((c): c is RadixColor => c !== undefined)
     const nextAvailable = palette.find(color => !used.includes(color))
 
     if (nextAvailable) return nextAvailable
@@ -20,9 +20,9 @@ export function nextAvailableColor (existing: Category[], palette: RadixColors[]
     return palette[existing.length % palette.length]
 }
 
-export function parseColor(raw: string | undefined): RadixColors {
-    if (typeof raw === 'string' && colors.includes(raw as RadixColors)) {
-        return raw as RadixColors
+export function parseColor(raw: string | undefined): RadixColor {
+    if (typeof raw === 'string' && colors.includes(raw as RadixColor)) {
+        return raw as RadixColor
     }
     return colors[0]
 }

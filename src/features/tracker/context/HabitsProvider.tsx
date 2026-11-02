@@ -1,17 +1,17 @@
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
-import { colors, type RadixColors } from "../../../utils/colors"
+import { colors, type RadixColor } from "../../../utils/colors"
 import type { Habit } from "../types/habit"
 import { useEffect, useState, type ReactNode } from "react"
 import { getToday, verifyIsCompletedToday } from "../logic/streak"
-import { HabitsContext, type HabitsContextTypes } from "./HabitsContext"
+import { HabitsContext, type HabitsContextType } from "./HabitsContext"
 
 dayjs.extend(customParseFormat)
 
-interface StoredHabits {
+interface StoredHabit {
     id: string | number
     name: string
-    color: RadixColors
+    color: RadixColor
     completedDates: string[]
 }
 
@@ -25,7 +25,7 @@ export default function HabitsProvider ({children}: HabitsProviderProps) {
 
             if (!raw) return []
 
-            const storedHabits = JSON.parse(raw) as StoredHabits[]
+            const storedHabits = JSON.parse(raw) as StoredHabit[]
 
             return storedHabits.map(h => typeof h.id === 'number' ? {...h, id: crypto.randomUUID()} : h) as Habit[]
         }
@@ -42,7 +42,7 @@ export default function HabitsProvider ({children}: HabitsProviderProps) {
         const formData = new FormData(e.currentTarget)
         const name = formData.get("name")?.toString() || 'Habit'
         const colorRaw = formData.get("color")?.toString()
-        const color: RadixColors = typeof colorRaw === "string" && colors.includes(colorRaw as RadixColors) ? colorRaw as RadixColors  : colors[0] 
+        const color: RadixColor = typeof colorRaw === "string" && colors.includes(colorRaw as RadixColor) ? colorRaw as RadixColor  : colors[0] 
 
         const newHabit: Habit = {
             id: crypto.randomUUID(),
@@ -54,7 +54,7 @@ export default function HabitsProvider ({children}: HabitsProviderProps) {
         setHabits((state) => [...state, newHabit])
     }
 
-    function removeHabit (id: string) {
+    function deleteHabit (id: string) {
         setHabits((state) => state.filter(currentHabit => currentHabit.id !== id))
     }
 
@@ -95,7 +95,7 @@ export default function HabitsProvider ({children}: HabitsProviderProps) {
         }
     }
 
-        const value: HabitsContextTypes = { habits, addHabit, removeHabit, editHabit, markToday, unmarkToday }
+        const value: HabitsContextType = { habits, addHabit, deleteHabit, editHabit, markToday, unmarkToday }
 
         return (
             <HabitsContext value={value}>

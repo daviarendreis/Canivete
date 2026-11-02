@@ -1,9 +1,9 @@
 import { Select } from "@radix-ui/themes";
-import { colors, type RadixColors } from "./colors";
+import { colors, type RadixColor } from "./colors";
 
 interface ColorSelectProps {
     name?: string
-    defaultValue?: RadixColors
+    defaultValue?: RadixColor
 }
 
 export default function ColorSelect ({name = 'color', defaultValue = 'blue'}:ColorSelectProps) {

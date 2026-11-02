@@ -1,6 +1,6 @@
 import type { Transaction } from "../types/transaction"
 
-export function getInbound (transactions: Transaction[]) {
+export function getTotalIncome (transactions: Transaction[]) {
     let value = 0
     for (let i = 0; i < transactions.length; i++) {
         const transaction = transactions[i]
@@ -12,7 +12,7 @@ export function getInbound (transactions: Transaction[]) {
     return value
 }
 
-export function getOutbound (transactions: Transaction[]) {
+export function getTotalExpenses (transactions: Transaction[]) {
     let value = 0
 
     for (let i = 0; i < transactions.length; i++) {
@@ -25,8 +25,8 @@ export function getOutbound (transactions: Transaction[]) {
 }
 
 export function getTotalBalance (transactions: Transaction[]) {
-    const inbounds = getInbound(transactions)
-    const outbounds = getOutbound(transactions)
+    const totalIncome = getTotalIncome(transactions)
+    const totalExpenses = getTotalExpenses(transactions)
 
-    return inbounds - outbounds
+    return totalIncome - totalExpenses
 }

@@ -10,7 +10,7 @@ interface TrackerCardProps {
 }
 
 export default function TrackerCard ({ habit }: TrackerCardProps) {
-    const { editHabit, markToday, removeHabit, unmarkToday} = useHabits()
+    const { editHabit, markToday, deleteHabit, unmarkToday} = useHabits()
     return (
         <Card >
             <Flex direction={'column'} gap={'4'}>
@@ -59,7 +59,7 @@ export default function TrackerCard ({ habit }: TrackerCardProps) {
                                         <DropdownMenu.Item shortcut='⨯' color={habit.color} onClick={() => unmarkToday(habit)}>
                                             Unmark Today
                                         </DropdownMenu.Item>
-                                        <DropdownMenu.Item shortcut="⌫" color="red" onClick={() => removeHabit(habit.id)}>
+                                        <DropdownMenu.Item shortcut="⌫" color="red" onClick={() => deleteHabit(habit.id)}>
                                             Delete
                                         </DropdownMenu.Item>
                                     </DropdownMenu.Content>

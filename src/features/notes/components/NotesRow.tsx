@@ -3,12 +3,12 @@ import { Button, Flex, Table, Text } from "@radix-ui/themes";
 import { Link } from 'react-router';
 import type { Page } from "../types/Page";
 
-interface NotesCardProps {
+interface NotesRowProps {
     page: Page
     notebookId: string
 }
 
-export default function NotesRow ({page, notebookId}: NotesCardProps) {
+export default function NotesRow ({page, notebookId}: NotesRowProps) {
     return (
         <Table.Row >
             <Table.Cell>

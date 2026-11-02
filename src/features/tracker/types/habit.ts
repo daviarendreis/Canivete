@@ -1,8 +1,8 @@
-import type { RadixColors } from "../../../utils/colors"
+import type { RadixColor } from "../../../utils/colors"
 
 export interface Habit {
     id: string
     name: string
-    color: RadixColors
+    color: RadixColor
     completedDates: string[]
 }

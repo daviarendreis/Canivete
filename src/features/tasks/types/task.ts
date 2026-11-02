@@ -1,6 +1,6 @@
 import type { Priority } from "./priority"
 
-export interface Todo {
+export interface Task {
     id: string
     name: string
     description: string

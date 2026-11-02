@@ -1,16 +1,16 @@
 import { useEffect, useState, type ReactNode } from "react"
 import { chartColors, nextAvailableColor } from "../../../utils/colors"
 import type { Category } from "../types/category"
-import type { TransactionTypes } from "../types/transactionTypes"
+import type { TransactionType } from "../types/transactionType"
 import { filterCategories } from "../logic/filterCategories"
-import { CategoriesContext, type CategoriesContextTypes } from "./CategoriesContext"
+import { CategoriesContext, type CategoriesContextType } from "./CategoriesContext"
 
 interface CategoriesProviderProps {
     children: ReactNode
 }
 
 export default function CategoriesProvider ({children}: CategoriesProviderProps) {
-    const categoriesRaw: Category[] = [
+    const defaultCategories: Category[] = [
     {
         name: 'Salary',
         type: 'inbound',
@@ -58,7 +58,7 @@ export default function CategoriesProvider ({children}: CategoriesProviderProps)
 ]   
     function getStoredCategories (): Category[] {
     const raw = localStorage.getItem('finance-categories')
-    if (!raw) return categoriesRaw
+    if (!raw) return defaultCategories
     
     const stored = JSON.parse(raw) as Category[]
     
@@ -68,8 +68,8 @@ export default function CategoriesProvider ({children}: CategoriesProviderProps)
             return acc
         }
         
-        const outboundSoFar = acc.filter(c => c.type === 'outbound')
-        const color = nextAvailableColor(outboundSoFar, chartColors)
+        const expenseCategoriesSoFar = acc.filter(c => c.type === 'outbound')
+        const color = nextAvailableColor(expenseCategoriesSoFar, chartColors)
         acc.push({ ...cat, color })
         return acc
     }, [])
@@ -88,7 +88,7 @@ export default function CategoriesProvider ({children}: CategoriesProviderProps)
 
         const name = formData.get('name')?.toString() || 'Category'
         const typeRaw = formData.get('type')?.toString()
-        const type: TransactionTypes = typeRaw === 'outbound' ? 'outbound' : 'inbound'
+        const type: TransactionType = typeRaw === 'outbound' ? 'outbound' : 'inbound'
 
         if (categories.some(c => c.name === name && c.type === type)) {
             alert('Category with this name already exists')
@@ -100,16 +100,16 @@ export default function CategoriesProvider ({children}: CategoriesProviderProps)
             type
         }
 
-        const outboundCategories = filterCategories(categories, 'outbound')
+        const expenseCategories = filterCategories(categories, 'outbound')
 
         if (type === 'outbound') {
-            newCategory.color = nextAvailableColor(outboundCategories, chartColors)
+            newCategory.color = nextAvailableColor(expenseCategories, chartColors)
         }
 
         setCategories(state => [...state, newCategory])
     }
 
-    const value: CategoriesContextTypes = {categories, addCategory}
+    const value: CategoriesContextType = {categories, addCategory}
 
     return (
         <CategoriesContext value={value}>

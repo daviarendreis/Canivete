@@ -6,7 +6,7 @@ import { parseColor } from "../../../utils/colors";
 
 const PUBLIC_NOTEBOOK_ID = "1"
 
-const notebooksRaw: Notebook[] = [
+const defaultNotebooks: Notebook[] = [
     {
         id: PUBLIC_NOTEBOOK_ID,
         name: 'Public',
@@ -23,7 +23,7 @@ export default function NotebooksProvider ({children}: NotebooksProviderProps) {
     function getStoredNotebooks () {
         const raw = localStorage.getItem('note-notebooks')
 
-        if (!raw) return notebooksRaw
+        if (!raw) return defaultNotebooks
 
         return JSON.parse(raw) as Notebook[]
 

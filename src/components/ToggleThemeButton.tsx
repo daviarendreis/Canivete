@@ -1,16 +1,16 @@
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 import { Button } from "@radix-ui/themes"
 
-type Themes = 'dark' | 'light'
+type ThemeMode = 'dark' | 'light'
 
 type ToggleThemeButtonProps = {
-    theme: Themes,
-    setTheme: (theme: Themes) => void
+    theme: ThemeMode,
+    setTheme: (theme: ThemeMode) => void
 }
 
 export default function ToggleThemeButton ({theme, setTheme}: ToggleThemeButtonProps) {
 
-    function changeTheme () {
+    function toggleTheme () {
         if (theme === 'light') {
             setTheme('dark')
         } else {
@@ -18,6 +18,6 @@ export default function ToggleThemeButton ({theme, setTheme}: ToggleThemeButtonP
         }
     }
     return (
-        <Button onClick={changeTheme} color="gray" variant="soft">{theme === 'light' ? <MoonIcon/> : <SunIcon/> }</Button>
+        <Button onClick={toggleTheme} color="gray" variant="soft">{theme === 'light' ? <MoonIcon/> : <SunIcon/> }</Button>
     )
 }

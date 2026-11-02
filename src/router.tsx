@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router'
 import Hub from './features/hub/Hub'
-import  Todo  from './features/todo/Todo'
+import  Tasks  from './features/tasks/Tasks'
 import  Tracker  from './features/tracker/Tracker'
 import  Finance  from './features/finance/Finance'
 import  Notes  from './features/notes/Notes'
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
                 element: <Hub/>
             }, {
                 path: 'todo',
-                element: <Todo/>
+                element: <Tasks/>
             }, {
                 path: 'tracker',
                 element: <Tracker/>

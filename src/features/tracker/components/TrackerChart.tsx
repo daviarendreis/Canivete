@@ -9,26 +9,26 @@ interface TrackerChartProps {
 
 export default function TrackerChart ({habit}: TrackerChartProps) {
 
-    function getAllDaysYear () {
+    function getDaysOfYear () {
         const startOfYear = dayjs().startOf('year')
         const endOfYear = dayjs().endOf('year')
 
-        const daysYear: dayjs.Dayjs[] = []
+        const daysOfYear: dayjs.Dayjs[] = []
 
         let currentDay = startOfYear
 
         while (currentDay.isBefore(endOfYear) || currentDay.isSame(endOfYear, 'day')) {
-            daysYear.push(currentDay)
+            daysOfYear.push(currentDay)
             currentDay = currentDay.add(1, 'day')
         }
-        return daysYear
+        return daysOfYear
     }
 
-    const daysYear = useMemo(() => getAllDaysYear(), []) 
+    const daysOfYear = useMemo(() => getDaysOfYear(), []) 
 
     return (
         <Grid rows={'7'} flow={'column'} style={{gap: "1px"}} overflowX={'auto'}>
-            {daysYear.map((day) => {
+            {daysOfYear.map((day) => {
                 const dateKey = day.format('YYYY-MM-DD')
                 const isCompleted = habit.completedDates.includes(dateKey)
 
