@@ -3,7 +3,7 @@ import type { Transaction } from "../types/transaction";
 
 export interface TransactionsContextType {
     transactions: Transaction[]
-    addTransaction: (e: React.FormEvent<HTMLFormElement> ) => void
+    addTransaction: (e: React.SubmitEvent<HTMLFormElement> ) => void
     deleteTransaction: (id: string) => void
 }
 

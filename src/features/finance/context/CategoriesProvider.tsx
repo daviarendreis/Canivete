@@ -81,7 +81,7 @@ export default function CategoriesProvider ({children}: CategoriesProviderProps)
         localStorage.setItem('finance-categories', JSON.stringify(categories))
     }, [categories])
 
-    function addCategory (e: React.FormEvent<HTMLFormElement>) {
+    function addCategory (e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)

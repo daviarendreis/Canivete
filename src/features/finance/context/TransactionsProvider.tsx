@@ -37,7 +37,7 @@ export default function TransactionsProvider ({children}: TransactionsProviderPr
         localStorage.setItem('transactions', JSON.stringify(transactions))
     }, [transactions])
 
-    function addTransaction (e: React.FormEvent<HTMLFormElement> ) {
+    function addTransaction (e: React.SubmitEvent<HTMLFormElement> ) {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)

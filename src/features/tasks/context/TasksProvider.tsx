@@ -34,7 +34,7 @@ export default function TasksProvider ({children}: TasksProviderProps) {
         localStorage.setItem('todos', JSON.stringify(tasks))
     }, [tasks])
 
-    function getFormData (e: React.FormEvent<HTMLFormElement>) {
+    function getFormData (e: React.SubmitEvent<HTMLFormElement>) {
         const formData = new FormData(e.currentTarget)
         const name = formData.get("name")?.toString() || "To-do"
         const time = formData.get("time")?.toString() || "12:00"
