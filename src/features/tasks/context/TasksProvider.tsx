@@ -36,7 +36,7 @@ export default function TasksProvider ({children}: TasksProviderProps) {
 
     function getFormData (e: React.FormEvent<HTMLFormElement>) {
         const formData = new FormData(e.currentTarget)
-        const name = formData.get("name")?.toString() || "To-do"
+        const name = formData.get("name")?.toString() || "Task"
         const time = formData.get("time")?.toString() || "12:00"
         const description = formData.get("description")?.toString() || "Perform this task"
         const priorityRaw = formData.get("priority")?.toString()

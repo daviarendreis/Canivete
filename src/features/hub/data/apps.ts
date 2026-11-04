@@ -22,7 +22,7 @@ export const apps: App[] = [
     }, {
         icon: CalendarIcon,
         name: "Tracker",
-        description: "Your habits, your sequence",
+        description: "Your habits, your streaks",
         color: "purple",
         to: "/tracker"
     }, {
@@ -34,7 +34,7 @@ export const apps: App[] = [
     }, {
         icon: ReaderIcon,
         name: 'Notes',
-        description: "Your daily notes",
+        description: "Your notes, organized",
         color: 'gold',
         to: "/notes"
     }

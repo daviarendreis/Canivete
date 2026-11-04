@@ -14,7 +14,7 @@ export default function ColorSelect ({name = 'color', defaultValue = 'blue'}:Col
                 <Select.Group>
                     <Select.Label>Colors</Select.Label>
                     {colors.map((color) => (
-                        <Select.Item key={color} value={color}>{color}</Select.Item>
+                        <Select.Item key={color} value={color}>{color.charAt(0).toUpperCase() + color.slice(1)}</Select.Item>
                     ))}
                     
                 </Select.Group>

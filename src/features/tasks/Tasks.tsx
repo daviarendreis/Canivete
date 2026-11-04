@@ -11,16 +11,16 @@ export default function Tasks () {
     return(
         <Box>
             <Flex align={'center'} direction={'column'} gap={'4'}>
-                <Heading color="gray" size={'8'}> To-do List</Heading>
+                <Heading color="gray" size={'8'}>To-do List</Heading>
                 
                 <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
 
                     <Dialog.Trigger>
-                        <Button color="gray" variant="soft">Add To-do</Button>
+                        <Button color="gray" variant="soft">Add Task</Button>
                     </Dialog.Trigger>
                     
                     <Dialog.Content maxWidth={'20rem'}>
-                        <Dialog.Title>Add To-do</Dialog.Title>
+                        <Dialog.Title>New Task</Dialog.Title>
                         
                         <form onSubmit={addTask}>
                         <TaskForm />
@@ -41,7 +41,7 @@ export default function Tasks () {
 
                     <Flex justify={'start'} direction={'column'}>
                         <Heading >
-                            To-dos
+                            Tasks
                         </Heading>
                     <Grid columns={'3'} gap={'4'} >
                     <Flex direction={'column'} gap={'4'}>
@@ -71,7 +71,7 @@ export default function Tasks () {
                     </Grid>
                     </Flex>
                 </Box>
-                <Heading as="h3" size={'4'}>Total to-dos: {tasks.length}</Heading>
+                <Heading as="h3" size={'4'}>Total tasks: {tasks.length}</Heading>
             </Flex>
         </Box>
     )

@@ -54,7 +54,7 @@ export default function Notes () {
                                 <form onSubmit={(e) => addPage(e, notebook.id )}>
                                     <Flex gap={'4'} direction={'column'} >
                                         <label htmlFor="title">
-                                            <Text>Title</Text>
+                                            <Text>Title:</Text>
                                             <TextField.Root
                                             type="text"
                                             name="title"

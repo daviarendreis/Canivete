@@ -39,11 +39,11 @@ export default function FinanceTransactionDialog () {
                             <TextField.Root
                             type="text"
                             name="description"
-                            placeholder="Example: Monthly Salary"
+                            placeholder="e.g. Monthly salary"
                             required/>
                         </label>
                         <label htmlFor="value">
-                            <Text>Value ($):</Text>
+                            <Text>Amount ($):</Text>
                             <TextField.Root
                             type="number"
                             name="value"
@@ -57,8 +57,8 @@ export default function FinanceTransactionDialog () {
                             <Select.Content>
                                 <Select.Group>
                                     <Select.Label>Type</Select.Label>
-                                    <Select.Item value="inbound">Inbound</Select.Item>
-                                    <Select.Item value="outbound">Outbound</Select.Item>
+                                    <Select.Item value="inbound">Income</Select.Item>
+                                    <Select.Item value="outbound">Expense</Select.Item>
                                 </Select.Group>
                             </Select.Content>
                         </Select.Root>

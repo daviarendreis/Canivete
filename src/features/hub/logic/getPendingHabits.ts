@@ -9,7 +9,7 @@ export default function getPendingHabits (habits: Habit[]) {
     const pendingHabits = habits.filter(habit => !verifyIsCompletedToday(habit.completedDates))
 
     if (pendingHabits.length <= 0) {
-        return "All habits done today!"
+        return "All habits done for today!"
     }
 
     return pendingHabits.length === 1 ? `1 habit left today!` : `${pendingHabits.length} habits left today!`

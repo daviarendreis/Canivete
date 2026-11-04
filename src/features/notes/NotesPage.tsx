@@ -17,7 +17,7 @@ export default function NotesPage () {
 
 
     if (!notebookId) {
-        return <Text>Pages not found</Text>
+        return <Text>Notebook not found</Text>
     }
 
     const page = pages.find(p => p.id === noteId)
@@ -65,7 +65,7 @@ export default function NotesPage () {
 
                         <Flex direction={'row'} align={'center'} gap={'2'}>
                             
-                            <Text weight={'bold'}>Notebook: </Text>
+                            <Text weight={'bold'}>Notebook:</Text>
 
                             <Select.Root defaultValue={page.notebookId} name="notebookId" onValueChange={handleNotebookIdChange}>
                                 <Select.Trigger/>
