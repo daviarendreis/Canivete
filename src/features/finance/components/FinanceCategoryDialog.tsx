@@ -32,8 +32,8 @@ export default function FinanceCategoryDialog () {
                                     <Select.Content>
                                         <Select.Group>
                                             <Select.Label>Type</Select.Label>
-                                            <Select.Item value="inbound">Inbound</Select.Item>
-                                            <Select.Item value="outbound">Outbound</Select.Item>
+                                            <Select.Item value="inbound">Income</Select.Item>
+                                            <Select.Item value="outbound">Expense</Select.Item>
                                         </Select.Group>
                                     </Select.Content>
                                 </Select.Root>

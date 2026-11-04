@@ -15,7 +15,7 @@ export default function TaskCard ({task}: TaskCardProps) {
             <Flex direction={'column'} gap={'3'} maxHeight={'100%'}>
                 <Heading as="h3">{task.name} - <Badge
                     color={task.priority === 'high' ? 'tomato' : task.priority === 'medium' ? 'amber' : 'sky'}
-                    variant="soft">{task.priority}</Badge></Heading>
+                    variant="soft">{task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</Badge></Heading>
                 <Text>{task.description}</Text>
                 <Text><Strong>{task.time}</Strong></Text>
             </Flex>
@@ -34,7 +34,7 @@ export default function TaskCard ({task}: TaskCardProps) {
                     </Dialog.Trigger>
 
                     <Dialog.Content maxWidth={'20rem'}>
-                        <Dialog.Title>Editing the Task: {task.name}</Dialog.Title>
+                        <Dialog.Title>Edit Task: {task.name}</Dialog.Title>
 
                         <form onSubmit={(e) => editTask(e, task.id)}>
                             <TaskForm task={task} />

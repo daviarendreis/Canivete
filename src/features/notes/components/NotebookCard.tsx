@@ -46,10 +46,10 @@ export default function NotebookCard({ notebook, noteCount, onClick }: NotebookC
         <Flex align="center" gap="2">
             <Text size="4" weight="bold">{notebook.name}</Text>
             {notebook.protected && (
-            <Badge size="1" color="gray" variant="outline">default</Badge>
+            <Badge size="1" color="gray" variant="outline">Default</Badge>
             )}
         </Flex>
-        <Text size="1" color="gray">{noteCount} notes</Text>
+        <Text size="1" color="gray">{noteCount} {noteCount === 1 ? 'note' : 'notes'}</Text>
         </Flex>
     </Flex>
     );

@@ -9,9 +9,9 @@ export default function TaskForm ({ task }: TaskFormProps) {
     return (
         <Flex direction={'column'} gap={'4'}>
             <label htmlFor={ task ? `edit-name-${task.id}` : 'name'}>
-                <Text as="div" size={'2'} m={'1'} weight={'bold'}>To-do</Text>
+                <Text as="div" size={'2'} m={'1'} weight={'bold'}>Task</Text>
                 <TextField.Root
-                    placeholder="Enter your to-do"
+                    placeholder="Enter your task"
                     name="name" id={ task ? `edit-name-${task.id}` : 'name'}
                     defaultValue={ task ? task.name : ''}
                     required
@@ -30,7 +30,7 @@ export default function TaskForm ({ task }: TaskFormProps) {
             <label htmlFor={ task ? `edit-description-${task.id}` : 'description'}>
                 <Text as="div" size={'2'} m={'1'} weight={'bold'}>Description</Text>
                 <TextField.Root
-                    placeholder="Enter your description"
+                    placeholder="Enter a description"
                     name="description" id={ task ? `edit-description-${task.id}` : 'description'}
                     defaultValue={ task ? task.description : ''}
                     required

@@ -19,21 +19,21 @@ export default function TrackerCard ({ habit }: TrackerCardProps) {
                         <Flex direction={'column'} gap={'3'}>
                             <Heading color='gray' >{habit.name}</Heading>
                             <Flex direction={'row'} gap={'3'} minWidth={'25vh'}>
-                                <Button size={'1'} color={habit.color} onClick={() => markToday(habit)} >Conclude Today</Button>
+                                <Button size={'1'} color={habit.color} onClick={() => markToday(habit)} >Done Today</Button>
                                 <Dialog.Root>
                                     <Dialog.Trigger>
                                         <Button size={'1'} color="gray" variant="outline"><Pencil1Icon/></Button>
                                     </Dialog.Trigger>
                                     <Dialog.Content maxWidth={'18rem'}>
                                         
-                                        <Dialog.Title>Editing Habit</Dialog.Title>
+                                        <Dialog.Title>Edit Habit</Dialog.Title>
                                         <form onSubmit={(e) => editHabit(e, habit)}>
                                             <Flex gap={'4'} direction={'column'}>
                                                 <label htmlFor="name">
-                                                    <Text size={'2'} m={'1'} weight={'bold'}>Name: </Text>
+                                                    <Text size={'2'} m={'1'} weight={'bold'}>Name:</Text>
                                                     <TextField.Root
                                                     type="text"
-                                                    placeholder="Enter your Habit"
+                                                    placeholder="Enter your habit"
                                                     name="name"
                                                     defaultValue={habit.name}
                                                     required/>

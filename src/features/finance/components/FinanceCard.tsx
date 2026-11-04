@@ -12,7 +12,7 @@ export default function FinanceCard ({ transaction }: FinanceCardProps) {
         <Card>
             <Flex justify={'between'} align={'center'}>
                 <Text color={transaction.type === 'inbound' ? 'grass' : 'red'}>
-                    {`${transaction.description} - R$ ${transaction.value} (${transaction.type})`}
+                    {`${transaction.description} - $ ${transaction.value} (${transaction.type === 'inbound' ? 'Income' : 'Expense'})`}
                 </Text>
                 <Button color="red"
                     variant="ghost"

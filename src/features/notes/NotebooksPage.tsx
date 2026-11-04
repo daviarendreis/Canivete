@@ -60,7 +60,7 @@ export default function NotebooksPage () {
                                         <TextField.Root
                                         type="text"
                                         name="name"
-                                        placeholder="Enter the Name..."
+                                        placeholder="Enter the name"
                                         required/>
                                     </label>
                                     <ColorSelect/>

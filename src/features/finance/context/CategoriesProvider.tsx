@@ -91,7 +91,7 @@ export default function CategoriesProvider ({children}: CategoriesProviderProps)
         const type: TransactionType = typeRaw === 'outbound' ? 'outbound' : 'inbound'
 
         if (categories.some(c => c.name === name && c.type === type)) {
-            alert('Category with this name already exists')
+            alert('A category with this name already exists')
             return
         }
         

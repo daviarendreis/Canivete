@@ -8,7 +8,7 @@ interface NotesSearchBarProps {
 export default function NotesSearchBar ({ searchQuery, setSearchQuery}: NotesSearchBarProps) {
     return (
         <TextField.Root 
-        placeholder="Search the pages..." 
+        placeholder="Search pages..." 
         size={'3'}
         onChange={(e) => setSearchQuery(e.currentTarget.value)}
         value={searchQuery}>

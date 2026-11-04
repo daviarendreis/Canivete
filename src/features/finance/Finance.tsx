@@ -21,7 +21,7 @@ export default function Finance () {
 
     return (
         <Container size={'4'} align={'center'}>
-            <Heading m={'5'} size={'7'}>Financial Accountant</Heading>
+            <Heading m={'5'} size={'7'}>Finance</Heading>
             <Grid columns={{ initial: '1', sm: '2' }} gap="3" mb="4">
                 
                 <Flex direction={'column'} gap={'3'}>
@@ -33,13 +33,13 @@ export default function Finance () {
                     </Card>
                     <Card variant="surface">
                         <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
-                            <Text size={'3'} ml={'2'} color="gray"><ArrowBottomLeftIcon/> Inbound </Text>
+                            <Text size={'3'} ml={'2'} color="gray"><ArrowBottomLeftIcon/> Income</Text>
                             <Heading size={'8'} color="grass" weight={'bold'}>{`$ ${getTotalIncome(transactions).toLocaleString()}`}</Heading>
                         </Flex>
                     </Card>
                     <Card variant="surface">
                         <Flex direction={'column'} align={'start'} gap={'1'} pr={'4'} ml={'2'}>
-                            <Text size={'3'} ml={'2'} color="gray"><ArrowTopRightIcon/> Outbound </Text>
+                            <Text size={'3'} ml={'2'} color="gray"><ArrowTopRightIcon/> Expenses</Text>
                             <Heading size={'8'} color="red" weight={'bold'}>{`$ ${getTotalExpenses(transactions).toLocaleString()}`}</Heading>
                         </Flex>
                     </Card>
@@ -56,17 +56,17 @@ export default function Finance () {
                         </Flex>
                         <Flex justify={'start'} align={'center'}>
                             <Select.Root value={categoryFilter} onValueChange={setCategoryFilter}>
-                                <Select.Trigger placeholder="Filter by Categories"/>
+                                <Select.Trigger placeholder="Filter by category"/>
                                 <Select.Content>
                                     <Select.Item value="all">All categories</Select.Item>
                                     <Select.Group>
-                                        <Select.Label>Inbound Categories</Select.Label>
+                                        <Select.Label>Income Categories</Select.Label>
                                         {incomeCategories.map(c => (
                                             <Select.Item key={c.name} value={c.name}>{c.name}</Select.Item>
                                         ))}
                                     </Select.Group>
                                     <Select.Group>
-                                        <Select.Label>Outbound Categories</Select.Label>
+                                        <Select.Label>Expense Categories</Select.Label>
                                         {expenseCategories.map(c => (
                                             <Select.Item key={c.name} value={c.name}>{c.name}</Select.Item>
                                         ))}

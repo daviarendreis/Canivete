@@ -19,14 +19,14 @@ export default function FinanceResults ({ categoryFilter }: FinanceResultsProps)
                 <Table.Row>
                     <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Value</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Amount</Table.ColumnHeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {filterTransactions(transactions, categoryFilter).map(transaction => (
                     <Table.Row key={transaction.id}>
                         <Table.RowHeaderCell>{transaction.description}</Table.RowHeaderCell>
-                        <Table.Cell>{transaction.type === "inbound" ? <Badge radius="full" color="grass">Inbound</Badge> :  <Badge radius="full" color="red">Outbound</Badge>}</Table.Cell>
+                        <Table.Cell>{transaction.type === "inbound" ? <Badge radius="full" color="grass">Income</Badge> :  <Badge radius="full" color="red">Expense</Badge>}</Table.Cell>
                         <Table.Cell>{transaction.type === "inbound" ? <Text color="grass">{`+ ${transaction.value.toLocaleString()}`}</Text> :  <Text color="red">{`- ${transaction.value.toLocaleString()}`}</Text>}</Table.Cell>
                         <Table.Cell><Button color="red" variant="ghost"  onClick={() => deleteTransaction(transaction.id)}><TrashIcon/></Button></Table.Cell>
                     </Table.Row>
@@ -34,7 +34,7 @@ export default function FinanceResults ({ categoryFilter }: FinanceResultsProps)
                 
             </Table.Body>
         </Table.Root> :
-         <Flex direction={'column'} align={'center'}><Text color="gray" weight='light'>There are no transactions yet</Text></Flex>}
+         <Flex direction={'column'} align={'center'}><Text color="gray" weight='light'>No transactions yet</Text></Flex>}
     </>
 
 )}

@@ -26,7 +26,7 @@ export default function AppCard ({icon, name, color, description, to, summary}: 
                     <Text as="p"><Strong>{summary}</Strong></Text>
                   </Card>
                   <Button color={color} variant="soft" asChild>
-                    <Link to={to} >Access</Link>
+                    <Link to={to} >Open</Link>
                   </Button>
                 </Flex>
               </Card>
