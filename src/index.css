@@ -72,13 +72,8 @@ body {
 .app-brand-mark {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: var(--accent-9);
-  color: var(--accent-contrast);
-  box-shadow: 0 4px 14px var(--accent-a6);
-  transition: background 300ms ease;
+  color: var(--accent-9);
+  transition: color 300ms ease;
 }
 
 .app-main {
@@ -468,4 +463,9 @@ body {
 .breadcrumb-separator {
   flex: none;
   color: var(--gray-8);
+}
+
+/* Sky is too pale for a thin outline on a light page: use its darker step */
+.radix-themes.light[data-accent-color='sky'] .app-brand-mark {
+  color: var(--accent-11);
 }

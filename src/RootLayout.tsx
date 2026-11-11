@@ -5,6 +5,7 @@ import { HomeIcon } from '@radix-ui/react-icons'
 import { TabBar } from 'glisse'
 import ToggleThemeButton from './components/ToggleThemeButton'
 import RouterLink from './components/RouterLink'
+import BrandMark from './components/BrandMark'
 import TasksProvider from './features/tasks/context/TasksProvider'
 import HabitsProvider from './features/tracker/context/HabitsProvider'
 import CategoriesProvider from './features/finance/context/CategoriesProvider'
@@ -48,7 +49,8 @@ export default function RootLayout () {
     }, [theme])
 
     const section = `/${location.pathname.split('/')[1] ?? ''}`
-    const accentColor = apps.find(app => app.to === section)?.color ?? HUB_ACCENT
+    const activeAppIndex = apps.findIndex(app => app.to === section)
+    const accentColor = activeAppIndex === -1 ? HUB_ACCENT : apps[activeAppIndex].color
 
     return (
         <Theme appearance={theme} accentColor={accentColor} grayColor='sand' radius='large' panelBackground='translucent'>
@@ -56,10 +58,7 @@ export default function RootLayout () {
                 <header className='app-topbar'>
                     <Link to='/' className='app-brand'>
                         <span className='app-brand-mark'>
-                            <svg width='16' height='16' viewBox='0 0 32 32' aria-hidden>
-                                <rect x='4' y='14' width='24' height='8' rx='4' fill='currentColor' />
-                                <path d='M9 14 L23 5.5 a2 2 0 0 1 2.7 2.7 L17 14 Z' fill='currentColor' opacity='0.7' />
-                            </svg>
+                            <BrandMark activeIndex={activeAppIndex === -1 ? null : activeAppIndex} />
                         </span>
                         <Text size='3' weight='bold'>Canivete</Text>
                     </Link>
