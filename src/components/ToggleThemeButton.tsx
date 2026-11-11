@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
-import { Button } from "@radix-ui/themes"
+import { Button } from "glisse"
 
 type ThemeMode = 'dark' | 'light'
 
@@ -18,6 +18,10 @@ export default function ToggleThemeButton ({theme, setTheme}: ToggleThemeButtonP
         }
     }
     return (
-        <Button onClick={toggleTheme} color="gray" variant="soft">{theme === 'light' ? <MoonIcon/> : <SunIcon/> }</Button>
+        <Button
+            onClick={toggleTheme}
+            icon={theme === 'light' ? <MoonIcon/> : <SunIcon/>}
+            aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+        />
     )
 }

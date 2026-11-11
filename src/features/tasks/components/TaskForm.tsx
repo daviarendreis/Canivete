@@ -1,50 +1,65 @@
-import { Flex, RadioGroup, Text, TextField } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
+import { ClockIcon, Pencil2Icon, TextAlignLeftIcon } from "@radix-ui/react-icons";
+import { Input, SegmentedControl } from "glisse";
+import { useState } from "react";
 import type { Task } from "../types/task";
+import type { Priority } from "../types/priority";
 
 interface TaskFormProps {
-    task?: Task 
+    task?: Task
 }
 
 export default function TaskForm ({ task }: TaskFormProps) {
+    const [priority, setPriority] = useState<Priority>(task ? task.priority : 'low')
+
     return (
         <Flex direction={'column'} gap={'4'}>
-            <label htmlFor={ task ? `edit-name-${task.id}` : 'name'}>
-                <Text as="div" size={'2'} m={'1'} weight={'bold'}>Task</Text>
-                <TextField.Root
-                    placeholder="Enter your task"
+            <label className="field" htmlFor={ task ? `edit-name-${task.id}` : 'name'}>
+                <span className="field-label">Task</span>
+                <Input
+                    icon={<Pencil2Icon/>}
+                    placeholder="What needs to be done?"
                     name="name" id={ task ? `edit-name-${task.id}` : 'name'}
                     defaultValue={ task ? task.name : ''}
                     required
                 />
             </label>
 
-            <label htmlFor={ task ? `edit-time-${task.id}` : 'time'}>
-                <Text as="div" size={'2'} m={'1'} weight={'bold'}>Time</Text>
-                <TextField.Root
-                    type="time"
-                    name="time" id={ task ? `edit-time-${task.id}` : 'time'}
-                    defaultValue={ task ? task.time : ''}
-                />
-            </label>
-
-            <label htmlFor={ task ? `edit-description-${task.id}` : 'description'}>
-                <Text as="div" size={'2'} m={'1'} weight={'bold'}>Description</Text>
-                <TextField.Root
-                    placeholder="Enter a description"
+            <label className="field" htmlFor={ task ? `edit-description-${task.id}` : 'description'}>
+                <span className="field-label">Description</span>
+                <Input
+                    icon={<TextAlignLeftIcon/>}
+                    placeholder="Add a short description"
                     name="description" id={ task ? `edit-description-${task.id}` : 'description'}
                     defaultValue={ task ? task.description : ''}
                     required
                 />
             </label>
 
-            <label htmlFor={ task ? `edit-priority-${task.id}` : 'priority'}>
-                <Text as="div" size={'2'} m={'1'} weight={'bold'}>Priority</Text>
-                <RadioGroup.Root defaultValue={ task ? task.priority : 'low'} name="priority" variant="soft" color="gray">
-                    <RadioGroup.Item value="low">Low</RadioGroup.Item>
-                    <RadioGroup.Item value="medium">Medium</RadioGroup.Item>
-                    <RadioGroup.Item value="high">High</RadioGroup.Item>
-                </RadioGroup.Root>
+            <label className="field" htmlFor={ task ? `edit-time-${task.id}` : 'time'}>
+                <span className="field-label">Time</span>
+                <Input
+                    icon={<ClockIcon/>}
+                    type="time"
+                    name="time" id={ task ? `edit-time-${task.id}` : 'time'}
+                    defaultValue={ task ? task.time : ''}
+                />
             </label>
+
+            <div className="field">
+                <span className="field-label">Priority</span>
+                <SegmentedControl
+                    aria-label="Priority"
+                    items={[
+                        { value: 'low', label: 'Low' },
+                        { value: 'medium', label: 'Medium' },
+                        { value: 'high', label: 'High' },
+                    ]}
+                    value={priority}
+                    onValueChange={(value) => setPriority(value as Priority)}
+                />
+                <input type="hidden" name="priority" value={priority} />
+            </div>
         </Flex>
     )
 }

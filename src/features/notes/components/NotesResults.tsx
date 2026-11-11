@@ -1,4 +1,4 @@
-import { Table, Text } from "@radix-ui/themes";
+import { Flex, Text } from "@radix-ui/themes";
 import NotesRow from "./NotesRow";
 import type { Page } from "../types/Page";
 
@@ -9,14 +9,19 @@ interface NotesResultsProps {
 }
 
 export default function NotesResults ({pages, filteredPages, notebookId}: NotesResultsProps) {
+    if (filteredPages.length === 0) {
+        return (
+            <Flex justify={'center'} p={'5'}>
+                <Text size={'2'} color="gray">{pages.length > 0 ? 'No pages found' : 'No pages yet'}</Text>
+            </Flex>
+        )
+    }
+
     return (
-        <Table.Root size={'3'}>
-            <Table.Body >
-                { filteredPages.length > 0 ? 
-                    filteredPages.map(page => (
-                        <NotesRow key={page.id} page={page} notebookId={notebookId} /> ))
-                : pages.length > 0 ? <Text color="gray">No pages found</Text> :  <Text color="gray">No pages yet</Text>}
-            </Table.Body>
-        </Table.Root>
+        <Flex direction={'column'} gap={'1'}>
+            {filteredPages.map(page => (
+                <NotesRow key={page.id} page={page} notebookId={notebookId} />
+            ))}
+        </Flex>
     )
 }

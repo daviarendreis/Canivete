@@ -1,11 +1,13 @@
-import { Button, Container, Dialog, Flex, Grid, Heading, Text, TextField } from "@radix-ui/themes"
+import { Container, Dialog, Flex, Grid, Text } from "@radix-ui/themes"
 import useNotebooks from "./hooks/useNotebooks"
 import NotebookCard from "./components/NotebookCard"
 import { countNotes } from "./logic/countNotes"
 import useNotes from "./hooks/useNotes"
-import { PlusIcon } from "@radix-ui/react-icons"
+import { Pencil2Icon, PlusIcon, ReaderIcon } from "@radix-ui/react-icons"
+import { Button, Input } from "glisse"
 import ColorSelect from "../../utils/ColorSelect"
 import { useNavigate } from "react-router"
+import PageHeader from "../../components/PageHeader"
 
 export default function NotebooksPage () {
     const { addNotebook, notebooks } = useNotebooks()
@@ -16,11 +18,23 @@ export default function NotebooksPage () {
         navigate(`/notes/${notebookId}`)
     }
 
+    const subtitle = `${notebooks.length} ${notebooks.length === 1 ? 'notebook' : 'notebooks'} · ${pages.length} ${pages.length === 1 ? 'note' : 'notes'}`
+
     return (
-        <Container size={'3'} align={'center'} m={'4'}>
-            <Flex gap={'4'} direction={'column'}>
-                <Heading>Notebooks</Heading>
-                <br />
+        <Container size={'3'}>
+            <Dialog.Root>
+                <PageHeader
+                    eyebrow="Notes"
+                    eyebrowIcon={<ReaderIcon />}
+                    title="Notebooks"
+                    subtitle={subtitle}
+                    actions={
+                        <Dialog.Trigger>
+                            <Button variant="filled" icon={<PlusIcon/>}>New notebook</Button>
+                        </Dialog.Trigger>
+                    }
+                />
+
                 <Grid columns={{ initial: "2", sm: "3", md: "4" }} gap="4">
                     {notebooks.map((nb) => (
                         <NotebookCard
@@ -31,56 +45,62 @@ export default function NotebooksPage () {
                         />
                     ))}
 
-                    <Dialog.Root>
-                        <Dialog.Trigger>
-                            <Flex
-                                direction="column"
-                                align="center"
-                                justify="center"
-                                gap="2"
-                                style={{
+                    <Dialog.Trigger>
+                        <button
+                            type="button"
+                            className="notebook-new"
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: 8,
                                 aspectRatio: "4 / 3",
-                                border: "1px dashed var(--gray-6)",
-                                borderRadius: "10px",
-                                color: "var(--gray-9)",
+                                border: "1px dashed var(--gray-a7)",
+                                borderRadius: "var(--radius-4)",
+                                background: 'transparent',
+                                color: "var(--gray-10)",
+                                font: 'inherit',
                                 cursor: "pointer",
-                                }}
-                            >
-                                <PlusIcon width="26" height="26" />
-                                <Text size="2">New notebook</Text>
-                            </Flex>
-                        </Dialog.Trigger>
+                            }}
+                        >
+                            <PlusIcon width="22" height="22" />
+                            <Text size="2">New notebook</Text>
+                        </button>
+                    </Dialog.Trigger>
+                </Grid>
 
-                        <Dialog.Content width={'17rem'}>
-                            <Dialog.Title>New Notebook</Dialog.Title>
-                            <form onSubmit={addNotebook}>
-                                <Flex gap={'4'} direction={'column'}>
-                                    <label htmlFor="name">
-                                        <Text>Name:</Text>
-                                        <TextField.Root
-                                        type="text"
-                                        name="name"
-                                        placeholder="Enter the name"
-                                        required/>
-                                    </label>
-                                    <ColorSelect/>
-                                
-                                    <Flex justify={'end'} gap={'3'}>
-                                            <Dialog.Close>
-                                                <Button color="gray" variant="soft">Cancel</Button>
-                                            </Dialog.Close>
-                                            <Dialog.Close>
-                                                <Button type="submit" color="grass" variant="soft">Add Notebook</Button>
-                                            </Dialog.Close>
-                                    </Flex>
-                                </Flex>
-                                
-                            </form>
-                        </Dialog.Content>
-                    </Dialog.Root>
-                    
-                    </Grid>
-            </Flex>
+                <Dialog.Content maxWidth={'24rem'}>
+                    <Dialog.Title>New notebook</Dialog.Title>
+                    <form onSubmit={addNotebook}>
+                        <Flex gap={'4'} direction={'column'}>
+                            <label className="field" htmlFor="notebook-name">
+                                <span className="field-label">Name</span>
+                                <Input
+                                    id="notebook-name"
+                                    icon={<Pencil2Icon/>}
+                                    type="text"
+                                    name="name"
+                                    placeholder="e.g. Ideas"
+                                    required/>
+                            </label>
+                            <div className="field">
+                                <span className="field-label">Spine color</span>
+                                <ColorSelect/>
+                            </div>
+
+                            <Flex justify={'end'} gap={'2'} mt={'1'}>
+                                <Dialog.Close>
+                                    <Button>Cancel</Button>
+                                </Dialog.Close>
+                                <Dialog.Close>
+                                    <Button type="submit" variant="filled">Create notebook</Button>
+                                </Dialog.Close>
+                            </Flex>
+                        </Flex>
+                    </form>
+                </Dialog.Content>
+            </Dialog.Root>
         </Container>
     )
 }

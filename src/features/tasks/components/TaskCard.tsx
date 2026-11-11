@@ -1,6 +1,8 @@
-import { Badge, Button, Card, Dialog, DropdownMenu, Flex, Heading, Strong, Text } from "@radix-ui/themes"
+import { Card, Dialog, Flex, Text } from "@radix-ui/themes"
+import { ClockIcon, Pencil1Icon, TrashIcon } from "@radix-ui/react-icons"
+import { Button, Menu } from "glisse"
+import type { CSSProperties } from "react"
 import type { Task } from "../types/task"
-import { DotsVerticalIcon } from "@radix-ui/react-icons"
 import TaskForm from "./TaskForm"
 import useTasks from "../hooks/useTasks"
 
@@ -8,64 +10,65 @@ interface TaskCardProps {
     task: Task
 }
 
+const PRIORITY_COLOR = {
+    high: 'tomato',
+    medium: 'amber',
+    low: 'sky'
+} as const
+
 export default function TaskCard ({task}: TaskCardProps) {
     const { editingTaskId, setEditingTaskId, editTask, deleteTask} = useTasks()
+
     return (
-        <Card variant="classic" m={'2'} >
-            <Flex direction={'column'} gap={'3'} maxHeight={'100%'}>
-                <Heading as="h3">{task.name} - <Badge
-                    color={task.priority === 'high' ? 'tomato' : task.priority === 'medium' ? 'amber' : 'sky'}
-                    variant="soft">{task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</Badge></Heading>
-                <Text>{task.description}</Text>
-                <Text><Strong>{task.time}</Strong></Text>
+        <Card size={'2'} className="task-card surface-card"
+            style={{ '--priority-color': `var(--${PRIORITY_COLOR[task.priority]}-9)` } as CSSProperties}>
+            <Flex justify={'between'} align={'start'} gap={'2'}>
+                <Flex direction={'column'} gap={'1'} minWidth={'0'}>
+                    <Text size={'3'} weight={'bold'}>{task.name}</Text>
+                    <Text size={'2'} color="gray">{task.description}</Text>
+                </Flex>
+                <Menu
+                    aria-label={`Actions for ${task.name}`}
+                    align="end"
+                    items={[
+                        { label: 'Edit', icon: <Pencil1Icon/>, onSelect: () => setEditingTaskId(task.id) },
+                        'separator',
+                        { label: 'Delete', icon: <TrashIcon/>, destructive: true, onSelect: () => deleteTask(task.id) },
+                    ]}
+                />
             </Flex>
-            <Flex justify={'end'} mt={'2'} gap={'2'}>
-                <Dialog.Root
-                    open={editingTaskId === task.id}
-                    onOpenChange={(open) => {
-                        if (!open) {
-                            setEditingTaskId(null)
-                        }
-                    }}>
-                    <Dialog.Trigger>
-                        <Button variant="soft" color="gray" onClick={() => setEditingTaskId(task.id)}>
-                            Edit
-                        </Button>
-                    </Dialog.Trigger>
 
-                    <Dialog.Content maxWidth={'20rem'}>
-                        <Dialog.Title>Edit Task: {task.name}</Dialog.Title>
+            {task.time && (
+                <Flex align={'center'} gap={'1'} mt={'3'}>
+                    <ClockIcon color="var(--gray-10)"/>
+                    <Text size={'1'} color="gray" className="tabular">{task.time}</Text>
+                </Flex>
+            )}
 
-                        <form onSubmit={(e) => editTask(e, task.id)}>
-                            <TaskForm task={task} />
-                                
+            <Dialog.Root
+                open={editingTaskId === task.id}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        setEditingTaskId(null)
+                    }
+                }}>
+                <Dialog.Content maxWidth={'24rem'}>
+                    <Dialog.Title>Edit task</Dialog.Title>
 
-                            <Flex gap="3" mt="4" justify="end">
-                                <Dialog.Close>
-                                    <Button variant="soft" color="gray" onClick={() => setEditingTaskId(null)}>Cancel</Button>
-                                </Dialog.Close>
-                                <Dialog.Close>
-                                    <Button type="submit">Save Task</Button>
-                                </Dialog.Close>
-                            </Flex>
-                        </form>
-                    </Dialog.Content>
-                </Dialog.Root>
+                    <form onSubmit={(e) => editTask(e, task.id)}>
+                        <TaskForm task={task} />
 
-                <DropdownMenu.Root >
-                    <Flex justify={'end'}>
-                        <DropdownMenu.Trigger>
-                            <Button variant="soft" color="gray">
-                                <DotsVerticalIcon/>
-                            </Button>
-                        </DropdownMenu.Trigger>
-                    </Flex>
-
-                    <DropdownMenu.Content>
-                        <DropdownMenu.Item shortcut="⌫" color="red" onClick={() => deleteTask(task.id)}>Delete</DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                </DropdownMenu.Root>
-            </Flex>
+                        <Flex gap="2" mt="5" justify="end">
+                            <Dialog.Close>
+                                <Button onClick={() => setEditingTaskId(null)}>Cancel</Button>
+                            </Dialog.Close>
+                            <Dialog.Close>
+                                <Button type="submit" variant="filled">Save</Button>
+                            </Dialog.Close>
+                        </Flex>
+                    </form>
+                </Dialog.Content>
+            </Dialog.Root>
         </Card>
     )
 }

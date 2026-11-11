@@ -1,5 +1,6 @@
-import { Flex, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import type { CategorySummary } from "../types/categorySummary";
+import { formatMoney } from "./formatMoney";
 
 interface FinancePieChartLegendProps {
     category: CategorySummary,
@@ -7,17 +8,22 @@ interface FinancePieChartLegendProps {
 }
 
 export default function FinancePieChartLegend ({category, categoryPercent}: FinancePieChartLegendProps) {
-    
+    const color = `var(--${category.color ?? 'gray'}-9)`
+
     return (
-        <>
-            <Flex direction={'row'} justify={'between'} align={'center'} gap={'3'} width={'100%'}>
-                <Flex gap={'2'} direction={'row'} align={'center'}>
-                    <div style={{background: `var(--${category.color ?? 'gray'}-8)`,
-                                width: '10px', height: '10px', borderRadius: '2px'}}></div>
-                    <Text size={'3'} weight={'bold'}>{category.name}</Text>
+        <Flex direction={'column'} gap={'1'} width={'100%'}>
+            <Flex justify={'between'} align={'center'} gap={'3'}>
+                <Flex gap={'2'} align={'center'}>
+                    <span className="color-dot" style={{ background: color }} />
+                    <Text size={'2'} weight={'medium'}>{category.name}</Text>
                 </Flex>
-                <Text size={'3'} color="gray">{category.categoryTotal.toLocaleString()} · {categoryPercent.toFixed(1)}% </Text>
+                <Text size={'2'} color="gray" className="tabular">
+                    {formatMoney(category.categoryTotal)} · {categoryPercent.toFixed(1)}%
+                </Text>
             </Flex>
-        </>
+            <Box style={{ height: 4, borderRadius: 999, background: 'var(--gray-a3)', overflow: 'hidden' }}>
+                <Box style={{ width: `${categoryPercent}%`, height: '100%', borderRadius: 999, background: color }} />
+            </Box>
+        </Flex>
     )
 }

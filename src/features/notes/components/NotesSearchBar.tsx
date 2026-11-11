@@ -1,5 +1,4 @@
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { TextField } from "@radix-ui/themes";
+import { SearchField } from "glisse";
 interface NotesSearchBarProps {
     searchQuery: string
     setSearchQuery: (searchQuery: string) => void
@@ -7,14 +6,11 @@ interface NotesSearchBarProps {
 
 export default function NotesSearchBar ({ searchQuery, setSearchQuery}: NotesSearchBarProps) {
     return (
-        <TextField.Root 
-        placeholder="Search pages..." 
-        size={'3'}
-        onChange={(e) => setSearchQuery(e.currentTarget.value)}
-        value={searchQuery}>
-            <TextField.Slot>
-                <MagnifyingGlassIcon height="16" width="16" />
-            </TextField.Slot>
-        </TextField.Root>
+        <SearchField
+            aria-label="Search pages"
+            placeholder="Search pages"
+            onValueChange={setSearchQuery}
+            value={searchQuery}
+        />
     )
 }

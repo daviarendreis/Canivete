@@ -1,13 +1,20 @@
-import {  Link } from 'react-router'
-import { ExitIcon } from '@radix-ui/react-icons'
-import { Button } from '@radix-ui/themes'
+import { useNavigate } from 'react-router'
+import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { Button } from 'glisse'
 
-export default function BackButton () {
+interface BackButtonProps {
+    to?: string
+    label?: string
+}
 
+export default function BackButton ({ to = '/', label = 'Back' }: BackButtonProps) {
+    const navigate = useNavigate()
 
     return (
-        <Button color='gray' variant='soft' asChild>
-            <Link to='/' ><ExitIcon/></Link>
-        </Button>
+        <Button
+            icon={<ArrowLeftIcon />}
+            aria-label={label}
+            onClick={() => navigate(to)}
+        />
     )
 }

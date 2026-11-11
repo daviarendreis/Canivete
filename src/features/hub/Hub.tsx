@@ -1,37 +1,34 @@
-import { Box, Flex, Heading, Strong, Text } from "@radix-ui/themes";
+import { Container, Grid } from "@radix-ui/themes";
+import { CalendarIcon } from "@radix-ui/react-icons";
 import { apps } from "./data/apps"
 import AppCard from "./components/AppCard";
 import { getTodayLabel } from "../../utils/date";
 import useAppSummaries from "./hooks/useAppSummaries";
+import PageHeader from "../../components/PageHeader";
 
 export default function Hub() {
-     const todayLabel = getTodayLabel()
-     const summaries = useAppSummaries()
+    const todayLabel = getTodayLabel()
+    const summaries = useAppSummaries()
 
-  return (
-      <Box>
-        <Flex justify={'center'} direction={'column'} minHeight={'80vh'} maxHeight={'100vh'}>
-          <Flex align={'center'} wrap={'wrap'} direction={'column'} mt={'5'}>
-            <Heading size={'8'} mt={'3'}>Time to Get Things Done</Heading>
-            <Heading as="h3" mt={'5'} >Tools to help you work smarter, every day</Heading>
-            <Flex direction={'row'} gap={'10'} m={'7'}>
-              <Text><Strong>{todayLabel}</Strong></Text>
-            </Flex>
-            
-          </Flex>
+    return (
+        <Container size={'3'}>
+            <PageHeader
+                eyebrow={todayLabel}
+                eyebrowIcon={<CalendarIcon />}
+                title={<>Time to get <em>things</em> done</>}
+                subtitle="Four small tools to help you work smarter, every day."
+            />
 
-          <Flex gap={'7'} m={'5'} wrap={'wrap'} justify={'center'} >
-            {apps.map((app) => (
-              <AppCard key={app.to} icon={app.icon} 
-              name={app.name} 
-              description={app.description} 
-              color={app.color} 
-              to={app.to}
-              summary={summaries[app.to]} />
-            ))}
-          </Flex>
-        </Flex>
-      </Box>
-  )
+            <Grid columns={{ initial: '1', sm: '2' }} gap={'4'}>
+                {apps.map((app) => (
+                    <AppCard key={app.to} icon={app.icon}
+                        name={app.name}
+                        description={app.description}
+                        color={app.color}
+                        to={app.to}
+                        summary={summaries[app.to]} />
+                ))}
+            </Grid>
+        </Container>
+    )
 }
-

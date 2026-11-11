@@ -15,26 +15,26 @@ export interface App {
 export const apps: App[] = [
     {
         icon: ActivityLogIcon,
-        name: "To-do List",
-        description: "What needs to be done today",
+        name: "Tasks",
+        description: "What needs to be done, by priority",
         color: "green",
         to: "/todo"
     }, {
         icon: CalendarIcon,
-        name: "Tracker",
-        description: "Your habits, your streaks",
+        name: "Habits",
+        description: "Small wins, every day",
         color: "purple",
         to: "/tracker"
     }, {
         icon: BackpackIcon,
         name: "Finance",
-        description: "Where your money goes",
+        description: "Where your money comes and goes",
         color: "sky",
         to: "/finance"
     }, {
         icon: ReaderIcon,
         name: 'Notes',
-        description: "Your notes, organized",
+        description: "Your thoughts, in notebooks",
         color: 'gold',
         to: "/notes"
     }

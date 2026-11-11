@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
-import { Grid } from "@radix-ui/themes";
 import type { Habit } from "../types/habit";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 interface TrackerChartProps {
     habit: Habit
@@ -24,29 +23,37 @@ export default function TrackerChart ({habit}: TrackerChartProps) {
         return daysOfYear
     }
 
-    const daysOfYear = useMemo(() => getDaysOfYear(), []) 
+    const daysOfYear = useMemo(() => getDaysOfYear(), [])
+    const today = dayjs()
+    const scrollerRef = useRef<HTMLDivElement>(null)
+
+    // On narrow screens, start the year view scrolled to today
+    useEffect(() => {
+        const scroller = scrollerRef.current
+        const todayCell = scroller?.querySelector<HTMLElement>('[data-today]')
+        if (scroller && todayCell) {
+            scroller.scrollLeft = todayCell.offsetLeft - scroller.clientWidth + 48
+        }
+    }, [])
 
     return (
-        <Grid rows={'7'} flow={'column'} style={{gap: "1px"}} overflowX={'auto'}>
-            {daysOfYear.map((day) => {
+        <div ref={scrollerRef} className="heatmap" role="img" aria-label={`${habit.name}: ${habit.completedDates.length} days completed this year`}>
+            {daysOfYear.map((day, index) => {
                 const dateKey = day.format('YYYY-MM-DD')
                 const isCompleted = habit.completedDates.includes(dateKey)
 
                 return (
                     <div
                         key={dateKey}
-                        id={dateKey}
-                        title={dateKey}
-                        style={{
-                            width: '6px',
-                            height: '6px',
-                            backgroundColor: isCompleted ? `var(--${habit.color}-9)` : `var(--gray-8)`,
-                            borderRadius: '1.5px',
-                            display: 'block'
-                        }}
+                        className="heatmap-cell"
+                        title={day.format('ddd, MMM D')}
+                        data-done={isCompleted ? '' : undefined}
+                        data-today={day.isSame(today, 'day') ? '' : undefined}
+                        data-future={day.isAfter(today, 'day') ? '' : undefined}
+                        style={index === 0 ? { gridRowStart: day.day() + 1 } : undefined}
                     />
                 )
             })}
-        </Grid>
+        </div>
     )
 }

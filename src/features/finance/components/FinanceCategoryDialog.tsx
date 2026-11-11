@@ -1,55 +1,61 @@
-import { PlusIcon } from "@radix-ui/react-icons";
-import { Button, Dialog, Flex, Select, Text, TextField } from "@radix-ui/themes";
+import { PlusIcon, TokensIcon } from "@radix-ui/react-icons";
+import { Dialog, Flex } from "@radix-ui/themes";
+import { Button, Input, SegmentedControl } from "glisse";
+import { useState } from "react";
 import useCategories from "../hooks/useCategories";
+import type { TransactionType } from "../types/transactionType";
 
 
 
 export default function FinanceCategoryDialog () {
     const { addCategory } = useCategories()
-    
+    const [type, setType] = useState<TransactionType>('inbound')
+
     return (
-        <Dialog.Root >
+        <Dialog.Root>
             <Dialog.Trigger>
-                <Button variant="surface" color="gray"><Flex align={'center'}><PlusIcon/>Add Category</Flex></Button>
+                <Button icon={<TokensIcon/>}>Category</Button>
             </Dialog.Trigger>
-            
-                <Dialog.Content maxWidth={'15rem'}>
-                        
-                        <Dialog.Title>Add Category</Dialog.Title>
-                        <form onSubmit={addCategory}>
-                            <Flex align={'start'} direction={'column'} gap={'4'}>
-                                <label htmlFor="name">
-                                    <Text>Name:</Text>
-                                    <TextField.Root
-                                        type="text"
-                                        name="name"
-                                        placeholder="Enter the name"
-                                        required
-                                    />
-                                </label>
-                                <Select.Root defaultValue="inbound" name="type">
-                                    <Select.Trigger placeholder="Choose a type"/>
-                                    <Select.Content>
-                                        <Select.Group>
-                                            <Select.Label>Type</Select.Label>
-                                            <Select.Item value="inbound">Income</Select.Item>
-                                            <Select.Item value="outbound">Expense</Select.Item>
-                                        </Select.Group>
-                                    </Select.Content>
-                                </Select.Root>
-                                </Flex>
-                                <Flex mt={'2'} justify={'end'} gap={'4'}>
-                                    <Dialog.Close>
-                                        <Button color="gray" variant="soft">Cancel</Button>
-                                    </Dialog.Close>
-                                    <Dialog.Close>
-                                        <Button type='submit' color="grass" variant="soft">Add</Button>
-                                    </Dialog.Close>
-                                </Flex>
-                            
-                        </form>
-                    
-                </Dialog.Content>
+
+            <Dialog.Content maxWidth={'24rem'}>
+                <Dialog.Title>New category</Dialog.Title>
+                <form onSubmit={addCategory}>
+                    <Flex direction={'column'} gap={'4'}>
+                        <label className="field" htmlFor="category-name">
+                            <span className="field-label">Name</span>
+                            <Input
+                                id="category-name"
+                                icon={<PlusIcon/>}
+                                type="text"
+                                name="name"
+                                placeholder="e.g. Groceries"
+                                required
+                            />
+                        </label>
+                        <div className="field">
+                            <span className="field-label">Type</span>
+                            <SegmentedControl
+                                aria-label="Category type"
+                                items={[
+                                    { value: 'inbound', label: 'Income' },
+                                    { value: 'outbound', label: 'Expense' },
+                                ]}
+                                value={type}
+                                onValueChange={(value) => setType(value as TransactionType)}
+                            />
+                            <input type="hidden" name="type" value={type} />
+                        </div>
+                        <Flex mt={'1'} justify={'end'} gap={'2'}>
+                            <Dialog.Close>
+                                <Button>Cancel</Button>
+                            </Dialog.Close>
+                            <Dialog.Close>
+                                <Button type='submit' variant="filled">Add category</Button>
+                            </Dialog.Close>
+                        </Flex>
+                    </Flex>
+                </form>
+            </Dialog.Content>
         </Dialog.Root>
     )
 }

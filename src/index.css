@@ -1,0 +1,442 @@
+/* ---------------------------------------------------------------
+   Canivete — visual base
+   Neutral (sand) foundation, one accent per app, Glisse glass on top.
+---------------------------------------------------------------- */
+
+.radix-themes {
+  --default-font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --heading-font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --display-font-family: 'Instrument Serif', ui-serif, Georgia, serif;
+
+  /* Glisse follows the active app accent */
+  --lg-fill: var(--accent-9);
+  --lg-on: var(--accent-9);
+  --lg-ring: var(--accent-8);
+}
+
+html,
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.rt-Heading {
+  letter-spacing: -0.02em;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- App shell ---------- */
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  background-color: var(--color-background);
+}
+
+/* Soft accent glow: the "coloured detail" over a neutral page */
+.app-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 28rem at 12% -6%, var(--accent-a4), transparent 70%),
+    radial-gradient(40rem 24rem at 100% 0%, var(--accent-a3), transparent 70%),
+    radial-gradient(50rem 30rem at 50% 110%, var(--gray-a3), transparent 70%);
+  transition: background 400ms ease;
+}
+
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--gray-12);
+  text-decoration: none;
+}
+
+.app-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--accent-9);
+  color: var(--accent-contrast);
+  box-shadow: 0 4px 14px var(--accent-a6);
+  transition: background 300ms ease;
+}
+
+.app-main {
+  padding: var(--space-2) var(--space-4) 140px;
+}
+
+/* Floating liquid-glass tab bar */
+.app-tabbar {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 50;
+  max-width: calc(100vw - 24px);
+}
+
+.app-tabbar .lg-tab-bar {
+  box-shadow: 0 10px 40px rgb(0 0 0 / 0.18);
+}
+
+.app-tabbar .lg-tab-icon > svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 420px) {
+  .app-tabbar .lg-tab-bar[data-icons] {
+    --lg-tab-width: 62px;
+  }
+}
+
+/* ---------- Page header ---------- */
+
+.page-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  background: var(--accent-a3);
+  color: var(--accent-11);
+  font-size: var(--font-size-1);
+  font-weight: 500;
+}
+
+.page-title {
+  font-family: var(--display-font-family);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+/* ---------- Surfaces ---------- */
+
+.surface-card {
+  background: var(--color-panel-translucent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  border: 1px dashed var(--gray-a6);
+  border-radius: var(--radius-4);
+  color: var(--gray-10);
+  text-align: center;
+}
+
+.icon-tile {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.icon-tile > svg {
+  width: 18px;
+  height: 18px;
+}
+
+.color-dot {
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+/* ---------- Glisse inside Radix surfaces ---------- */
+
+/* On a solid panel there is nothing to refract: give glass a quiet neutral fill */
+.rt-DialogContent,
+.rt-AlertDialogContent,
+.rt-BaseCard {
+  --lg-glass: var(--gray-a3);
+  --lg-glass-active: var(--gray-a5);
+}
+
+.rt-DialogContent .lg-input,
+.field .lg-input {
+  max-width: none;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: var(--font-size-1);
+  font-weight: 500;
+  color: var(--gray-11);
+  padding-left: 4px;
+}
+
+/* Glisse menus open over neighbouring content */
+.lg-menu-card {
+  z-index: 30;
+}
+
+.rt-BaseCard:has(.lg-menu-card) {
+  overflow: visible;
+}
+
+/* ---------- Hub ---------- */
+
+.app-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-5);
+  background: var(--color-panel-translucent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 0 0 1px var(--gray-a4);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.app-card:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 1px var(--app-color-a7), 0 16px 40px -16px var(--app-color-a8);
+}
+
+.app-card:focus-visible {
+  outline: 2px solid var(--app-color-8);
+  outline-offset: 2px;
+}
+
+.app-card-arrow {
+  color: var(--gray-9);
+  transition: transform 200ms ease, color 200ms ease;
+}
+
+.app-card:hover .app-card-arrow {
+  transform: translate(2px, -2px);
+  color: var(--app-color-11);
+}
+
+.app-card-summary {
+  margin-top: auto;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-3);
+  background: var(--app-color-a3);
+  color: var(--app-color-11);
+}
+
+/* ---------- Tasks ---------- */
+
+.task-column-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-1);
+}
+
+.task-card {
+  border-left: 3px solid var(--priority-color);
+}
+
+/* ---------- Tracker ---------- */
+
+.heatmap {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(7, 10px);
+  grid-auto-flow: column;
+  grid-auto-columns: 10px;
+  gap: 3px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.heatmap-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--gray-a3);
+}
+
+.heatmap-cell[data-done] {
+  background: var(--habit-color);
+}
+
+.heatmap-cell[data-today] {
+  box-shadow: 0 0 0 1.5px var(--gray-12);
+}
+
+.heatmap-cell[data-future] {
+  opacity: 0.45;
+}
+
+/* ---------- Finance ---------- */
+
+.kpi-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+}
+
+.kpi-balance {
+  background:
+    radial-gradient(30rem 12rem at 0% 0%, var(--accent-a4), transparent 70%),
+    var(--color-panel-translucent);
+}
+
+/* ---------- Notes ---------- */
+
+.notebook-card {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.notebook-card:hover {
+  transform: translateY(-3px) rotate(-0.4deg);
+  box-shadow: 0 16px 32px -14px rgb(0 0 0 / 0.35);
+}
+
+.notebook-card:focus-visible,
+.notebook-new:focus-visible {
+  outline: 2px solid var(--accent-8);
+  outline-offset: 2px;
+}
+
+.notebook-new {
+  transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+}
+
+.notebook-new:hover {
+  border-color: var(--accent-8) !important;
+  color: var(--accent-11) !important;
+  background: var(--accent-a2);
+}
+
+.note-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-3);
+  color: var(--gray-12);
+  text-decoration: none;
+  transition: background 150ms ease;
+}
+
+.note-row:hover,
+.note-row:focus-visible {
+  background: var(--gray-a3);
+  outline: none;
+}
+
+.note-row:hover .note-row-caret {
+  transform: translateX(2px);
+  color: var(--accent-11);
+}
+
+.note-row-caret {
+  color: var(--gray-9);
+  transition: transform 150ms ease, color 150ms ease;
+}
+
+.notes-popover {
+  z-index: 40;
+  width: min(380px, calc(100vw - 32px));
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: var(--space-2);
+  border-radius: var(--radius-4);
+  background: var(--color-panel-solid);
+  box-shadow: var(--shadow-5);
+}
+
+.note-paper {
+  padding: var(--space-6) var(--space-6);
+}
+
+.note-editor.rt-TextAreaRoot {
+  background: transparent;
+  box-shadow: none;
+}
+
+.note-editor .rt-TextAreaInput {
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--gray-12);
+}
+
+@media (max-width: 520px) {
+  .note-paper {
+    padding: var(--space-4);
+  }
+}
+
+/* Filled Glisse buttons: use Radix's contrast colour so light accents (sky, amber…) stay legible */
+.radix-themes .lg-button[data-variant='filled']:not([data-tint]):not([data-destructive]) {
+  color: var(--accent-contrast);
+}
+
+/* ---------- Small screens ---------- */
+
+.show-mobile {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .hide-mobile {
+    display: none;
+  }
+
+  .show-mobile {
+    display: inline;
+  }
+
+  .kpi-span {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 521px) and (max-width: 767px) {
+  .kpi-span {
+    grid-column: span 2;
+  }
+}
+
+/* Glisse sizes segments itself; stretching the control misplaces its thumb */
+.field > .lg-segmented {
+  align-self: flex-start;
+}

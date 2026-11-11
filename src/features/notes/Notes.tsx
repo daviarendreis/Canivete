@@ -1,12 +1,15 @@
-import { ArrowLeftIcon, DotsHorizontalIcon, PlusIcon } from "@radix-ui/react-icons";
-import { AlertDialog, Button, Card, Container, Dialog, DropdownMenu, Flex, Heading, Text, TextField } from "@radix-ui/themes";
+import { FileTextIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import { AlertDialog, Card, Container, Dialog, Flex, Text } from "@radix-ui/themes";
+import { Button, Input, Menu } from "glisse";
 import useNotes from "./hooks/useNotes";
 import { useState } from "react";
 import NotesSearchBar from "./components/NotesSearchBar";
 import filterPages from "./logic/filterPages";
 import NotesResults from "./components/NotesResults";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useNotebooks from "./hooks/useNotebooks";
+import PageHeader from "../../components/PageHeader";
+import BackButton from "../../components/BackButton";
 
 export default function Notes () {
     const { addPage, pages} = useNotes()
@@ -23,7 +26,16 @@ export default function Notes () {
     const notebook = notebooks.find(nb => nb.id === notebookId)
 
     if (!notebook) {
-        return <Text>Notebook not found</Text>
+        return (
+            <Container size={'3'}>
+                <Flex direction={'column'} align={'start'} gap={'4'} mt={'4'}>
+                    <BackButton to="/notes" label="Back to notebooks" />
+                    <div className="empty-state" style={{ width: '100%' }}>
+                        <Text size={'2'}>Notebook not found</Text>
+                    </div>
+                </Flex>
+            </Container>
+        )
     }
 
     function handleDelete() {
@@ -32,73 +44,64 @@ export default function Notes () {
     }
 
     return (
-        <Container size={'3'} align={'center'} m={'4'}>
-            <Flex gap={'4'} direction={'column'}>
-                <Flex justify={'between'}>
-                    <Flex gap={'4'} direction={'column'} align={'center'}>
-                        <Button color="gray" variant="soft">
-                            <Link to={`/notes`}>
-                                <ArrowLeftIcon color="gray" width={'1.25rem'} height={'1.25rem'}/>
-                            </Link>
-                        </Button>
-                        <Heading>{notebook?.name}</Heading>
-                    </Flex>
-                    <Flex align={'center'} gap={'3'}>
-                        <Dialog.Root>
-                            <Dialog.Trigger>
-                                <Button color="gray" variant="surface"><PlusIcon/>New Page</Button>
-                            </Dialog.Trigger>
+        <Container size={'3'}>
+            <Flex mt={'2'}>
+                <BackButton to="/notes" label="Back to notebooks" />
+            </Flex>
 
-                            <Dialog.Content width={'17rem'}>
-                                <Dialog.Title>New Page</Dialog.Title>
-                                <form onSubmit={(e) => addPage(e, notebook.id )}>
-                                    <Flex gap={'4'} direction={'column'} >
-                                        <label htmlFor="title">
-                                            <Text>Title:</Text>
-                                            <TextField.Root
+            <PageHeader
+                eyebrow="Notebook"
+                eyebrowIcon={<span className="color-dot" style={{ background: `var(--${notebook.color}-9)` }} />}
+                title={notebook.name}
+                subtitle={`${notebookPages.length} ${notebookPages.length === 1 ? 'page' : 'pages'}`}
+                actions={<>
+                    <Dialog.Root>
+                        <Dialog.Trigger>
+                            <Button variant="filled" icon={<PlusIcon/>}>New page</Button>
+                        </Dialog.Trigger>
+
+                        <Dialog.Content maxWidth={'24rem'}>
+                            <Dialog.Title>New page</Dialog.Title>
+                            <form onSubmit={(e) => addPage(e, notebook.id )}>
+                                <Flex gap={'4'} direction={'column'} >
+                                    <label className="field" htmlFor="page-title">
+                                        <span className="field-label">Title</span>
+                                        <Input
+                                            id="page-title"
+                                            icon={<FileTextIcon/>}
                                             type="text"
                                             name="title"
-                                            placeholder="Enter the title"
+                                            placeholder="Untitled page"
                                             required/>
-                                        </label>
-                                        <Flex justify={'end'} gap={'3'}>
-                                            <Dialog.Close>
-                                                <Button color="gray" variant="soft">Cancel</Button>
-                                            </Dialog.Close>
-                                            <Dialog.Close>
-                                                <Button type="submit" color="grass" variant="soft">Add Page</Button>
-                                            </Dialog.Close>
-                                        </Flex>
-                                        
+                                    </label>
+                                    <Flex justify={'end'} gap={'2'} mt={'1'}>
+                                        <Dialog.Close>
+                                            <Button>Cancel</Button>
+                                        </Dialog.Close>
+                                        <Dialog.Close>
+                                            <Button type="submit" variant="filled">Create page</Button>
+                                        </Dialog.Close>
                                     </Flex>
-                                    
-                                </form>
-                            </Dialog.Content>
-                        </Dialog.Root>
-                        {!notebook.protected && (
-                            <DropdownMenu.Root>
-                                <DropdownMenu.Trigger>
-                                <Button variant="soft" color="gray">
-                                    <DotsHorizontalIcon />
-                                </Button>
-                                </DropdownMenu.Trigger>
-                                <DropdownMenu.Content>
-                                {/* futuro: Rename, Change color */}
-                                <DropdownMenu.Item
-                                    color="red"
-                                    onSelect={() => setConfirmOpen(true)}
-                                >
-                                    Delete notebook
-                                </DropdownMenu.Item>
-                                </DropdownMenu.Content>
-                            </DropdownMenu.Root>
-                            )}
-                        </Flex>
-                </Flex>
+                                </Flex>
+                            </form>
+                        </Dialog.Content>
+                    </Dialog.Root>
+                    {!notebook.protected && (
+                        <Menu
+                            aria-label="Notebook actions"
+                            align="end"
+                            items={[
+                                { label: 'Delete notebook', icon: <TrashIcon/>, destructive: true, onSelect: () => setConfirmOpen(true) },
+                            ]}
+                        />
+                    )}
+                </>}
+            />
 
+            <Flex direction={'column'} gap={'4'}>
                 <NotesSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
-                <Card>
+                <Card size={'2'} className="surface-card">
                     <NotesResults pages={notebookPages} filteredPages={filteredPages} notebookId={notebook.id}/>
                 </Card>
             </Flex>
@@ -109,17 +112,17 @@ export default function Notes () {
                     <AlertDialog.Description size="2">
                         The pages in this notebook will be moved to Public. This can't be undone.
                     </AlertDialog.Description>
-                    <Flex gap="3" justify="end" mt="4">
+                    <Flex gap="2" justify="end" mt="4">
                         <AlertDialog.Cancel>
-                            <Button variant="soft" color="gray">Cancel</Button>
+                            <Button>Cancel</Button>
                         </AlertDialog.Cancel>
                         <AlertDialog.Action>
-                            <Button color="red" onClick={handleDelete}>Delete</Button>
+                            <Button variant="filled" destructive onClick={handleDelete}>Delete</Button>
                         </AlertDialog.Action>
                     </Flex>
                 </AlertDialog.Content>
             </AlertDialog.Root>
-            
+
         </Container>
     )
 }

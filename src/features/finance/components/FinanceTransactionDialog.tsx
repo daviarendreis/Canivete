@@ -1,5 +1,6 @@
-import { PlusIcon } from "@radix-ui/react-icons";
-import { Button, Dialog, Flex, Select, Text, TextField } from "@radix-ui/themes";
+import { PlusIcon, TextAlignLeftIcon } from "@radix-ui/react-icons";
+import { Dialog, Flex, Select } from "@radix-ui/themes";
+import { Button, Input, SegmentedControl } from "glisse";
 import type { TransactionType } from "../types/transactionType";
 import { useState } from "react";
 import { filterCategories } from "../logic/filterCategories";
@@ -28,62 +29,77 @@ export default function FinanceTransactionDialog () {
     return (
         <Dialog.Root>
             <Dialog.Trigger>
-                <Button color="gray" variant="surface"><PlusIcon/>Add Transaction</Button>
+                <Button variant="filled" icon={<PlusIcon/>}>Transaction</Button>
             </Dialog.Trigger>
-            <Dialog.Content maxWidth={'20rem'}>
-                <Dialog.Title>New Transaction</Dialog.Title>
+            <Dialog.Content maxWidth={'24rem'}>
+                <Dialog.Title>New transaction</Dialog.Title>
                 <form onSubmit={addTransaction}>
                     <Flex gap={'4'} direction={'column'}>
-                        <label htmlFor="description">
-                            <Text>Description:</Text>
-                            <TextField.Root
-                            type="text"
-                            name="description"
-                            placeholder="e.g. Monthly salary"
-                            required/>
+                        <div className="field">
+                            <span className="field-label">Type</span>
+                            <SegmentedControl
+                                aria-label="Transaction type"
+                                items={[
+                                    { value: 'inbound', label: 'Income' },
+                                    { value: 'outbound', label: 'Expense' },
+                                ]}
+                                value={type}
+                                onValueChange={(value) => handleTypeChange(value as TransactionType)}
+                            />
+                            <input type="hidden" name="type" value={type} />
+                        </div>
+                        <label className="field" htmlFor="transaction-description">
+                            <span className="field-label">Description</span>
+                            <Input
+                                id="transaction-description"
+                                icon={<TextAlignLeftIcon/>}
+                                type="text"
+                                name="description"
+                                placeholder="e.g. Monthly salary"
+                                required/>
                         </label>
-                        <label htmlFor="value">
-                            <Text>Amount ($):</Text>
-                            <TextField.Root
-                            type="number"
-                            name="value"
-                            step={'0.01'}
-                            min={'0'}
-                            placeholder="0.00"
-                            required/>
+                        <label className="field" htmlFor="transaction-value">
+                            <span className="field-label">Amount</span>
+                            <Input
+                                id="transaction-value"
+                                icon={<span style={{ fontSize: 14, lineHeight: 1 }}>$</span>}
+                                type="number"
+                                name="value"
+                                step={'0.01'}
+                                min={'0'}
+                                placeholder="0.00"
+                                required/>
                         </label>
-                        <Select.Root value={type} name="type" onValueChange={handleTypeChange}>
-                            <Select.Trigger placeholder="Choose a type"/>
-                            <Select.Content>
-                                <Select.Group>
-                                    <Select.Label>Type</Select.Label>
-                                    <Select.Item value="inbound">Income</Select.Item>
-                                    <Select.Item value="outbound">Expense</Select.Item>
-                                </Select.Group>
-                            </Select.Content>
-                        </Select.Root>
-                        <Select.Root value={category} onValueChange={setCategory} name="category">
-                            <Select.Trigger placeholder="Choose a category"/>
-                            <Select.Content>
-                                <Select.Group>
-                                    <Select.Label>Category</Select.Label>
-                                    {availableCategories.map(cat => (
-                                        <Select.Item key={cat.name} value={cat.name}>{cat.name}</Select.Item>
-                                    ))}
-                                </Select.Group>
-                            </Select.Content>
-                        </Select.Root>
-                        <Flex justify={'end'} gap={'4'}>
+                        <div className="field">
+                            <span className="field-label">Category</span>
+                            <Select.Root value={category} onValueChange={setCategory} name="category">
+                                <Select.Trigger variant="soft" color="gray" placeholder="Choose a category"/>
+                                <Select.Content position="popper">
+                                    <Select.Group>
+                                        <Select.Label>{type === 'inbound' ? 'Income' : 'Expense'} categories</Select.Label>
+                                        {availableCategories.map(cat => (
+                                            <Select.Item key={cat.name} value={cat.name}>
+                                                <Flex as="span" align="center" gap="2">
+                                                    <span className="color-dot" style={{ background: `var(--${cat.color ?? 'gray'}-9)` }} />
+                                                    {cat.name}
+                                                </Flex>
+                                            </Select.Item>
+                                        ))}
+                                    </Select.Group>
+                                </Select.Content>
+                            </Select.Root>
+                        </div>
+                        <Flex justify={'end'} gap={'2'} mt={'1'}>
                             <Dialog.Close>
-                                <Button color="gray" variant="soft">Cancel</Button>
+                                <Button>Cancel</Button>
                             </Dialog.Close>
                             <Dialog.Close>
-                                <Button type={'submit'} color="grass" variant="soft">Add</Button>
+                                <Button type={'submit'} variant="filled">Add transaction</Button>
                             </Dialog.Close>
                         </Flex>
                     </Flex>
                 </form>
-                
+
             </Dialog.Content>
         </Dialog.Root>
     )
