@@ -118,7 +118,7 @@ export default function NotesPage () {
                         placeholder="Start writing…"
                         style={{minHeight: '28rem'}}
                         size={'3'}
-                        resize={'vertical'}
+                        resize={'none'}
                         value={page.content}
                         onChange={(e) => updatePageContent(e, page)}></TextArea>
                 </Flex>

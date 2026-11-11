@@ -23,7 +23,7 @@ export default function FinancePieChart () {
                         <Text size={'2'}>Add an expense to see where your money goes.</Text>
                     </div>
                 ) : (
-                    <Flex align={'center'} direction={{ initial: 'column', sm: 'row' }} gap={'6'} width={'100%'}>
+                    <Flex align={'center'} direction={{ initial: 'column', sm: 'row', md: 'column' }} gap={'6'} width={'100%'}>
                         <Box style={{ width: '200px', height: '200px' }} flexShrink="0">
                             <ResponsiveContainer width={'100%'} height={'100%'}>
                                 <PieChart>

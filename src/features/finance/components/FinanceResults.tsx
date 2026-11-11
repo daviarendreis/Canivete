@@ -17,7 +17,7 @@ export default function FinanceResults ({ categoryFilter }: FinanceResultsProps)
     if (transactions.length === 0) {
         return (
             <div className="empty-state">
-                <Text size={'2'}>No transactions yet. Add your first one above.</Text>
+                <Text size={'2'}>No transactions yet. Use “Transaction” to add the first one.</Text>
             </div>
         )
     }

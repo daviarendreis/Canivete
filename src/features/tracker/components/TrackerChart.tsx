@@ -43,6 +43,12 @@ export default function TrackerChart ({habit}: TrackerChartProps) {
     }, [])
 
     return (
+        <div className="heatmap-wrap">
+        <div className="heatmap-weekdays" aria-hidden>
+            <span style={{ gridRow: 2 }}>Mon</span>
+            <span style={{ gridRow: 4 }}>Wed</span>
+            <span style={{ gridRow: 6 }}>Fri</span>
+        </div>
         <div ref={scrollerRef} className="heatmap-scroll">
             <div className="heatmap-months" aria-hidden>
                 {months.map(month => (
@@ -67,6 +73,7 @@ export default function TrackerChart ({habit}: TrackerChartProps) {
                 )
             })}
             </div>
+        </div>
         </div>
     )
 }

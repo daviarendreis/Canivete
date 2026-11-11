@@ -33,7 +33,7 @@ export default function NotebooksPage () {
                     }
                 />
 
-                <Grid columns={{ initial: "2", sm: "3", md: "4" }} gap="4">
+                <Grid columns={{ initial: '2', sm: 'repeat(auto-fill, minmax(180px, 220px))' }} gap="4">
                     {notebooks.map((nb) => (
                         <NotebookCard
                         key={nb.id}

@@ -50,7 +50,7 @@ export default function Finance () {
     const expenseCategories = filterCategories(categories, 'outbound')
 
     return (
-        <Container size={'3'}>
+        <Container size={'4'}>
             <PageHeader
                 title="Your money"
                 subtitle="Where it comes from, and where it goes."
@@ -66,7 +66,7 @@ export default function Finance () {
                 <KpiCard label="Expenses" value={getTotalExpenses(transactions)} color="red" icon={<ArrowTopRightIcon/>} />
             </Grid>
 
-            <Flex direction={'column'} gap={'4'}>
+            <Grid columns={{ initial: '1', md: '5fr 7fr' }} gap={'4'} align={'start'}>
                 <FinancePieChart/>
 
                 <Card size={{ initial: '2', sm: '3' }} className="surface-card">
@@ -97,7 +97,7 @@ export default function Finance () {
                         <FinanceResults categoryFilter={categoryFilter} />
                     </Flex>
                 </Card>
-            </Flex>
+            </Grid>
         </Container>
     )
 }
