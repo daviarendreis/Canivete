@@ -440,3 +440,32 @@ body {
 .field > .lg-segmented {
   align-self: flex-start;
 }
+
+/* ---------- Breadcrumb ---------- */
+
+.breadcrumb {
+  min-width: 0;
+}
+
+.breadcrumb-link {
+  flex: none;
+  font-size: var(--font-size-2);
+  color: var(--gray-11);
+  text-decoration: none;
+  border-radius: var(--radius-2);
+  padding: 2px 4px;
+  margin: 0 -4px;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.breadcrumb-link:hover,
+.breadcrumb-link:focus-visible {
+  color: var(--accent-11);
+  background: var(--accent-a3);
+  outline: none;
+}
+
+.breadcrumb-separator {
+  flex: none;
+  color: var(--gray-8);
+}

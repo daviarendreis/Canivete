@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router";
 import useNotebooks from "./hooks/useNotebooks";
 import PageHeader from "../../components/PageHeader";
 import BackButton from "../../components/BackButton";
+import Breadcrumb from "../../components/Breadcrumb";
 
 export default function Notes () {
     const { addPage, pages} = useNotes()
@@ -45,8 +46,9 @@ export default function Notes () {
 
     return (
         <Container size={'3'}>
-            <Flex mt={'2'}>
+            <Flex align={'center'} gap={'3'} mt={'2'}>
                 <BackButton to="/notes" label="Back to notebooks" />
+                <Breadcrumb items={[{ label: 'Notebooks', to: '/notes' }, { label: notebook.name }]} />
             </Flex>
 
             <PageHeader

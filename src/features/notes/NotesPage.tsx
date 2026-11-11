@@ -11,6 +11,7 @@ import filterPages from "./logic/filterPages";
 import NotesResults from "./components/NotesResults";
 import useNotebooks from "./hooks/useNotebooks";
 import BackButton from "../../components/BackButton";
+import Breadcrumb from "../../components/Breadcrumb";
 
 export default function NotesPage () {
     const { pages, updatePageContent, deletePage, changeNotebookId } = useNotes()
@@ -51,7 +52,16 @@ export default function NotesPage () {
     return (
         <Container size={'3'}>
             <Flex justify={'between'} align={'center'} gap={'3'} mt={'2'} mb={'5'}>
-                <BackButton to={`/notes/${page.notebookId}`} label="Back to notebook" />
+                <Flex align={'center'} gap={'3'} minWidth={'0'}>
+                    <BackButton to={`/notes/${page.notebookId}`} label="Back to notebook" />
+                    <Box display={{ initial: 'none', sm: 'block' }} minWidth={'0'}>
+                        <Breadcrumb items={[
+                            { label: 'Notebooks', to: '/notes' },
+                            { label: currentNotebook?.name ?? 'Notebook', to: `/notes/${page.notebookId}` },
+                            { label: page.title },
+                        ]} />
+                    </Box>
+                </Flex>
                 <Popover.Root >
                     <Popover.Trigger asChild>
                         <Box style={{ flex: '0 1 320px' }}>
