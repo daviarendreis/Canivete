@@ -1,7 +1,6 @@
 import { Card, Dialog, Flex, Text } from "@radix-ui/themes"
 import { ClockIcon, Pencil1Icon, TrashIcon } from "@radix-ui/react-icons"
 import { Button, Menu } from "glisse"
-import type { CSSProperties } from "react"
 import type { Task } from "../types/task"
 import TaskForm from "./TaskForm"
 import useTasks from "../hooks/useTasks"
@@ -10,18 +9,12 @@ interface TaskCardProps {
     task: Task
 }
 
-const PRIORITY_COLOR = {
-    high: 'tomato',
-    medium: 'amber',
-    low: 'sky'
-} as const
 
 export default function TaskCard ({task}: TaskCardProps) {
     const { editingTaskId, setEditingTaskId, editTask, deleteTask} = useTasks()
 
     return (
-        <Card size={'2'} className="task-card surface-card"
-            style={{ '--priority-color': `var(--${PRIORITY_COLOR[task.priority]}-9)` } as CSSProperties}>
+        <Card size={'2'} className="task-card surface-card">
             <Flex justify={'between'} align={'start'} gap={'2'}>
                 <Flex direction={'column'} gap={'1'} minWidth={'0'}>
                     <Text size={'3'} weight={'bold'}>{task.name}</Text>

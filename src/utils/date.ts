@@ -1,13 +1,8 @@
 import dayjs from "dayjs"
 
-const WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' , 'Saturday']
-
 export function getTodayLabel () {
-    const now = dayjs()
-    const weekday = now.day()
-    const weekdayName = WEEKDAY_NAMES[weekday]
-    const todayLabel =`${weekdayName} - ${now.format("DD/MM/YYYY")}`
-    return todayLabel
+    // e.g. "Wednesday, November 11"
+    return dayjs().format('dddd, MMMM D')
 }
 
 export function getCurrentTime () {

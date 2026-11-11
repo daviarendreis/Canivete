@@ -8,10 +8,23 @@
   --heading-font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
   --display-font-family: 'Instrument Serif', ui-serif, Georgia, serif;
 
-  /* Glisse follows the active app accent */
-  --lg-fill: var(--accent-9);
+  /* Glisse follows the active app accent.
+     Step 11 (not 9) keeps filled buttons and the selected tab at AA contrast
+     in both themes; step 9 stays for large marks (switches, logo, charts). */
+  --lg-fill: var(--accent-11);
   --lg-on: var(--accent-9);
   --lg-ring: var(--accent-8);
+  /* Menus read as solid panels, not tinted glass over the card behind them */
+  --lg-surface: var(--color-panel-solid);
+
+  caret-color: var(--accent-11);
+  accent-color: var(--accent-9);
+  scrollbar-color: var(--gray-a6) transparent;
+}
+
+.radix-themes ::selection {
+  background: var(--accent-a5);
+  color: var(--gray-12);
 }
 
 html,
@@ -99,6 +112,11 @@ body {
   height: 20px;
 }
 
+/* Glisse ships 10px labels; 11px is the legibility floor */
+.app-tabbar .lg-tab-bar[data-icons] :is(.lg-tab, .lg-tab-copy) {
+  font-size: 11px;
+}
+
 @media (max-width: 420px) {
   .app-tabbar .lg-tab-bar[data-icons] {
     --lg-tab-width: 62px;
@@ -107,23 +125,12 @@ body {
 
 /* ---------- Page header ---------- */
 
-.page-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 10px 3px 8px;
-  border-radius: 999px;
-  background: var(--accent-a3);
-  color: var(--accent-11);
-  font-size: var(--font-size-1);
-  font-weight: 500;
-}
-
 .page-title {
   font-family: var(--display-font-family);
   font-weight: 400;
   letter-spacing: -0.01em;
-  line-height: 1;
+  line-height: 1.05;
+  text-wrap: balance;
 }
 
 /* ---------- Surfaces ---------- */
@@ -143,7 +150,7 @@ body {
   padding: var(--space-6) var(--space-4);
   border: 1px dashed var(--gray-a6);
   border-radius: var(--radius-4);
-  color: var(--gray-10);
+  color: var(--gray-11);
   text-align: center;
 }
 
@@ -211,8 +218,8 @@ body {
 .app-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-5);
+  gap: var(--space-3);
+  padding: var(--space-4);
   border-radius: var(--radius-5);
   background: var(--color-panel-translucent);
   backdrop-filter: blur(16px);
@@ -253,6 +260,10 @@ body {
 
 /* ---------- Tasks ---------- */
 
+.task-column-empty {
+  padding: var(--space-2) var(--space-1);
+}
+
 .task-column-head {
   display: flex;
   align-items: center;
@@ -260,21 +271,38 @@ body {
   padding: 0 var(--space-1);
 }
 
-.task-card {
-  border-left: 3px solid var(--priority-color);
-}
+
 
 /* ---------- Tracker ---------- */
 
-.heatmap {
+.heatmap-scroll {
   position: relative;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.heatmap-months {
+  display: grid;
+  grid-auto-columns: 10px;
+  column-gap: 3px;
+  height: 16px;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--gray-11);
+}
+
+.heatmap-months span {
+  grid-row: 1;
+  white-space: nowrap;
+}
+
+.heatmap {
   display: grid;
   grid-template-rows: repeat(7, 10px);
   grid-auto-flow: column;
   grid-auto-columns: 10px;
   gap: 3px;
-  overflow-x: auto;
-  padding-bottom: 4px;
+  width: max-content;
 }
 
 .heatmap-cell {
@@ -354,7 +382,11 @@ body {
 .note-row:hover,
 .note-row:focus-visible {
   background: var(--gray-a3);
-  outline: none;
+}
+
+.note-row:focus-visible {
+  outline: 2px solid var(--accent-8);
+  outline-offset: -2px;
 }
 
 .note-row:hover .note-row-caret {
@@ -400,9 +432,10 @@ body {
   }
 }
 
-/* Filled Glisse buttons: use Radix's contrast colour so light accents (sky, amber…) stay legible */
+/* Filled Glisse buttons sit on accent step 11 (dark in light mode, pale in dark mode):
+   the page background colour reads at AA on it in both themes */
 .radix-themes .lg-button[data-variant='filled']:not([data-tint]):not([data-destructive]) {
-  color: var(--accent-contrast);
+  color: var(--color-background);
 }
 
 /* ---------- Small screens ---------- */
@@ -457,7 +490,11 @@ body {
 .breadcrumb-link:focus-visible {
   color: var(--accent-11);
   background: var(--accent-a3);
-  outline: none;
+}
+
+.breadcrumb-link:focus-visible {
+  outline: 2px solid var(--accent-8);
+  outline-offset: 1px;
 }
 
 .breadcrumb-separator {
@@ -468,4 +505,41 @@ body {
 /* Sky is too pale for a thin outline on a light page: use its darker step */
 .radix-themes.light[data-accent-color='sky'] .app-brand-mark {
   color: var(--accent-11);
+}
+
+/* ---------- Touch (adapt) ---------- */
+
+@media (pointer: coarse) {
+  /* Glisse buttons are 40px; touch wants 44px */
+  .lg-button {
+    height: 44px;
+    border-radius: 22px;
+  }
+
+  .lg-button[data-icon='only'] {
+    width: 44px;
+  }
+
+  .lg-menu-glyph {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 520px) {
+  /* The page's primary action floats above the tab bar, inside the thumb zone */
+  .page-actions .lg-button[data-variant='filled'] {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right, 0px));
+    bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+    z-index: 45;
+    height: 48px;
+    padding: 0 20px 0 16px;
+    border-radius: 24px;
+    box-shadow: 0 10px 28px -8px rgb(0 0 0 / 0.45);
+  }
+
+  .app-main {
+    padding-bottom: 180px;
+  }
 }

@@ -1,5 +1,5 @@
 import { Badge, Container, Dialog, Flex, Grid, Text } from "@radix-ui/themes";
-import { ActivityLogIcon, PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { Button } from "glisse";
 import { useState } from "react";
 import useTasks from "./hooks/useTasks";
@@ -26,9 +26,7 @@ function TaskColumn ({ label, color, tasks }: TaskColumnProps) {
             {tasks.length !== 0 ? tasks.map(task => (
                 <TaskCard key={task.id} task={task}/>
             )) : (
-                <div className="empty-state">
-                    <Text size={'2'}>Nothing here</Text>
-                </div>
+                <Text size={'2'} color="gray" className="task-column-empty">No {label.toLowerCase()} priority tasks</Text>
             )}
         </Flex>
     )
@@ -45,8 +43,6 @@ export default function Tasks () {
     return(
         <Container size={'3'}>
             <PageHeader
-                eyebrow="Tasks"
-                eyebrowIcon={<ActivityLogIcon />}
                 title="To-do list"
                 subtitle={subtitle}
                 actions={
@@ -75,11 +71,17 @@ export default function Tasks () {
                 }
             />
 
-            <Grid columns={{ initial: '1', sm: '3' }} gap={'5'} align={'start'}>
-                <TaskColumn label="High" color="tomato" tasks={highPriorityTasks} />
-                <TaskColumn label="Medium" color="amber" tasks={mediumPriorityTasks} />
-                <TaskColumn label="Low" color="sky" tasks={lowPriorityTasks} />
-            </Grid>
+            {tasks.length === 0 ? (
+                <div className="empty-state">
+                    <Text size={'2'}>No tasks yet. Use “New task” to add the first one.</Text>
+                </div>
+            ) : (
+                <Grid columns={{ initial: '1', sm: '3' }} gap={'5'} align={'start'}>
+                    <TaskColumn label="High" color="tomato" tasks={highPriorityTasks} />
+                    <TaskColumn label="Medium" color="amber" tasks={mediumPriorityTasks} />
+                    <TaskColumn label="Low" color="sky" tasks={lowPriorityTasks} />
+                </Grid>
+            )}
         </Container>
     )
 }

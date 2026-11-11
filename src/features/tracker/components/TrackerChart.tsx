@@ -24,6 +24,12 @@ export default function TrackerChart ({habit}: TrackerChartProps) {
     }
 
     const daysOfYear = useMemo(() => getDaysOfYear(), [])
+    // The year starts on weekday `offset`, so day i sits in week column floor((i + offset) / 7)
+    const offset = daysOfYear[0]?.day() ?? 0
+    const months = useMemo(() => daysOfYear
+        .map((day, index) => ({ day, index }))
+        .filter(({ day }) => day.date() === 1)
+        .map(({ day, index }) => ({ label: day.format('MMM'), column: Math.floor((index + offset) / 7) + 1 })), [daysOfYear, offset])
     const today = dayjs()
     const scrollerRef = useRef<HTMLDivElement>(null)
 
@@ -37,7 +43,13 @@ export default function TrackerChart ({habit}: TrackerChartProps) {
     }, [])
 
     return (
-        <div ref={scrollerRef} className="heatmap" role="img" aria-label={`${habit.name}: ${habit.completedDates.length} days completed this year`}>
+        <div ref={scrollerRef} className="heatmap-scroll">
+            <div className="heatmap-months" aria-hidden>
+                {months.map(month => (
+                    <span key={month.label} style={{ gridColumnStart: month.column }}>{month.label}</span>
+                ))}
+            </div>
+            <div className="heatmap" role="img" aria-label={`${habit.name}: ${habit.completedDates.length} days completed this year`}>
             {daysOfYear.map((day, index) => {
                 const dateKey = day.format('YYYY-MM-DD')
                 const isCompleted = habit.completedDates.includes(dateKey)
@@ -54,6 +66,7 @@ export default function TrackerChart ({habit}: TrackerChartProps) {
                     />
                 )
             })}
+            </div>
         </div>
     )
 }

@@ -18,8 +18,6 @@ export default function Tracker () {
     return (
         <Container size={'3'}>
             <PageHeader
-                eyebrow="Habits"
-                eyebrowIcon={<CalendarIcon />}
                 title="Build your habits"
                 subtitle={subtitle}
                 actions={

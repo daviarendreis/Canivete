@@ -1,7 +1,7 @@
 import { Card, Container, Flex, Grid, Heading, Select, Text } from "@radix-ui/themes";
 import useTransactions from "./hooks/useTransactions";
 import { getTotalIncome, getTotalExpenses, getTotalBalance } from "./logic/balance";
-import { ArrowBottomLeftIcon, ArrowTopRightIcon, BackpackIcon } from "@radix-ui/react-icons";
+import { ArrowBottomLeftIcon, ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useState, type ReactNode } from "react";
 import FinanceResults from "./components/FinanceResults";
 import FinanceTransactionDialog from "./components/FinanceTransactionDialog";
@@ -52,8 +52,6 @@ export default function Finance () {
     return (
         <Container size={'3'}>
             <PageHeader
-                eyebrow="Finance"
-                eyebrowIcon={<BackpackIcon />}
                 title="Your money"
                 subtitle="Where it comes from, and where it goes."
                 actions={<>

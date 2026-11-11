@@ -1,9 +1,9 @@
-import { Container, Dialog, Flex, Grid, Text } from "@radix-ui/themes"
+import { Container, Dialog, Flex, Grid } from "@radix-ui/themes"
 import useNotebooks from "./hooks/useNotebooks"
 import NotebookCard from "./components/NotebookCard"
 import { countNotes } from "./logic/countNotes"
 import useNotes from "./hooks/useNotes"
-import { Pencil2Icon, PlusIcon, ReaderIcon } from "@radix-ui/react-icons"
+import { Pencil2Icon, PlusIcon } from "@radix-ui/react-icons"
 import { Button, Input } from "glisse"
 import ColorSelect from "../../utils/ColorSelect"
 import { useNavigate } from "react-router"
@@ -24,8 +24,6 @@ export default function NotebooksPage () {
         <Container size={'3'}>
             <Dialog.Root>
                 <PageHeader
-                    eyebrow="Notes"
-                    eyebrowIcon={<ReaderIcon />}
                     title="Notebooks"
                     subtitle={subtitle}
                     actions={
@@ -44,30 +42,6 @@ export default function NotebooksPage () {
                         onClick={() => openNotebook(nb.id)}
                         />
                     ))}
-
-                    <Dialog.Trigger>
-                        <button
-                            type="button"
-                            className="notebook-new"
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: 8,
-                                aspectRatio: "4 / 3",
-                                border: "1px dashed var(--gray-a7)",
-                                borderRadius: "var(--radius-4)",
-                                background: 'transparent',
-                                color: "var(--gray-10)",
-                                font: 'inherit',
-                                cursor: "pointer",
-                            }}
-                        >
-                            <PlusIcon width="22" height="22" />
-                            <Text size="2">New notebook</Text>
-                        </button>
-                    </Dialog.Trigger>
                 </Grid>
 
                 <Dialog.Content maxWidth={'24rem'}>

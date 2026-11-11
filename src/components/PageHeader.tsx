@@ -2,41 +2,33 @@ import { Box, Flex, Heading, Text } from '@radix-ui/themes'
 import type { ReactNode } from 'react'
 
 interface PageHeaderProps {
-    eyebrow?: ReactNode
-    eyebrowIcon?: ReactNode
     title: ReactNode
     subtitle?: ReactNode
     actions?: ReactNode
 }
 
-export default function PageHeader ({ eyebrow, eyebrowIcon, title, subtitle, actions }: PageHeaderProps) {
+export default function PageHeader ({ title, subtitle, actions }: PageHeaderProps) {
     return (
         <Flex
-            direction={{ initial: 'column', sm: 'row' }}
-            align={{ initial: 'start', sm: 'end' }}
+            align='end'
             justify='between'
             gap='4'
-            mt='4'
-            mb='6'
+            wrap='wrap'
+            mt='2'
+            mb='5'
         >
-            <Box>
-                {eyebrow && (
-                    <span className='page-eyebrow'>
-                        {eyebrowIcon}
-                        {eyebrow}
-                    </span>
-                )}
-                <Heading as='h1' size='9' mt={eyebrow ? '3' : '0'} className='page-title'>
+            <Box minWidth='0'>
+                <Heading as='h1' size={{ initial: '7', sm: '8' }} className='page-title'>
                     {title}
                 </Heading>
                 {subtitle && (
-                    <Text as='p' size='3' color='gray' mt='2'>
+                    <Text as='p' size='2' color='gray' mt='1'>
                         {subtitle}
                     </Text>
                 )}
             </Box>
             {actions && (
-                <Flex gap='2' align='center' wrap='wrap'>
+                <Flex gap='2' align='center' wrap='wrap' className='page-actions'>
                     {actions}
                 </Flex>
             )}

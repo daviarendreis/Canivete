@@ -13,7 +13,7 @@ export default function getMonthBalance (transactions: Transaction[]) {
     }
 
     const monthBalance = getTotalBalance(transactionsThisMonth)
-    const formattedValue = (value: number) => value.toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2})
+    const formattedValue = (value: number) => value.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2})
 
     return monthBalance < 0 ?
      `Month balance: -$${formattedValue(Math.abs(monthBalance))}` 

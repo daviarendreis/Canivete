@@ -52,8 +52,6 @@ export default function Notes () {
             </Flex>
 
             <PageHeader
-                eyebrow="Notebook"
-                eyebrowIcon={<span className="color-dot" style={{ background: `var(--${notebook.color}-9)` }} />}
                 title={notebook.name}
                 subtitle={`${notebookPages.length} ${notebookPages.length === 1 ? 'page' : 'pages'}`}
                 actions={<>

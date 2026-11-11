@@ -1,5 +1,4 @@
 import { Container, Grid } from "@radix-ui/themes";
-import { CalendarIcon } from "@radix-ui/react-icons";
 import { apps } from "./data/apps"
 import AppCard from "./components/AppCard";
 import { getTodayLabel } from "../../utils/date";
@@ -13,10 +12,8 @@ export default function Hub() {
     return (
         <Container size={'3'}>
             <PageHeader
-                eyebrow={todayLabel}
-                eyebrowIcon={<CalendarIcon />}
                 title={<>Time to get <em>things</em> done</>}
-                subtitle="Four small tools to help you work smarter, every day."
+                subtitle={todayLabel}
             />
 
             <Grid columns={{ initial: '1', sm: '2' }} gap={'4'}>
